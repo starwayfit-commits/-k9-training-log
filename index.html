@@ -507,6 +507,36 @@ input:focus,select:focus,textarea:focus{
   .nav span{font-size:18px !important}
 }
 
+
+/* v10 — home & profile */
+.homeDogCard{display:flex;align-items:center;gap:16px;padding:18px;margin-bottom:12px;border-radius:24px;background:linear-gradient(135deg,#123C48,#0E718B 58%,#16A8D6);color:#fff;box-shadow:0 12px 28px rgba(10,85,105,.18);overflow:hidden;position:relative}
+.homeDogCard:after{content:"";position:absolute;width:150px;height:150px;right:-70px;top:-65px;border-radius:50%;background:rgba(255,255,255,.1)}
+.homeAvatarWrap{width:76px;height:76px;flex:0 0 76px;border-radius:23px;background:rgba(255,255,255,.18);display:grid;place-items:center;overflow:hidden;position:relative;z-index:1}
+.homeAvatar{width:100%;height:100%;object-fit:cover}
+#homeAvatarFallback{font-size:38px}.homeDogInfo{min-width:0;position:relative;z-index:1}
+.homeDogInfo .eyebrow{color:#C9F2FC}.homeDogInfo>b{display:block;font-size:25px;letter-spacing:-.6px;margin:2px 0 3px}.homeDogInfo .muted{color:#D7EFF5}
+.textLink{border:0;background:none;color:#D5F5FC;padding:6px 0 0;font-size:13px;font-weight:700}
+.eyebrow{display:block;font-size:10px;font-weight:800;letter-spacing:.9px;color:#0788B5}
+.todayCard{background:#fff;border:1px solid #DCE8EC;border-radius:21px;padding:16px 17px;box-shadow:0 7px 23px rgba(16,55,66,.055);margin-bottom:12px}
+.todayTop{display:flex;justify-content:space-between;align-items:center}.todayTop b{display:block;font-size:17px;margin-top:3px}.todayDot{color:#20A9D4;font-size:13px}
+.nextTraining{display:flex;align-items:center;gap:12px;margin-top:13px;padding:12px;border-radius:16px;background:#F3FAFC;border:1px solid #E2F0F3}
+.nextTraining b{display:block;font-size:15px;margin-top:2px}.nextIcon{width:42px;height:42px;border-radius:13px;background:#DFF5FB;display:grid;place-items:center;font-size:21px;flex:0 0 42px}
+.homeStats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-bottom:17px}
+.homeStat{padding:13px 14px;background:#fff;border:1px solid #DFEAED;border-radius:17px;box-shadow:0 5px 17px rgba(16,55,66,.045)}
+.homeStat span{display:block;color:#718188;font-size:11px}.homeStat b{display:block;font-size:23px;line-height:25px;margin:3px 0 0}.homeStat small{color:#9AA7AB;font-size:10px}
+.quickTitle{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 9px}.quickTitle>b{font-size:18px}.quickTitle .muted{font-size:11px}
+.quickGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.quickCard,.moduleRow{border:1px solid #DDE9EC;background:#fff;color:#14262D;text-align:left;box-shadow:0 5px 18px rgba(16,55,66,.045)}
+.quickCard{display:flex;align-items:center;gap:9px;min-height:76px;padding:12px;border-radius:18px}.quickCard>span{width:38px;height:38px;border-radius:12px;background:#E6F7FC;display:grid;place-items:center;font-size:19px;flex:0 0 38px}
+.quickCard div{min-width:0;flex:1}.quickCard b,.quickCard small,.moduleRow b,.moduleRow small{display:block}.quickCard b{font-size:13px}.quickCard small{font-size:10px;color:#8A989D;margin-top:2px}.quickCard i,.moduleRow i{font-style:normal;color:#A1ADB1;font-size:22px}
+.homeModules{background:#fff;border:1px solid #DDE9EC;border-radius:19px;overflow:hidden;box-shadow:0 5px 18px rgba(16,55,66,.045)}
+.moduleRow{width:100%;display:flex;align-items:center;gap:11px;padding:13px 14px;border:0;border-bottom:1px solid #EDF2F3}.moduleRow:last-child{border-bottom:0}
+.moduleIcon{width:39px;height:39px;border-radius:12px;background:#F0F8FA;display:grid;place-items:center;font-size:19px;flex:0 0 39px}.moduleRow div{flex:1}.moduleRow b{font-size:14px}.moduleRow small{font-size:10px;color:#8A989D;margin-top:2px}
+.profilePhotoRow{display:flex;align-items:center;gap:14px;padding:5px 0 14px}.profilePreview{width:78px;height:78px;flex:0 0 78px;border-radius:22px;background:#E8F6FA;border:1px solid #D7EAF0;display:grid;place-items:center;overflow:hidden}.profilePreview img{width:100%;height:100%;object-fit:cover}
+#dogPhotoFallback{font-size:38px}.profilePhotoText{display:flex;flex-direction:column;gap:3px;min-width:0}.profilePhotoText>b{font-size:14px}.profilePhotoText .muted{font-size:11px}
+.photoBtn{display:inline-flex;align-items:center;width:max-content;margin-top:4px;padding:8px 11px;border-radius:11px;background:#E5F7FC;color:#0785B3;font-weight:700;font-size:11px}.photoBtn input{display:none}
+@media(max-width:390px){.homeDogCard{padding:15px;gap:12px}.homeAvatarWrap{width:68px;height:68px;flex-basis:68px;border-radius:20px}.homeDogInfo>b{font-size:22px}.quickCard{padding:10px;gap:7px}.quickCard>span{width:34px;height:34px;flex-basis:34px}}
+
 </style>
 
 <style>
@@ -635,25 +665,46 @@ h1,h2,h3,p,label,span,b{overflow-wrap:anywhere}
 <header class="top"><h1>🐾 K9 Training Log</h1><p>Тренировки · здоровье · кормление · цикл · прогулки</p></header>
 <main>
 <section id="home" class="screen active">
- <div class="hero"><div><b id="homeName">Моя собака</b><div id="homeMeta" class="muted">Создай профиль</div></div></div>
- <div class="card"><div class="row"><b>Сводка</b><span class="pill" id="today"></span></div><div class="stats" style="margin-top:10px">
- <div class="stat"><span class="muted">Тренировки</span><b id="sTrain">0</b></div><div class="stat"><span class="muted">Прогулки</span><b id="sWalk">0</b></div><div class="stat"><span class="muted">Средняя оценка</span><b id="sScore">—</b></div><div class="stat"><span class="muted">Лекарства</span><b id="sMed">0</b></div>
- </div></div>
- <div class="grid">
-  <button class="tile" data-show="dogs"><b>🐕 Профиль</b><span class="muted">Создать / изменить</span></button>
-  <button class="tile" data-show="training"><b>📋 Тренировки</b><span class="muted">Планы, упражнения, результаты</span></button>
-  <button class="tile" data-show="walk"><b>🐾 Прогулки</b><span class="muted">Длительность и заметки</span></button>
-  <button class="tile" data-show="params"><b>📏 Параметры</b><span class="muted">Замеры и амуниция</span></button>
-  <button class="tile" data-show="health"><b>🩺 Здоровье</b><span class="muted">Вакцины, диагнозы, препараты</span></button>
-  <button class="tile" data-show="food"><b>🥩 Кормление</b><span class="muted">Рацион и добавки</span></button>
-  <button class="tile" data-show="cycle"><b>🩸 Цикл</b><span class="muted">История течек</span></button>
-  <button class="tile" data-show="backup"><b>💾 Данные</b><span class="muted">Экспорт / импорт</span></button>
+ <div class="homeDogCard">
+   <div class="homeAvatarWrap"><img id="homePhoto" class="homeAvatar" alt="Фото собаки" hidden><div id="homeAvatarFallback">🐕</div></div>
+   <div class="homeDogInfo">
+     <div class="eyebrow">АКТИВНЫЙ ПРОФИЛЬ</div>
+     <b id="homeName">Моя собака</b>
+     <div id="homeMeta" class="muted">Создай профиль</div>
+     <button class="textLink" data-show="dogs">Открыть профиль →</button>
+   </div>
+ </div>
+ <div class="todayCard">
+   <div class="todayTop"><div><span class="eyebrow">СЕГОДНЯ</span><b id="today"></b></div><span class="todayDot">●</span></div>
+   <div id="nextTraining" class="nextTraining"><span class="nextIcon">📋</span><div><span class="muted">Ближайшая тренировка</span><b>Пока не запланирована</b></div></div>
+ </div>
+ <div class="homeStats">
+   <div class="homeStat"><span>Тренировки</span><b id="sTrain">0</b><small>всего</small></div>
+   <div class="homeStat"><span>Прогулки</span><b id="sWalk">0</b><small>записей</small></div>
+   <div class="homeStat"><span>Средняя оценка</span><b id="sScore">—</b><small>по тренировкам</small></div>
+   <div class="homeStat"><span>Лекарства</span><b id="sMed">0</b><small>записей</small></div>
+ </div>
+ <div class="quickTitle"><b>Быстрый доступ</b><span class="muted">Основное</span></div>
+ <div class="quickGrid">
+  <button class="quickCard" data-show="training"><span>📋</span><div><b>Тренировка</b><small>Записать занятие</small></div><i>›</i></button>
+  <button class="quickCard" data-show="walk"><span>🐾</span><div><b>Прогулка</b><small>Добавить прогулку</small></div><i>›</i></button>
+  <button class="quickCard" data-show="health"><span>🩺</span><div><b>Здоровье</b><small>Новая запись</small></div><i>›</i></button>
+  <button class="quickCard" data-show="food"><span>🥩</span><div><b>Кормление</b><small>Рацион и добавки</small></div><i>›</i></button>
+ </div>
+ <div class="homeModules">
+  <button class="moduleRow" data-show="params"><span class="moduleIcon">📏</span><div><b>Параметры</b><small>Вес, замеры, амуниция</small></div><i>›</i></button>
+  <button class="moduleRow" data-show="cycle"><span class="moduleIcon">🩸</span><div><b>Цикл</b><small>История и даты</small></div><i>›</i></button>
+  <button class="moduleRow" data-show="backup"><span class="moduleIcon">💾</span><div><b>Данные</b><small>Резервные копии</small></div><i>›</i></button>
  </div>
 </section>
 
 <section id="dogs" class="screen">
 <h2>🐕 Профиль</h2><div id="dogList"></div>
 <div class="card"><b id="dogTitle">Новая собака</b><input id="dogId" type="hidden">
+<div class="profilePhotoRow">
+  <div class="profilePreview"><img id="dogPhotoPreview" alt="Фото собаки" hidden><span id="dogPhotoFallback">🐕</span></div>
+  <div class="profilePhotoText"><b>Фото собаки</b><span class="muted">Одно основное фото</span><label class="photoBtn">＋ Выбрать фото<input id="dogPhoto" type="file" accept="image/*"></label></div>
+</div>
 <label>Кличка<input id="dogName" placeholder="Кличка"></label>
 <div class="formgrid"><label>Порода<input id="dogBreed" placeholder="Порода"></label><label>Пол<select id="dogSex"><option>Сука</option><option>Кобель</option></select></label></div>
 <div class="formgrid"><label>Дата рождения<input id="dogDob" type="date"></label><label>Вес, кг<input id="dogWeight" type="number" step="0.1"></label></div>
@@ -829,7 +880,7 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-show]");if
 
 function formClear(prefix, ids){ids.forEach(x=>{const el=$(x); if(el) el.value=(el.type==="date"?today():"")})}
 function edit(type,rec){
- if(type==="dog"){$("dogId").value=rec.id;$('dogName').value=rec.name||"";$('dogBreed').value=rec.breed||"";$('dogSex').value=rec.sex||"Сука";$('dogDob').value=rec.dob||"";$('dogWeight').value=rec.weight||"";$('dogNotes').value=rec.notes||"";show("dogs");return}
+ if(type==="dog"){$("dogId").value=rec.id;$('dogName').value=rec.name||"";$('dogBreed').value=rec.breed||"";$('dogSex').value=rec.sex||"Сука";$('dogDob').value=rec.dob||"";$('dogWeight').value=rec.weight||"";$('dogNotes').value=rec.notes||"";window._dogPhotoData=rec.photo||"";if(rec.photo){$("dogPhotoPreview").src=rec.photo;$("dogPhotoPreview").hidden=false;$("dogPhotoFallback").style.display="none"}else{$("dogPhotoPreview").hidden=true;$("dogPhotoFallback").style.display="block"}show("dogs");return}
  if(type==="training"){
    $("trId").value=rec.id||"";$("trDate").value=rec.date||today();$("trSlot").value=rec.slot||"Утро";$("trSlotCustom").value=rec.slotCustom||"";$("trName").value=rec.name||"";$("physicalRounds").value=rec.physicalRounds||1;$("commandRounds").value=rec.commandRounds||1;$("trNotes").value=rec.notes||"";
    toggleCustomSlot(); renderExerciseRows("physicalRows",rec.physical||[],"physical"); renderExerciseRows("commandRows",rec.commands||[],"command"); $("trainingFormTitle").textContent="Редактировать тренировку"; show("training"); return;
@@ -867,15 +918,27 @@ function renderHealth(){renderSimple("healthList",db.health,"","Пока нет 
 function renderFood(){renderSimple("foodList",db.food,"","Пока нет записей","food",r=>`<div class="item"><div class="row"><b>${esc(r.name)}</b><span class="pill">${esc(r.type)}</span></div><div>${esc(r.date)} · ${esc(r.amount||"")}</div>${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("food",r)}</div>`)}
 function renderCycle(){renderSimple("cycleList",db.cycles,"","Пока нет циклов","cycle",r=>`<div class="item"><b>${esc(r.start)}</b>${r.end?` — ${esc(r.end)}`:""}${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("cycle",r)}</div>`)}
 function renderHome(){
- const d=db.dogs[0];$("homeName").textContent=d?.name||"Моя собака";$("homeMeta").textContent=d?`${d.breed||"Порода не указана"} · ${d.sex||""}`:"Создай профиль";
- $("today").textContent=today();$("sTrain").textContent=db.trainings.length;$("sWalk").textContent=db.walks.length;$("sMed").textContent=db.health.filter(x=>x.type==="Лекарство").length;
- const scores=db.trainings.map(x=>Number(x.score)).filter(Number.isFinite);$("sScore").textContent=scores.length?(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1):"—";
+ const d=db.dogs[0];
+ $("homeName").textContent=d?.name||"Моя собака";
+ $("homeMeta").textContent=d?`${d.breed||"Порода не указана"} · ${d.sex||""}`:"Создай профиль";
+ $("today").textContent=today();
+ $("sTrain").textContent=db.trainings.length;$("sWalk").textContent=db.walks.length;$("sMed").textContent=db.health.filter(x=>x.type==="Лекарство").length;
+ const scores=db.trainings.map(x=>Number(x.score)).filter(Number.isFinite);
+ $("sScore").textContent=scores.length?(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1):"—";
+ const photo=$("homePhoto"), fallback=$("homeAvatarFallback");
+ if(d?.photo){photo.src=d.photo;photo.hidden=false;fallback.style.display="none"}else{photo.hidden=true;fallback.style.display="block"}
+ const upcoming=[...db.trainings].filter(x=>x.date&&x.date>=today()).sort((a,b)=>String(a.date).localeCompare(String(b.date)))[0];
+ const box=$("nextTraining");
+ if(upcoming){const slot=upcoming.slot==="Другое"?(upcoming.slotCustom||"Другое"):(upcoming.slot||"Время не указано");box.innerHTML=`<span class="nextIcon">📋</span><div><span class="muted">${esc(upcoming.date)} · ${esc(slot)}</span><b>${esc(upcoming.name||"Тренировка")}</b></div>`}
+ else{box.innerHTML=`<span class="nextIcon">📋</span><div><span class="muted">Ближайшая тренировка</span><b>Пока не запланирована</b></div>`}
 }
 function renderAll(){renderDogs();renderTraining();renderWalk();renderParams();renderHealth();renderFood();renderCycle();renderHome()}
 function bindSave(btn,arr,fields,build,clearIds){
  $(btn).onclick=()=>{const obj=build();if(!obj)return;const i=obj.id?db[arr].findIndex(x=>x.id===obj.id):-1;if(i>=0)db[arr][i]=obj;else{obj.id=id();db[arr].push(obj)}save();clearIds.forEach(x=>{if($(x))$(x).value=""});};
 }
-bindSave("saveDog","dogs",[],()=>{const name=$("dogName").value.trim();if(!name){alert("Укажи кличку");return null}return {id:$("dogId").value,name,breed:$("dogBreed").value,sex:$("dogSex").value,dob:$("dogDob").value,weight:$("dogWeight").value,notes:$("dogNotes").value}},["dogId","dogName","dogBreed","dogDob","dogWeight","dogNotes"]);
+window._dogPhotoData="";
+$("dogPhoto").onchange=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{window._dogPhotoData=r.result;$("dogPhotoPreview").src=r.result;$("dogPhotoPreview").hidden=false;$("dogPhotoFallback").style.display="none"};r.readAsDataURL(f)};
+bindSave("saveDog","dogs",[],()=>{const name=$("dogName").value.trim();if(!name){alert("Укажи кличку");return null}return {id:$("dogId").value,name,breed:$("dogBreed").value,sex:$("dogSex").value,dob:$("dogDob").value,weight:$("dogWeight").value,notes:$("dogNotes").value,photo:window._dogPhotoData||""}},["dogId","dogName","dogBreed","dogDob","dogWeight","dogNotes"]);
 $("saveTraining").onclick=()=>{
   if(!$("trName").value.trim() && !document.querySelector('#physicalRows input[data-field="name"]') && !document.querySelector('#commandRows input[data-field="name"]')){alert("Добавь название или хотя бы одно упражнение");return}
   const obj={id:$("trId").value,date:$("trDate").value||today(),slot:$("trSlot").value,slotCustom:$("trSlotCustom").value.trim(),name:$("trName").value.trim()||"Тренировка",physical:collectExercises("physicalRows"),physicalRounds:Math.max(1,Number($("physicalRounds").value)||1),commands:collectExercises("commandRows"),commandRounds:Math.max(1,Number($("commandRounds").value)||1),notes:$("trNotes").value};
@@ -898,7 +961,7 @@ $("addCommand").onclick=()=>addExercise("commandRows","command");
 ["physicalRows","commandRows"].forEach(id=>$(id).addEventListener("click",e=>{if(e.target.classList.contains("xbtn")){const rows=$(id).querySelectorAll(".exercise-row");if(rows.length>1)e.target.closest(".exercise-row").remove()}}));
 function clearTrainingForm(){["trId","trName","trSlotCustom","trNotes"].forEach(x=>$(x).value="");$("trDate").value=today();$("trSlot").value="Утро";$("physicalRounds").value=1;$("commandRounds").value=1;$("trainingFormTitle").textContent="Новая тренировка";toggleCustomSlot();renderExerciseRows("physicalRows",[],"physical");renderExerciseRows("commandRows",[],"command")}
 function setDefaults(){["trDate","walkDate","parDate","healthDate","foodDate","cycleStart"].forEach(x=>{if($(x))$(x).value=today()})}
-$("clearDog").onclick=()=>{["dogId","dogName","dogBreed","dogDob","dogWeight","dogNotes"].forEach(x=>$(x).value="")};
+$("clearDog").onclick=()=>{["dogId","dogName","dogBreed","dogDob","dogWeight","dogNotes"].forEach(x=>$(x).value="");$("dogPhoto").value="";window._dogPhotoData="";$("dogPhotoPreview").hidden=true;$("dogPhotoFallback").style.display="block"};
 $("clearTraining").onclick=clearTrainingForm;
 $("clearWalk").onclick=()=>{["walkId","walkMin","walkNotes"].forEach(x=>$(x).value="")};
 $("clearParam").onclick=()=>{["parId","parWeight","parHeight","parChest","parNeck","parBack","parGear"].forEach(x=>$(x).value="")};
