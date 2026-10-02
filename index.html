@@ -7,211 +7,196 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>K9 Training Log</title>
+<title>K9 Training Log v5</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f5f4f0;color:#172125;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-.app{max-width:600px;margin:auto;min-height:100vh;padding-bottom:100px}.top{background:#10252a;color:#fff;padding:calc(env(safe-area-inset-top) + 18px) 20px 20px;position:sticky;top:0;z-index:5}.top h1{margin:0;font-size:27px}.top p{margin:5px 0 0;color:#cbd4d5;font-size:14px}
-main{padding:18px}.screen{display:none}.screen.active{display:block}h2{font-size:23px;margin:4px 0 15px}
-.hero{min-height:145px;border-radius:24px;background:linear-gradient(135deg,#d9e3dd,#b7c6bc);display:flex;align-items:flex-end;padding:18px;margin-bottom:16px}.hero b{font-size:24px}
-.card,.tile{background:#fff;border:1px solid #e4e4df;border-radius:18px;padding:16px;margin:12px 0;box-shadow:0 2px 8px #00000008}.row{display:flex;justify-content:space-between;gap:12px;align-items:center}.muted{color:#737d80;font-size:13px}.pill{background:#e4f3ed;color:#087d63;border-radius:20px;padding:6px 10px;font-size:12px;font-weight:700}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tile{margin:0}.tile b{display:block;font-size:16px;margin-bottom:5px}.btn{border:0;border-radius:14px;padding:14px 16px;font-weight:700;font-size:15px;background:#10252a;color:white;width:100%;margin-top:10px}.btn.alt{background:#ecece8;color:#172125}.btn.small{width:auto;padding:9px 12px;margin:0;font-size:12px}
-.nav{position:fixed;bottom:0;left:0;right:0;background:#fffffff2;backdrop-filter:blur(16px);border-top:1px solid #e4e4df;padding:7px 2px calc(7px + env(safe-area-inset-bottom));display:flex;justify-content:flex-start;z-index:10;overflow-x:auto}.nav button{border:0;background:none;color:#7a8284;font-size:10px;min-width:67px}.nav button.active{color:#087d63;font-weight:800}.nav span{display:block;font-size:19px;margin-bottom:2px}
-.metric{font-size:30px;font-weight:800}.bar{height:8px;background:#e7e8e5;border-radius:8px;overflow:hidden;margin-top:8px}.bar i{display:block;height:100%;width:78%;background:#087d63;border-radius:8px}
-input,select,textarea{width:100%;padding:12px;border:1px solid #d8d9d5;border-radius:12px;background:#fafaf8;font:inherit;color:#172125;margin-top:6px}textarea{min-height:80px;resize:vertical}label{display:block;font-size:13px;font-weight:700;margin-top:10px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.item{border-top:1px solid #ecece8;padding-top:12px;margin-top:12px}.item:first-child{border-top:0;padding-top:0;margin-top:0}.empty{padding:18px;text-align:center;color:#81898b}.tag{display:inline-block;padding:5px 8px;border-radius:10px;background:#eef2f1;font-size:12px;margin:2px}.health{background:#f7f2ff}.vaccine{background:#f0f6ff}.care{background:#f3f7ed}.goal{background:#eef5f7}.behavior{background:#fff6e8}.doc{background:#f4f2fa}.photo{width:100%;max-height:250px;object-fit:cover;border-radius:15px;margin-top:8px}.photo-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}.photo-grid img{width:100%;height:150px;object-fit:cover;border-radius:14px}.calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;text-align:center;font-size:12px}.day{padding:8px 0;border-radius:10px;background:#f4f4f1}.event{background:#dff0ea}.pink{background:#f8dce7}.stats{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.stat{background:#f7f7f4;border-radius:14px;padding:12px}.stat b{font-size:20px;display:block}
+*{box-sizing:border-box}body{margin:0;background:#f4f5f1;color:#172125;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{max-width:720px;margin:auto;min-height:100vh;padding-bottom:90px}.top{background:#10252a;color:white;padding:30px 20px 24px}.top h1{margin:0;font-size:30px}.top p{margin:8px 0 0;color:#cbd5d5}main{padding:16px}.screen{display:none}.screen.active{display:block}.hero,.card,.tile{background:#fff;border:1px solid #e2e5e1;border-radius:20px;padding:17px;margin-bottom:12px;box-shadow:0 2px 8px #0000000b}.hero{min-height:125px;background:#dfe9e4;display:flex;align-items:end}.hero b{font-size:28px}.muted{color:#7a8587}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tile{text-align:left;min-height:100px;border:1px solid #e2e5e1}.tile b{display:block;font-size:17px;margin-bottom:7px}.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.pill{background:#e5f2ed;color:#277963;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:700}.btn{border:0;border-radius:12px;padding:11px 14px;background:#287f69;color:#fff;font-weight:700;font-size:14px}.btn.alt{background:#eef1f0;color:#243235}.btn.danger{background:#f3dfdf;color:#8d3030}.btn.small{padding:8px 10px;font-size:12px}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}label{display:block;font-size:13px;font-weight:700;margin-top:9px}input,select,textarea{width:100%;margin-top:5px;padding:11px;border:1px solid #d2d7d4;border-radius:11px;background:#fafbf9;color:#172125;font:inherit}textarea{min-height:80px}.item{border-top:1px solid #eceeeb;padding-top:12px;margin-top:12px}.item:first-child{border-top:0;margin-top:0;padding-top:0}.empty{text-align:center;color:#899294;padding:16px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}.stat{background:#f4f6f3;border-radius:13px;padding:11px}.stat b{display:block;font-size:20px}.nav{position:fixed;bottom:0;left:0;right:0;z-index:20;display:flex;justify-content:space-around;background:#fffffff5;backdrop-filter:blur(16px);border-top:1px solid #ddd;padding:7px 0 calc(7px + env(safe-area-inset-bottom))}.nav button{border:0;background:none;color:#7b8485;font-size:10px;min-width:65px}.nav button.active{color:#087d63;font-weight:800}.nav span{display:block;font-size:18px;margin-bottom:2px}.tag{display:inline-block;background:#edf1ef;border-radius:8px;padding:4px 7px;margin:2px;font-size:12px}.notice{padding:12px;border-radius:13px;background:#fff6dc;border:1px solid #ead9a8;margin-bottom:12px}
 </style>
 </head>
 <body>
 <div class="app">
-<header class="top"><h1>🐾 K9 Training Log</h1><p>Тренировки · выгул · здоровье · параметры</p></header>
+<header class="top"><h1>🐾 K9 Training Log</h1><p>Тренировки · здоровье · кормление · цикл · прогулки</p></header>
 <main>
-
 <section id="home" class="screen active">
-<div class="hero"><div><b>Заяна</b><div class="muted">Малинуа · активный профиль</div></div></div>
-<div class="card"><div class="row"><div><b>Сегодня</b><div class="muted">Сводка по собаке</div></div><span class="pill" id="todayDate"></span></div>
-<div class="stats"><div class="stat"><span class="muted">Выгул</span><b id="homeWalk">0 мин</b></div><div class="stat"><span class="muted">Тренировки</span><b id="homeTrain">0</b></div><div class="stat"><span class="muted">Лекарства</span><b id="homeMeds">0</b></div><div class="stat"><span class="muted">Уход</span><b id="homeCare">0</b></div></div></div>
-<div class="grid">
-<div class="tile" onclick="show('training')"><b>📋 Тренировки</b><span class="muted">Планы · цели · прогресс</span></div>
-<div class="tile" onclick="show('walk')"><b>🐕 Выгул</b><span class="muted">Количество и время</span></div>
-<div class="tile" onclick="show('health')"><b>🩺 Здоровье</b><span class="muted">Диагнозы · прививки</span></div>
-<div class="tile" onclick="show('params')"><b>📏 Параметры</b><span class="muted">Замеры · фото · размеры</span></div>
-<div class="tile" onclick="show('food')"><b>🥩 Кормление</b><span class="muted">Рацион и добавки</span></div>
-<div class="tile" onclick="show('care')"><b>🧼 Уход</b><span class="muted">Процедуры и сроки</span></div>
-<div class="tile" onclick="show('cycle')"><b>🩸 Цикл</b><span class="muted">История течек</span></div>
-<div class="tile" onclick="show('calendar')"><b>📅 Календарь</b><span class="muted">Все события</span></div>
-</div>
-<div class="card"><div class="row"><b>Быстрый доступ</b><button class="btn small" onclick="show('backup')">Резервная копия</button></div><p class="muted">Все записи этой версии сохраняются на устройстве.</p></div>
+ <div class="hero"><div><b id="homeName">Моя собака</b><div id="homeMeta" class="muted">Создай профиль</div></div></div>
+ <div class="card"><div class="row"><b>Сводка</b><span class="pill" id="today"></span></div><div class="stats" style="margin-top:10px">
+ <div class="stat"><span class="muted">Тренировки</span><b id="sTrain">0</b></div><div class="stat"><span class="muted">Прогулки</span><b id="sWalk">0</b></div><div class="stat"><span class="muted">Средняя оценка</span><b id="sScore">—</b></div><div class="stat"><span class="muted">Лекарства</span><b id="sMed">0</b></div>
+ </div></div>
+ <div class="grid">
+  <button class="tile" data-show="dogs"><b>🐕 Профиль</b><span class="muted">Создать / изменить</span></button>
+  <button class="tile" data-show="training"><b>📋 Тренировки</b><span class="muted">Планы, упражнения, результаты</span></button>
+  <button class="tile" data-show="walk"><b>🐾 Прогулки</b><span class="muted">Длительность и заметки</span></button>
+  <button class="tile" data-show="params"><b>📏 Параметры</b><span class="muted">Замеры и амуниция</span></button>
+  <button class="tile" data-show="health"><b>🩺 Здоровье</b><span class="muted">Вакцины, диагнозы, препараты</span></button>
+  <button class="tile" data-show="food"><b>🥩 Кормление</b><span class="muted">Рацион и добавки</span></button>
+  <button class="tile" data-show="cycle"><b>🩸 Цикл</b><span class="muted">История течек</span></button>
+  <button class="tile" data-show="backup"><b>💾 Данные</b><span class="muted">Экспорт / импорт</span></button>
+ </div>
+</section>
+
+<section id="dogs" class="screen">
+<h2>🐕 Профиль</h2><div id="dogList"></div>
+<div class="card"><b id="dogTitle">Новая собака</b><input id="dogId" type="hidden">
+<label>Кличка<input id="dogName" placeholder="Кличка"></label>
+<div class="formgrid"><label>Порода<input id="dogBreed" placeholder="Порода"></label><label>Пол<select id="dogSex"><option>Сука</option><option>Кобель</option></select></label></div>
+<div class="formgrid"><label>Дата рождения<input id="dogDob" type="date"></label><label>Вес, кг<input id="dogWeight" type="number" step="0.1"></label></div>
+<label>Описание / заметки<textarea id="dogNotes" placeholder="Особенности, цели..."></textarea></label>
+<div class="actions"><button class="btn" id="saveDog">Сохранить</button><button class="btn alt" id="clearDog">Очистить</button></div></div>
 </section>
 
 <section id="training" class="screen">
 <h2>📋 Тренировки</h2>
-<div class="card"><b>Активный план</b><p>Базовая послушка (ОКД)</p><p class="muted">6 упражнений · 4 недели</p><button class="btn">Начать тренировку</button></div>
-<div class="card goal"><div class="row"><b>🎯 Цели</b><span class="pill" id="goalCount">0</span></div><div id="goalList"></div>
-<label>Новая цель<input id="goalTitle" placeholder="Например: стабильная рысь 20 м"></label><button class="btn" onclick="addGoal()">＋ Добавить цель</button></div>
-<div class="card"><b>Последние тренировки</b><p>22.09 · ОКД · 9/10</p><p>15.09 · ОКД · 8/10</p><p>08.09 · ОКД · 7/10</p></div>
-<div class="card behavior"><div class="row"><b>🧠 Поведение</b><button class="btn small" onclick="show('behavior')">Открыть</button></div><p class="muted">Фиксируй ситуации, реакцию и то, что помогло.</p></div>
+<div class="card"><b>Добавить тренировку</b><input type="hidden" id="trId">
+<label>Дата<input id="trDate" type="date"></label><label>Название<input id="trName" placeholder="Например: выдержка"></label>
+<div class="formgrid"><label>Упражнение<input id="trExercise" placeholder="Название упражнения"></label><label>Оценка 0–10<input id="trScore" type="number" min="0" max="10" step="0.1"></label></div>
+<label>Критерии / цель<input id="trCriteria" placeholder="Что считаем успехом"></label><label>Результат / заметки<textarea id="trNotes"></textarea></label>
+<div class="actions"><button class="btn" id="saveTraining">Сохранить</button><button class="btn alt" id="clearTraining">Очистить</button></div></div>
+<div class="card"><div class="row"><b>История</b><span class="muted" id="trCount"></span></div><div id="trainingList"></div></div>
 </section>
 
 <section id="walk" class="screen">
-<h2>🐕 Выгул</h2><div class="card"><div class="row"><b>Сегодня</b><span class="pill" id="walkSummary">0 мин</span></div><p id="walkCountText">0 выгулов</p><div id="walkList"></div></div>
-<div class="card"><b>Добавить выгул</b><label>Дата<input id="walkDate" type="date"></label><div class="formgrid"><label>Время<input id="walkTime" type="time"></label><label>Продолжительность, мин<input id="walkDuration" type="number" min="1" placeholder="60"></label></div><label>Комментарий<textarea id="walkNote"></textarea></label><button class="btn" onclick="addWalk()">＋ Добавить выгул</button></div>
-<div class="card"><b>Статистика</b><p id="walkStats"></p></div>
-</section>
-
-<section id="health" class="screen">
-<h2>🩺 Здоровье</h2>
-<div class="card health"><div class="row"><b>Заболевания и диагнозы</b></div><div id="diagnosisList"></div></div>
-<div class="card vaccine"><div class="row"><b>💉 Прививки</b></div><div id="vaccineList"></div></div>
-<div class="card"><div class="row"><b>💊 Лекарства</b></div><div id="medList"></div></div>
-<div class="card"><div class="row"><b>👩‍⚕️ Рекомендации врача</b></div><div id="doctorList"></div></div>
-<div class="card"><b>Добавить запись</b><label>Тип<select id="healthType"><option value="diagnosis">Заболевание / диагноз</option><option value="vaccine">Прививка</option><option value="med">Лекарство</option><option value="doctor">Рекомендация врача</option></select></label><label>Название<input id="healthTitle"></label><div class="formgrid"><label>Дата<input id="healthDate" type="date"></label><label>Ветеринар/клиника<input id="healthVet"></label></div><label>Подробности / дозировка / рекомендации<textarea id="healthDetails"></textarea></label><button class="btn" onclick="addHealth()">＋ Сохранить</button></div>
+<h2>🐾 Прогулки</h2>
+<div class="card"><b>Добавить прогулку</b><input type="hidden" id="walkId">
+<div class="formgrid"><label>Дата<input id="walkDate" type="date"></label><label>Длительность, мин<input id="walkMin" type="number"></label></div>
+<label>Заметки<textarea id="walkNotes"></textarea></label><div class="actions"><button class="btn" id="saveWalk">Сохранить</button><button class="btn alt" id="clearWalk">Очистить</button></div></div>
+<div class="card"><div id="walkList"></div></div>
 </section>
 
 <section id="params" class="screen">
 <h2>📏 Параметры</h2>
-<div class="card"><div class="row"><b>Последние замеры</b><span class="pill" id="paramDate">—</span></div><div id="paramSummary"></div></div>
-<div class="card"><b>Новый замер</b><div class="formgrid">
-<label>Вес, кг<input id="pWeight" type="number" step="0.1"></label><label>Рост в холке, см<input id="pHeight" type="number" step="0.1"></label>
-<label>Обхват груди, см<input id="pChest" type="number" step="0.1"></label><label>Обхват шеи, см<input id="pNeck" type="number" step="0.1"></label>
-<label>Обхват морды, см<input id="pMuzzle" type="number" step="0.1"></label><label>Длина спины, см<input id="pBack" type="number" step="0.1"></label>
-<label>Длина от холки до хвоста, см<input id="pBackTail" type="number" step="0.1"></label><label>Дата<input id="pDate" type="date"></label>
-</div><label>Дополнительный замер<input id="pCustomName" placeholder="Например: обхват лапы"></label><input id="pCustomValue" placeholder="Значение, например 18 см"><label>Комментарий<textarea id="pNote" placeholder="Изменения кондиции, шерсти, формы..."></textarea></label><button class="btn" onclick="addParam()">＋ Сохранить замеры</button></div>
-<div class="card"><b>📸 Фото в динамике</b><p class="muted">Добавляй фото с датой, чтобы отслеживать изменения внешнего вида.</p><input id="photoInput" type="file" accept="image/*" multiple><div class="photo-grid" id="photoGrid"></div></div>
-<div class="card"><b>🦺 Одежда и амуниция</b><div id="gearList"></div><label>Название<input id="gearName" placeholder="Например: дождевик / шлейка / намордник"></label><div class="formgrid"><label>Размер<input id="gearSize" placeholder="M / 60 / свой"></label><label>Бренд<input id="gearBrand"></label></div><label>Примечание<textarea id="gearNote" placeholder="Подходит по груди, свободно сидит..."></textarea></label><button class="btn" onclick="addGear()">＋ Сохранить размер</button></div>
-<div class="card"><b>История замеров</b><div id="paramHistory"></div></div>
+<div class="card"><b>Замер</b><input type="hidden" id="parId">
+<div class="formgrid"><label>Дата<input id="parDate" type="date"></label><label>Вес, кг<input id="parWeight" type="number" step="0.1"></label></div>
+<div class="formgrid"><label>Холка, см<input id="parHeight" type="number" step="0.1"></label><label>Грудь, см<input id="parChest" type="number" step="0.1"></label></div>
+<div class="formgrid"><label>Шея, см<input id="parNeck" type="number" step="0.1"></label><label>Длина спины, см<input id="parBack" type="number" step="0.1"></label></div>
+<label>Одежда / амуниция<textarea id="parGear" placeholder="Размер попоны, шлейки, намордника и т.д."></textarea></label>
+<div class="actions"><button class="btn" id="saveParam">Сохранить</button><button class="btn alt" id="clearParam">Очистить</button></div></div>
+<div class="card"><div id="paramList"></div></div>
 </section>
 
-<section id="care" class="screen">
-<h2>🧼 Уход</h2><div class="card care"><div id="careList"></div></div>
-<div class="card"><b>Добавить процедуру</b><label>Процедура<input id="careTitle" placeholder="Когти, уши, зубы, купание..."></label><div class="formgrid"><label>Дата<input id="careDate" type="date"></label><label>Следующая дата<input id="careNext" type="date"></label></div><label>Заметка<textarea id="careNote"></textarea></label><button class="btn" onclick="addCare()">＋ Сохранить</button></div>
+<section id="health" class="screen">
+<h2>🩺 Здоровье</h2>
+<div class="card"><b>Добавить запись</b><input type="hidden" id="healthId">
+<div class="formgrid"><label>Дата<input id="healthDate" type="date"></label><label>Тип<select id="healthType"><option>Диагноз</option><option>Вакцина</option><option>Лекарство</option><option>Рекомендация врача</option></select></label></div>
+<label>Название<input id="healthName" placeholder="Название"></label><label>Детали / дозировка / срок<textarea id="healthNotes"></textarea></label>
+<div class="actions"><button class="btn" id="saveHealth">Сохранить</button><button class="btn alt" id="clearHealth">Очистить</button></div></div>
+<div class="card"><div id="healthList"></div></div>
 </section>
 
-<section id="cycle" class="screen"><h2>🩸 Цикл</h2><div class="card" style="background:#f8dce7"><div class="row"><b>Текущая течка</b><span class="pill">День 8</span></div><p>05.09.2026 — 22.09.2026</p><p class="muted">Фаза: эструс</p></div><div class="card"><b>Сентябрь 2026</b><div class="calendar" id="calCycle"></div></div></section>
-
-<section id="calendar" class="screen">
-<h2>📅 Календарь</h2><div class="card"><p class="muted">Сюда позже можно свести все события в единую ленту.</p><div id="eventList"></div></div>
+<section id="food" class="screen">
+<h2>🥩 Кормление</h2>
+<div class="card"><b>Добавить рацион / добавку</b><input type="hidden" id="foodId">
+<div class="formgrid"><label>Дата<input id="foodDate" type="date"></label><label>Тип<select id="foodType"><option>Рацион</option><option>Добавка</option><option>Таблетка</option></select></label></div>
+<label>Название<input id="foodName" placeholder="Например: рацион 1000 г"></label><label>Количество / дозировка<input id="foodAmount" placeholder="400 г, 1 табл."></label><label>Состав / заметки<textarea id="foodNotes"></textarea></label>
+<div class="actions"><button class="btn" id="saveFood">Сохранить</button><button class="btn alt" id="clearFood">Очистить</button></div></div>
+<div class="card"><div id="foodList"></div></div>
 </section>
 
-<section id="behavior" class="screen">
-<h2>🧠 Поведение</h2><div class="card"><div id="behaviorList"></div></div>
-<div class="card"><b>Наблюдение</b><label>Ситуация<input id="bSituation" placeholder="Например: встреча с кобелём"></label><div class="formgrid"><label>Интенсивность 1–10<input id="bIntensity" type="number" min="1" max="10"></label><label>Дата<input id="bDate" type="date"></label></div><label>Реакция<textarea id="bReaction"></textarea></label><label>Что помогло<textarea id="bHelp"></textarea></label><button class="btn" onclick="addBehavior()">＋ Сохранить</button></div>
+<section id="cycle" class="screen">
+<h2>🩸 Цикл</h2>
+<div class="card"><b>Добавить цикл</b><input type="hidden" id="cycleId">
+<div class="formgrid"><label>Начало<input id="cycleStart" type="date"></label><label>Окончание<input id="cycleEnd" type="date"></label></div>
+<label>Заметки<textarea id="cycleNotes" placeholder="Симптомы, поведение, выделения..."></textarea></label>
+<div class="actions"><button class="btn" id="saveCycle">Сохранить</button><button class="btn alt" id="clearCycle">Очистить</button></div></div>
+<div class="card"><div id="cycleList"></div></div>
 </section>
 
-<section id="food" class="screen"><h2>🥩 Кормление</h2><div class="card"><div class="row"><b>Сегодня</b><span class="pill">1000 г</span></div><p>🥩 Мясо — 400 г</p><p>🦴 Шеи — 200 г</p><p>🦃 Индейка — 50 г</p><p>🫀 Печень — 20 г</p><p>🫧 Трахея — 100 г</p></div><div class="card"><b>Добавки и таблетки</b><p>Кальций · Витамин E · хондропротектор</p></div></section>
-
-<section id="backup" class="screen"><h2>💾 Резервная копия</h2><div class="card"><b>Сохранить данные</b><p class="muted">Экспортирует записи приложения в JSON-файл. Фотографии пока хранятся отдельно на устройстве.</p><button class="btn" onclick="exportData()">Скачать резервную копию</button></div><div class="card"><b>Восстановить</b><input id="importFile" type="file" accept=".json,application/json"><button class="btn alt" onclick="importData()">Импортировать данные</button></div></section>
-
-<section id="docs" class="screen"><h2>📎 Документы</h2><div class="card"><p>Здесь можно хранить названия документов и ссылки/заметки. Загрузку файлов добавим отдельным этапом.</p></div></section>
-
+<section id="backup" class="screen">
+<h2>💾 Данные</h2><div class="notice">Все записи сохраняются в памяти этого браузера. Экспорт нужен для резервной копии или переноса на другое устройство.</div>
+<div class="card"><button class="btn" id="exportBtn">Экспортировать JSON</button><input id="importFile" type="file" accept=".json,application/json" style="margin-top:12px"><button class="btn alt" id="resetBtn">Удалить все данные</button></div>
+</section>
 </main>
+
 <nav class="nav">
-<button class="active" data-s="home" onclick="show('home')"><span>⌂</span>Главная</button>
-<button data-s="training" onclick="show('training')"><span>☷</span>Тренировки</button>
-<button data-s="walk" onclick="show('walk')"><span>🐕</span>Выгул</button>
-<button data-s="health" onclick="show('health')"><span>🩺</span>Здоровье</button>
-<button data-s="params" onclick="show('params')"><span>📏</span>Параметры</button>
-<button data-s="food" onclick="show('food')"><span>◉</span>Кормление</button>
-<button data-s="care" onclick="show('care')"><span>🧼</span>Уход</button>
-<button data-s="cycle" onclick="show('cycle')"><span>◷</span>Цикл</button>
-<button data-s="calendar" onclick="show('calendar')"><span>📅</span>Календарь</button>
+<button data-show="home" class="active"><span>⌂</span>Главная</button>
+<button data-show="dogs"><span>🐕</span>Профиль</button>
+<button data-show="training"><span>☷</span>Тренировки</button>
+<button data-show="health"><span>♥</span>Здоровье</button>
+<button data-show="food"><span>●</span>Кормление</button>
+<button data-show="cycle"><span>◷</span>Цикл</button>
 </nav>
 </div>
 <script>
-const todayDate=document.getElementById('todayDate');
-const homeWalk=document.getElementById('homeWalk');
-const homeTrain=document.getElementById('homeTrain');
-const homeMeds=document.getElementById('homeMeds');
-const homeCare=document.getElementById('homeCare');
-const goalCount=document.getElementById('goalCount');
-const goalList=document.getElementById('goalList');
-const goalTitle=document.getElementById('goalTitle');
-const walkSummary=document.getElementById('walkSummary');
-const walkCountText=document.getElementById('walkCountText');
-const walkList=document.getElementById('walkList');
-const walkDate=document.getElementById('walkDate');
-const walkTime=document.getElementById('walkTime');
-const walkDuration=document.getElementById('walkDuration');
-const walkNote=document.getElementById('walkNote');
-const walkStats=document.getElementById('walkStats');
-const diagnosisList=document.getElementById('diagnosisList');
-const vaccineList=document.getElementById('vaccineList');
-const medList=document.getElementById('medList');
-const doctorList=document.getElementById('doctorList');
-const healthType=document.getElementById('healthType');
-const healthTitle=document.getElementById('healthTitle');
-const healthDate=document.getElementById('healthDate');
-const healthVet=document.getElementById('healthVet');
-const healthDetails=document.getElementById('healthDetails');
-const paramDate=document.getElementById('paramDate');
-const paramSummary=document.getElementById('paramSummary');
-const pWeight=document.getElementById('pWeight');
-const pHeight=document.getElementById('pHeight');
-const pChest=document.getElementById('pChest');
-const pNeck=document.getElementById('pNeck');
-const pMuzzle=document.getElementById('pMuzzle');
-const pBack=document.getElementById('pBack');
-const pBackTail=document.getElementById('pBackTail');
-const pDate=document.getElementById('pDate');
-const pCustomName=document.getElementById('pCustomName');
-const pCustomValue=document.getElementById('pCustomValue');
-const pNote=document.getElementById('pNote');
-const photoInput=document.getElementById('photoInput');
-const photoGrid=document.getElementById('photoGrid');
-const gearList=document.getElementById('gearList');
-const gearName=document.getElementById('gearName');
-const gearSize=document.getElementById('gearSize');
-const gearBrand=document.getElementById('gearBrand');
-const gearNote=document.getElementById('gearNote');
-const paramHistory=document.getElementById('paramHistory');
-const careList=document.getElementById('careList');
-const careTitle=document.getElementById('careTitle');
-const careDate=document.getElementById('careDate');
-const careNext=document.getElementById('careNext');
-const careNote=document.getElementById('careNote');
-const calCycle=document.getElementById('calCycle');
-const eventList=document.getElementById('eventList');
-const bSituation=document.getElementById('bSituation');
-const bIntensity=document.getElementById('bIntensity');
-const bDate=document.getElementById('bDate');
-const bReaction=document.getElementById('bReaction');
-const bHelp=document.getElementById('bHelp');
-const importFile=document.getElementById('importFile');
-
-const KEY='k9_v4_data';
-const EMPTY={"walks":[],"health":[],"params":[],"photos":[],"gear":[],"care":[],"goals":[],"behavior":[]};
-let data=EMPTY;
-try { const raw=localStorage.getItem(KEY); if(raw) data=Object.assign(EMPTY, JSON.parse(raw)); } catch(e) {}
-function save(){ try { localStorage.setItem(KEY,JSON.stringify(data)); } catch(e) { console.warn('Storage error',e); } render(); }
-function show(id){document.querySelectorAll('.screen').forEach(x=>x.classList.remove('active'));document.getElementById(id).classList.add('active');document.querySelectorAll('.nav button').forEach(b=>b.classList.toggle('active',b.dataset.s===id));scrollTo(0,0);render();}
-function today(){return new Date().toISOString().slice(0,10)}
-function esc(s){return String(s||'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
-function addWalk(){let dur=Number(walkDuration.value);if(!dur)return alert('Укажи продолжительность.');data.walks.push({id:Date.now(),date:walkDate.value||today(),time:walkTime.value,duration:dur,note:walkNote.value.trim()});save();walkDuration.value='';walkNote.value=''}
-function del(a,id){data[a]=data[a].filter(x=>x.id!==id);save()}
-function addHealth(){if(!healthTitle.value.trim())return alert('Укажи название.');data.health.push({id:Date.now(),type:healthType.value,title:healthTitle.value.trim(),date:healthDate.value||today(),vet:healthVet.value.trim(),details:healthDetails.value.trim()});save();healthTitle.value='';healthVet.value='';healthDetails.value=''}
-function addParam(){let obj={id:Date.now(),date:pDate.value||today(),weight:pWeight.value,height:pHeight.value,chest:pChest.value,neck:pNeck.value,muzzle:pMuzzle.value,back:pBack.value,backTail:pBackTail.value,custom:pCustomName.value?`${pCustomName.value}: ${pCustomValue.value}`:'',note:pNote.value.trim()};if(!Object.values(obj).some((v,i)=>i>1&&v))return alert('Добавь хотя бы один параметр.');data.params.push(obj);save();['pWeight','pHeight','pChest','pNeck','pMuzzle','pBack','pBackTail','pCustomName','pCustomValue','pNote'].forEach(id=>document.getElementById(id).value='')}
-function addGear(){if(!gearName.value.trim())return alert('Укажи предмет.');data.gear.push({id:Date.now(),name:gearName.value.trim(),size:gearSize.value.trim(),brand:gearBrand.value.trim(),note:gearNote.value.trim()});save();gearName.value='';gearSize.value='';gearBrand.value='';gearNote.value=''}
-function addCare(){if(!careTitle.value.trim())return alert('Укажи процедуру.');data.care.push({id:Date.now(),title:careTitle.value.trim(),date:careDate.value||today(),next:careNext.value,note:careNote.value.trim()});save();careTitle.value='';careNext.value='';careNote.value=''}
-function addGoal(){if(!goalTitle.value.trim())return;data.goals.push({id:Date.now(),title:goalTitle.value.trim(),done:false});save();goalTitle.value=''}
-function toggleGoal(id){let x=data.goals.find(x=>x.id===id);if(x)x.done=!x.done;save()}
-function addBehavior(){if(!bSituation.value.trim())return alert('Укажи ситуацию.');data.behavior.push({id:Date.now(),date:bDate.value||today(),situation:bSituation.value.trim(),intensity:bIntensity.value,reaction:bReaction.value.trim(),help:bHelp.value.trim()});save();bSituation.value='';bIntensity.value='';bReaction.value='';bHelp.value=''}
-function exportData(){let blob=new Blob([JSON.stringify(data,null,2)],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='k9-training-backup-'+today()+'.json';a.click();setTimeout(()=>URL.revokeObjectURL(a.href),500)}
-function importData(){let f=importFile.files[0];if(!f)return alert('Выбери JSON-файл.');let r=new FileReader();r.onload=()=>{try{data=JSON.parse(r.result);save();alert('Данные восстановлены.')}catch(e){alert('Не удалось прочитать резервную копию.')}};r.readAsText(f)}
-photoInput.addEventListener('change',e=>{[...e.target.files].forEach(file=>{let r=new FileReader();r.onload=()=>{data.photos.push({id:Date.now()+Math.random(),date:today(),src:r.result});save()};r.readAsDataURL(file)});e.target.value=''});
-function render(){
-let td=today();todayDate.textContent=td.split('-').reverse().join('.');let wm=data.walks.filter(x=>x.date===td).reduce((s,x)=>s+x.duration,0);homeWalk.textContent=wm+' мин';homeTrain.textContent='0';homeMeds.textContent=data.health.filter(x=>x.type==='med').length;homeCare.textContent=data.care.length;
-let tw=data.walks.filter(x=>x.date===td);walkSummary.textContent=wm+' мин';walkCountText.textContent=tw.length+' выгул'+(tw.length===1?'':'а');walkList.innerHTML=tw.length?tw.slice().reverse().map(x=>`<div class=item><div class=row><b>${x.time||'Без времени'} · ${x.duration} мин</b><button class="btn small" onclick="del('walks',${x.id})">Удалить</button></div><div class=muted>${esc(x.note)}</div></div>`).join(''):'<div class=empty>Сегодня прогулок пока нет.</div>';
-let total=data.walks.reduce((s,x)=>s+x.duration,0);walkStats.textContent=`Записей: ${data.walks.length}. Всего: ${total} мин.`||'';
-[['diagnosis','diagnosisList'],['vaccine','vaccineList'],['med','medList'],['doctor','doctorList']].forEach(([t,id])=>{let arr=data.health.filter(x=>x.type===t);document.getElementById(id).innerHTML=arr.length?arr.slice().reverse().map(x=>`<div class=item><div class=row><b>${esc(x.title)}</b><button class="btn small" onclick="del('health',${x.id})">Удалить</button></div><div class=muted>${x.date}${x.vet?' · '+esc(x.vet):''}</div><p>${esc(x.details)}</p></div>`).join(''):'<div class=empty>Записей пока нет.</div>'});
-let p=data.params[data.params.length-1];paramDate.textContent=p?p.date:'—';paramSummary.innerHTML=p?['weight','height','chest','neck','muzzle','back','backTail'].map((k,i)=>p[k]?`<span class=tag>${['Вес','Рост','Грудь','Шея','Морда','Спина','Холка→хвост'][i]}: ${esc(p[k])}${i===0?' кг':' см'}</span>`:'').join('')+(p.custom?`<p>${esc(p.custom)}</p>`:'')+(p.note?`<p class=muted>${esc(p.note)}</p>`:''):'<div class=empty>Замеров пока нет.</div>';
-paramHistory.innerHTML=data.params.slice().reverse().map(x=>`<div class=item><b>${x.date}</b><p>${['weight','height','chest','neck','muzzle','back','backTail'].filter(k=>x[k]).map(k=>esc(x[k])).join(' · ')}</p>${x.custom?'<p>'+esc(x.custom)+'</p>':''}</div>`).join('')||'<div class=empty>История пуста.</div>';
-photoGrid.innerHTML=data.photos.slice().reverse().map(x=>`<div><img class=photo src="${x.src}"><div class=muted>${x.date}</div></div>`).join('');
-gearList.innerHTML=data.gear.length?data.gear.slice().reverse().map(x=>`<div class=item><div class=row><b>${esc(x.name)}</b><span class=pill>${esc(x.size)}</span></div><div class=muted>${esc(x.brand)}</div><p>${esc(x.note)}</p></div>`).join(''):'<div class=empty>Сохранённых размеров пока нет.</div>';
-careList.innerHTML=data.care.length?data.care.slice().reverse().map(x=>`<div class=item><div class=row><b>${esc(x.title)}</b><button class="btn small" onclick="del('care',${x.id})">Удалить</button></div><div class=muted>${x.date}${x.next?' · следующая: '+x.next:''}</div><p>${esc(x.note)}</p></div>`).join(''):'<div class=empty>Процедур пока нет.</div>';
-goalCount.textContent=data.goals.length;goalList.innerHTML=data.goals.length?data.goals.map(x=>`<div class=item><label><input type=checkbox ${x.done?'checked':''} onchange="toggleGoal(${x.id})"> ${esc(x.title)}</label></div>`).join(''):'<div class=empty>Целей пока нет.</div>';
-behaviorList.innerHTML=data.behavior.length?data.behavior.slice().reverse().map(x=>`<div class=item><b>${esc(x.situation)}</b><div class=muted>${x.date} · интенсивность ${x.intensity||'—'}/10</div><p>${esc(x.reaction)}</p><p class=muted>${esc(x.help)}</p></div>`).join(''):'<div class=empty>Наблюдений пока нет.</div>';
-eventList.innerHTML=[...data.walks.map(x=>({date:x.date,t:'🐕 Выгул · '+x.duration+' мин'})),...data.health.map(x=>({date:x.date,t:'🩺 '+x.title})),...data.care.map(x=>({date:x.date,t:'🧼 '+x.title})),...data.params.map(x=>({date:x.date,t:'📏 Замеры'}))].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,30).map(x=>`<div class=item><b>${x.date}</b><p>${esc(x.t)}</p></div>`).join('')||'<div class=empty>Событий пока нет.</div>';
+(function(){
+"use strict";
+const KEY="k9_training_log_v5";
+const today=()=>new Date().toISOString().slice(0,10);
+const blank=()=>({dogs:[],trainings:[],walks:[],params:[],health:[],food:[],cycles:[]});
+let db;
+try{db=JSON.parse(localStorage.getItem(KEY)||"null")||blank()}catch(e){db=blank()}
+function save(){localStorage.setItem(KEY,JSON.stringify(db));renderAll()}
+function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
+function $(x){return document.getElementById(x)}
+function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function show(name){
+ document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("active",s.id===name));
+ document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.show===name));
+ window.scrollTo(0,0);
 }
-['walkDate','healthDate','pDate','careDate','bDate'].forEach(id=>{let e=document.getElementById(id);if(e)e.value=today()});render();
-// Service worker intentionally disabled in this development build to avoid stale-cache issues on iPhone.
+document.addEventListener("click",e=>{const b=e.target.closest("[data-show]");if(b)show(b.dataset.show)});
 
+function formClear(prefix, ids){ids.forEach(x=>{const el=$(x); if(el) el.value=(el.type==="date"?today():"")})}
+function edit(type,rec){
+ const map={dog:["dogId","dogName","dogBreed","dogSex","dogDob","dogWeight","dogNotes"],training:["trId","trDate","trName","trExercise","trScore","trCriteria","trNotes"],walk:["walkId","walkDate","walkMin","walkNotes"],params:["parId","parDate","parWeight","parHeight","parChest","parNeck","parBack","parGear"],health:["healthId","healthDate","healthType","healthName","healthNotes"],food:["foodId","foodDate","foodType","foodName","foodAmount","foodNotes"],cycle:["cycleId","cycleStart","cycleEnd","cycleNotes"]};
+ map[type].forEach(k=>{if($(k)) $(k).value=rec[k.replace(/^(dog|tr|walk|par|health|food|cycle)/,"").replace(/^Date$/,"Date")]??""});
+ if(type==="dog"){$("dogId").value=rec.id;$("dogName").value=rec.name;$("dogBreed").value=rec.breed;$("dogSex").value=rec.sex;$("dogDob").value=rec.dob;$("dogWeight").value=rec.weight;$("dogNotes").value=rec.notes;show("dogs")}
+ if(type==="training"){$("trId").value=rec.id;$("trDate").value=rec.date;$("trName").value=rec.name;$("trExercise").value=rec.exercise;$("trScore").value=rec.score;$("trCriteria").value=rec.criteria;$("trNotes").value=rec.notes;show("training")}
+ if(type==="walk"){$("walkId").value=rec.id;$("walkDate").value=rec.date;$("walkMin").value=rec.min;$("walkNotes").value=rec.notes;show("walk")}
+ if(type==="params"){$("parId").value=rec.id;$("parDate").value=rec.date;$("parWeight").value=rec.weight;$("parHeight").value=rec.height;$("parChest").value=rec.chest;$("parNeck").value=rec.neck;$("parBack").value=rec.back;$("parGear").value=rec.gear;show("params")}
+ if(type==="health"){$("healthId").value=rec.id;$("healthDate").value=rec.date;$("healthType").value=rec.type;$("healthName").value=rec.name;$("healthNotes").value=rec.notes;show("health")}
+ if(type==="food"){$("foodId").value=rec.id;$("foodDate").value=rec.date;$("foodType").value=rec.type;$("foodName").value=rec.name;$("foodAmount").value=rec.amount;$("foodNotes").value=rec.notes;show("food")}
+ if(type==="cycle"){$("cycleId").value=rec.id;$("cycleStart").value=rec.start;$("cycleEnd").value=rec.end;$("cycleNotes").value=rec.notes;show("cycle")}
+}
+function remove(arr,idv){db[arr]=db[arr].filter(x=>x.id!==idv);save()}
+function cardActions(type,rec){return `<div class="actions"><button class="btn small alt" onclick='window.k9edit("${type}",${JSON.stringify(rec).replace(/</g,"\\u003c")})'>Изменить</button><button class="btn small danger" onclick='window.k9del("${type}","${rec.id}")'>Удалить</button></div>`}
+window.k9edit=edit;
+window.k9del=function(type,i){if(confirm("Удалить запись?")){const arr={dog:"dogs",training:"trainings",walk:"walks",params:"params",health:"health",food:"food",cycle:"cycles"}[type];remove(arr,i)}};
+
+function renderDogs(){
+ $("dogList").innerHTML=db.dogs.length?db.dogs.map(d=>`<div class="card"><div class="row"><div><b>${esc(d.name)}</b><div class="muted">${esc(d.breed)} · ${esc(d.sex)}</div></div><span class="pill">Активная</span></div>${d.weight?`<p>Вес: ${esc(d.weight)} кг</p>`:""}${d.notes?`<p class="muted">${esc(d.notes)}</p>`:""}${cardActions("dog",d)}</div>`).join(""):`<div class="empty">Пока нет профилей. Создай первого ниже.</div>`;
+}
+function renderSimple(id,arr,key,empty,type,fn){
+ const el=$(id);if(!arr.length){el.innerHTML=`<div class="empty">${empty}</div>`;return}
+ el.innerHTML=arr.slice().reverse().map(fn).join("");
+}
+function renderTraining(){
+ $("trCount").textContent=db.trainings.length+" записей";
+ renderSimple("trainingList",db.trainings,"","Пока нет тренировок","training",r=>`<div class="item"><div class="row"><b>${esc(r.name||"Тренировка")}</b><span class="pill">${esc(r.date)}</span></div><p>${esc(r.exercise||"")}${r.score!==""&&r.score!=null?` · оценка ${esc(r.score)}/10`:""}</p>${r.criteria?`<div>${esc(r.criteria)}</div>`:""}${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("training",r)}</div>`);
+}
+function renderWalk(){renderSimple("walkList",db.walks,"","Пока нет прогулок","walk",r=>`<div class="item"><b>${esc(r.date)}</b> · ${esc(r.min||0)} мин${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("walk",r)}</div>`)}
+function renderParams(){renderSimple("paramList",db.params,"","Пока нет замеров","params",r=>`<div class="item"><b>${esc(r.date)}</b><p>Вес ${esc(r.weight||"—")} кг · холка ${esc(r.height||"—")} см · грудь ${esc(r.chest||"—")} см</p><p>Шея ${esc(r.neck||"—")} см · спина ${esc(r.back||"—")} см</p>${r.gear?`<p class="muted">${esc(r.gear)}</p>`:""}${cardActions("params",r)}</div>`)}
+function renderHealth(){renderSimple("healthList",db.health,"","Пока нет записей","health",r=>`<div class="item"><div class="row"><b>${esc(r.name)}</b><span class="pill">${esc(r.type)}</span></div><div class="muted">${esc(r.date)}</div>${r.notes?`<p>${esc(r.notes)}</p>`:""}${cardActions("health",r)}</div>`)}
+function renderFood(){renderSimple("foodList",db.food,"","Пока нет записей","food",r=>`<div class="item"><div class="row"><b>${esc(r.name)}</b><span class="pill">${esc(r.type)}</span></div><div>${esc(r.date)} · ${esc(r.amount||"")}</div>${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("food",r)}</div>`)}
+function renderCycle(){renderSimple("cycleList",db.cycles,"","Пока нет циклов","cycle",r=>`<div class="item"><b>${esc(r.start)}</b>${r.end?` — ${esc(r.end)}`:""}${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("cycle",r)}</div>`)}
+function renderHome(){
+ const d=db.dogs[0];$("homeName").textContent=d?.name||"Моя собака";$("homeMeta").textContent=d?`${d.breed||"Порода не указана"} · ${d.sex||""}`:"Создай профиль";
+ $("today").textContent=today();$("sTrain").textContent=db.trainings.length;$("sWalk").textContent=db.walks.length;$("sMed").textContent=db.health.filter(x=>x.type==="Лекарство").length;
+ const scores=db.trainings.map(x=>Number(x.score)).filter(Number.isFinite);$("sScore").textContent=scores.length?(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1):"—";
+}
+function renderAll(){renderDogs();renderTraining();renderWalk();renderParams();renderHealth();renderFood();renderCycle();renderHome()}
+function bindSave(btn,arr,fields,build,clearIds){
+ $(btn).onclick=()=>{const obj=build();if(!obj)return;const i=obj.id?db[arr].findIndex(x=>x.id===obj.id):-1;if(i>=0)db[arr][i]=obj;else{obj.id=id();db[arr].push(obj)}save();clearIds.forEach(x=>{if($(x))$(x).value=""});};
+}
+bindSave("saveDog","dogs",[],()=>{const name=$("dogName").value.trim();if(!name){alert("Укажи кличку");return null}return {id:$("dogId").value,name,breed:$("dogBreed").value,sex:$("dogSex").value,dob:$("dogDob").value,weight:$("dogWeight").value,notes:$("dogNotes").value}},["dogId","dogName","dogBreed","dogDob","dogWeight","dogNotes"]);
+bindSave("saveTraining","trainings",[],()=>{if(!$("trName").value.trim()&&!$("trExercise").value.trim()){alert("Укажи название или упражнение");return null}return {id:$("trId").value,date:$("trDate").value||today(),name:$("trName").value,exercise:$("trExercise").value,score:$("trScore").value,criteria:$("trCriteria").value,notes:$("trNotes").value}},["trId","trName","trExercise","trScore","trCriteria","trNotes"]);
+bindSave("saveWalk","walks",[],()=>({id:$("walkId").value,date:$("walkDate").value||today(),min:$("walkMin").value,notes:$("walkNotes").value}),["walkId","walkMin","walkNotes"]);
+bindSave("saveParam","params",[],()=>({id:$("parId").value,date:$("parDate").value||today(),weight:$("parWeight").value,height:$("parHeight").value,chest:$("parChest").value,neck:$("parNeck").value,back:$("parBack").value,gear:$("parGear").value}),["parId","parWeight","parHeight","parChest","parNeck","parBack","parGear"]);
+bindSave("saveHealth","health",[],()=>{if(!$("healthName").value.trim()){alert("Укажи название");return null}return {id:$("healthId").value,date:$("healthDate").value||today(),type:$("healthType").value,name:$("healthName").value,notes:$("healthNotes").value}},["healthId","healthName","healthNotes"]);
+bindSave("saveFood","food",[],()=>{if(!$("foodName").value.trim()){alert("Укажи название");return null}return {id:$("foodId").value,date:$("foodDate").value||today(),type:$("foodType").value,name:$("foodName").value,amount:$("foodAmount").value,notes:$("foodNotes").value}},["foodId","foodName","foodAmount","foodNotes"]);
+bindSave("saveCycle","cycles",[],()=>({id:$("cycleId").value,start:$("cycleStart").value||today(),end:$("cycleEnd").value,notes:$("cycleNotes").value}),["cycleId","cycleStart","cycleEnd","cycleNotes"]);
+
+function setDefaults(){["trDate","walkDate","parDate","healthDate","foodDate","cycleStart"].forEach(x=>{if($(x))$(x).value=today()})}
+$("clearDog").onclick=()=>{["dogId","dogName","dogBreed","dogDob","dogWeight","dogNotes"].forEach(x=>$(x).value="")};
+$("clearTraining").onclick=()=>{["trId","trName","trExercise","trScore","trCriteria","trNotes"].forEach(x=>$(x).value="")};
+$("clearWalk").onclick=()=>{["walkId","walkMin","walkNotes"].forEach(x=>$(x).value="")};
+$("clearParam").onclick=()=>{["parId","parWeight","parHeight","parChest","parNeck","parBack","parGear"].forEach(x=>$(x).value="")};
+$("clearHealth").onclick=()=>{["healthId","healthName","healthNotes"].forEach(x=>$(x).value="")};
+$("clearFood").onclick=()=>{["foodId","foodName","foodAmount","foodNotes"].forEach(x=>$(x).value="")};
+$("clearCycle").onclick=()=>{["cycleId","cycleEnd","cycleNotes"].forEach(x=>$(x).value="")};
+
+$("exportBtn").onclick=()=>{const blob=new Blob([JSON.stringify(db,null,2)],{type:"application/json"});const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="k9-training-log-backup.json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000)};
+$("importFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!x||!Array.isArray(x.dogs))throw 0;db=Object.assign(blank(),x);save();alert("Данные импортированы")}catch(_){alert("Не удалось импортировать файл")}};r.readAsText(f)};
+$("resetBtn").onclick=()=>{if(confirm("Удалить ВСЕ данные?")){db=blank();save()}};
+setDefaults();renderAll();
+})();
 </script>
-</body></html>
+</body>
+</html>
