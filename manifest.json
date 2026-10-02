@@ -1,0 +1,9 @@
+{
+  "name": "K9 Training Log",
+  "short_name": "K9 Log",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#f5f4f0",
+  "theme_color": "#10252a",
+  "lang": "ru"
+}
