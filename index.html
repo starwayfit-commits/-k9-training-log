@@ -537,6 +537,23 @@ input:focus,select:focus,textarea:focus{
 .photoBtn{display:inline-flex;align-items:center;width:max-content;margin-top:4px;padding:8px 11px;border-radius:11px;background:#E5F7FC;color:#0785B3;font-weight:700;font-size:11px}.photoBtn input{display:none}
 @media(max-width:390px){.homeDogCard{padding:15px;gap:12px}.homeAvatarWrap{width:68px;height:68px;flex-basis:68px;border-radius:20px}.homeDogInfo>b{font-size:22px}.quickCard{padding:10px;gap:7px}.quickCard>span{width:34px;height:34px;flex-basis:34px}}
 
+
+/* v11 — dog profiles & documents */
+.profileSwitcher{margin-bottom:12px}
+.dogSwitch{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid #E9F0F2}
+.dogSwitch:last-of-type{border-bottom:0}.dogSwitch.selected{background:#F2FBFD;margin:0 -8px;padding:11px 8px;border-radius:15px}
+.dogSwitchMain{display:flex;align-items:center;gap:10px;min-width:0}.dogSwitchMain>div{min-width:0}
+.dogSwitchMain b{display:block;font-size:14px}.dogSwitchMain small{color:#849297}.dogSwitchAvatar,.dogSwitchMain img{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;object-fit:cover;background:#E4F6FA;font-size:24px;flex:0 0 48px}
+.dogSwitchActions{display:flex;gap:5px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+.dogSwitchActions .btn{white-space:nowrap}
+.documentsBox{margin-top:14px;padding:15px;border:1px solid #DCE9ED;border-radius:20px;background:#F8FCFD}
+.documentsBox h3{margin:0 0 2px}.docGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.docCard{background:#fff;border:1px solid #E0EAED;border-radius:16px;padding:10px;text-align:center}
+.docPreview{height:120px;border-radius:12px;background:#EDF8FA;display:grid;place-items:center;overflow:hidden;margin-bottom:8px}
+.docPreview img{width:100%;height:100%;object-fit:cover}.docPreview span{font-size:35px}.docCard>b{display:block;font-size:12px;margin-bottom:6px}
+.docCard .photoBtn{margin:0 auto}
+@media(max-width:390px){.dogSwitch{align-items:flex-start}.dogSwitchActions{flex-direction:column}.dogSwitchActions .btn{width:88px;padding:7px 5px;font-size:10px}.docPreview{height:105px}}
+
 </style>
 
 <style>
@@ -699,17 +716,36 @@ h1,h2,h3,p,label,span,b{overflow-wrap:anywhere}
 </section>
 
 <section id="dogs" class="screen">
-<h2>🐕 Профиль</h2><div id="dogList"></div>
-<div class="card"><b id="dogTitle">Новая собака</b><input id="dogId" type="hidden">
-<div class="profilePhotoRow">
+<h2>🐕 Профили собак</h2>
+<div class="card profileSwitcher">
+  <div class="sectionHead"><div><b>Активная собака</b><div class="muted">Все тренировки, здоровье и записи относятся к выбранному профилю.</div></div><span class="pill" id="activeDogLabel">—</span></div>
+  <div id="dogList"></div>
+  <button class="btn alt" id="newDogBtn" type="button">＋ Добавить собаку</button>
+</div>
+
+<div class="card">
+ <b id="dogTitle">Новая собака</b><input id="dogId" type="hidden">
+ <div class="profilePhotoRow">
   <div class="profilePreview"><img id="dogPhotoPreview" alt="Фото собаки" hidden><span id="dogPhotoFallback">🐕</span></div>
   <div class="profilePhotoText"><b>Фото собаки</b><span class="muted">Одно основное фото</span><label class="photoBtn">＋ Выбрать фото<input id="dogPhoto" type="file" accept="image/*"></label></div>
+ </div>
+ <label>Кличка<input id="dogName" placeholder="Кличка"></label>
+ <div class="formgrid"><label>Порода<input id="dogBreed" placeholder="Порода"></label><label>Пол<select id="dogSex"><option>Сука</option><option>Кобель</option></select></label></div>
+ <div class="formgrid"><label>Дата рождения<input id="dogDob" type="date"></label><label>Вес, кг<input id="dogWeight" type="number" step="0.1"></label></div>
+ <label>Описание / заметки<textarea id="dogNotes" placeholder="Особенности, цели..."></textarea></label>
+
+ <div class="documentsBox">
+  <div class="sectionHead"><div><h3>📄 Документы</h3><span class="muted">Паспорт, родословная и идентификация</span></div></div>
+  <label>Номер чипа<input id="dogChip" inputmode="numeric" placeholder="Например: 64309810XXXXXXXXX"></label>
+  <div class="docGrid">
+   <div class="docCard"><div class="docPreview"><img id="passportPreview" alt="Фото паспорта" hidden><span id="passportFallback">📘</span></div><b>Паспорт</b><label class="photoBtn">＋ Добавить фото<input id="passportPhoto" type="file" accept="image/*"></label></div>
+   <div class="docCard"><div class="docPreview"><img id="pedigreePreview" alt="Фото родословной" hidden><span id="pedigreeFallback">📜</span></div><b>Родословная</b><label class="photoBtn">＋ Добавить фото<input id="pedigreePhoto" type="file" accept="image/*"></label></div>
+  </div>
+  <label>Дополнительно<textarea id="dogDocNotes" placeholder="Регистрационный номер, клуб, пометки по документам..."></textarea></label>
+ </div>
+
+ <div class="actions"><button class="btn" id="saveDog">Сохранить</button><button class="btn alt" id="clearDog">Очистить</button></div>
 </div>
-<label>Кличка<input id="dogName" placeholder="Кличка"></label>
-<div class="formgrid"><label>Порода<input id="dogBreed" placeholder="Порода"></label><label>Пол<select id="dogSex"><option>Сука</option><option>Кобель</option></select></label></div>
-<div class="formgrid"><label>Дата рождения<input id="dogDob" type="date"></label><label>Вес, кг<input id="dogWeight" type="number" step="0.1"></label></div>
-<label>Описание / заметки<textarea id="dogNotes" placeholder="Особенности, цели..."></textarea></label>
-<div class="actions"><button class="btn" id="saveDog">Сохранить</button><button class="btn alt" id="clearDog">Очистить</button></div></div>
 </section>
 
 <section id="training" class="screen">
@@ -828,7 +864,7 @@ const OLD_KEY="k9_training_log_v6";
 const OLD_KEY2="k9_training_log_v5";
 const BACKUP_KEY="k9_training_log_autobackup_v7";
 const today=()=>new Date().toISOString().slice(0,10);
-const blank=()=>({dogs:[],trainings:[],walks:[],params:[],health:[],food:[],cycles:[]});
+const blank=()=>({activeDogId:null,dogs:[],trainings:[],walks:[],params:[],health:[],food:[],cycles:[]});
 function migrateOld(x){
   const base=blank();
   if(!x||typeof x!=="object")return base;
@@ -858,6 +894,19 @@ try{
     }
   }
 }catch(e){db=blank()}
+
+// v11: profiles + records are linked to an active dog.
+if(!Array.isArray(db.dogs)) db.dogs=[];
+if(!db.activeDogId || !db.dogs.some(d=>d.id===db.activeDogId)) db.activeDogId=db.dogs[0]?.id||null;
+if(db.dogs.length){
+  const firstDog=db.dogs[0].id;
+  db.dogs.forEach(d=>{if(!d.id)d.id=id(); if(!d.docs)d.docs={passport:"",pedigree:"",chip:"",notes:""}});
+  ["trainings","walks","params","health","food","cycles"].forEach(arr=>{
+    (db[arr]||[]).forEach(r=>{if(!r.dogId)r.dogId=firstDog});
+  });
+  if(!db.activeDogId) db.activeDogId=firstDog;
+}
+
 function makeBackup(){
   try{localStorage.setItem(BACKUP_KEY,JSON.stringify({savedAt:new Date().toISOString(),data:db}))}catch(e){}
 }
@@ -871,6 +920,9 @@ function save(){
 function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
 function $(x){return document.getElementById(x)}
 function esc(v){return String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function activeDog(){return db.dogs.find(d=>d.id===db.activeDogId)||db.dogs[0]||null}
+function activeDogId(){return activeDog()?.id||null}
+function dogRecords(arr){const did=activeDogId();return did?(db[arr]||[]).filter(r=>r.dogId===did):[]}
 function show(name){
  document.querySelectorAll(".screen").forEach(s=>s.classList.toggle("active",s.id===name));
  document.querySelectorAll(".nav button").forEach(b=>b.classList.toggle("active",b.dataset.show===name));
@@ -880,7 +932,13 @@ document.addEventListener("click",e=>{const b=e.target.closest("[data-show]");if
 
 function formClear(prefix, ids){ids.forEach(x=>{const el=$(x); if(el) el.value=(el.type==="date"?today():"")})}
 function edit(type,rec){
- if(type==="dog"){$("dogId").value=rec.id;$('dogName').value=rec.name||"";$('dogBreed').value=rec.breed||"";$('dogSex').value=rec.sex||"Сука";$('dogDob').value=rec.dob||"";$('dogWeight').value=rec.weight||"";$('dogNotes').value=rec.notes||"";window._dogPhotoData=rec.photo||"";if(rec.photo){$("dogPhotoPreview").src=rec.photo;$("dogPhotoPreview").hidden=false;$("dogPhotoFallback").style.display="none"}else{$("dogPhotoPreview").hidden=true;$("dogPhotoFallback").style.display="block"}show("dogs");return}
+ if(type==="dog"){
+ $("dogId").value=rec.id;$("dogName").value=rec.name||"";$("dogBreed").value=rec.breed||"";$("dogSex").value=rec.sex||"Сука";$("dogDob").value=rec.dob||"";$("dogWeight").value=rec.weight||"";$("dogNotes").value=rec.notes||"";
+ window._dogPhotoData=rec.photo||"";window._passportData=rec.docs?.passport||"";window._pedigreeData=rec.docs?.pedigree||"";
+ $("dogChip").value=rec.docs?.chip||"";$("dogDocNotes").value=rec.docs?.notes||"";
+ if(rec.photo){$("dogPhotoPreview").src=rec.photo;$("dogPhotoPreview").hidden=false;$("dogPhotoFallback").style.display="none"}else{$("dogPhotoPreview").hidden=true;$("dogPhotoFallback").style.display="block"}
+ setDocPreview("passportPreview","passportFallback",window._passportData);setDocPreview("pedigreePreview","pedigreeFallback",window._pedigreeData);
+ show("dogs");return}
  if(type==="training"){
    $("trId").value=rec.id||"";$("trDate").value=rec.date||today();$("trSlot").value=rec.slot||"Утро";$("trSlotCustom").value=rec.slotCustom||"";$("trName").value=rec.name||"";$("physicalRounds").value=rec.physicalRounds||1;$("commandRounds").value=rec.commandRounds||1;$("trNotes").value=rec.notes||"";
    toggleCustomSlot(); renderExerciseRows("physicalRows",rec.physical||[],"physical"); renderExerciseRows("commandRows",rec.commands||[],"command"); $("trainingFormTitle").textContent="Редактировать тренировку"; show("training"); return;
@@ -891,43 +949,61 @@ function edit(type,rec){
  if(type==="food"){$("foodId").value=rec.id;$('foodDate').value=rec.date||today();$('foodType').value=rec.type||"Рацион";$('foodName').value=rec.name||"";$('foodAmount').value=rec.amount||"";$('foodNotes').value=rec.notes||"";show("food")}
  if(type==="cycle"){$("cycleId").value=rec.id;$('cycleStart').value=rec.start||today();$('cycleEnd').value=rec.end||"";$('cycleNotes').value=rec.notes||"";show("cycle")}
 }
-function remove(arr,idv){db[arr]=db[arr].filter(x=>x.id!==idv);save()}
+function remove(arr,idv){
+ if(arr==="dogs"){
+   if(!confirm("Удалить профиль собаки и все связанные записи?"))return;
+   db.dogs=db.dogs.filter(x=>x.id!==idv);
+   ["trainings","walks","params","health","food","cycles"].forEach(a=>db[a]=(db[a]||[]).filter(x=>x.dogId!==idv));
+   if(db.activeDogId===idv)db.activeDogId=db.dogs[0]?.id||null;
+ }else db[arr]=db[arr].filter(x=>x.id!==idv);
+ save();
+}
 function cardActions(type,rec){return `<div class="actions"><button class="btn small alt" onclick='window.k9edit("${type}",${JSON.stringify(rec).replace(/</g,"\\u003c")})'>Изменить</button><button class="btn small danger" onclick='window.k9del("${type}","${rec.id}")'>Удалить</button></div>`}
 window.k9edit=edit;
 window.k9del=function(type,i){if(confirm("Удалить запись?")){const arr={dog:"dogs",training:"trainings",walk:"walks",params:"params",health:"health",food:"food",cycle:"cycles"}[type];remove(arr,i)}};
 
 function renderDogs(){
- $("dogList").innerHTML=db.dogs.length?db.dogs.map(d=>`<div class="card"><div class="row"><div><b>${esc(d.name)}</b><div class="muted">${esc(d.breed)} · ${esc(d.sex)}</div></div><span class="pill">Активная</span></div>${d.weight?`<p>Вес: ${esc(d.weight)} кг</p>`:""}${d.notes?`<p class="muted">${esc(d.notes)}</p>`:""}${cardActions("dog",d)}</div>`).join(""):`<div class="empty">Пока нет профилей. Создай первого ниже.</div>`;
+ const active=activeDogId();
+ $("activeDogLabel").textContent=activeDog()?.name||"Нет профиля";
+ $("dogList").innerHTML=db.dogs.length?db.dogs.map(d=>`<div class="dogSwitch ${d.id===active?"selected":""}">
+   <div class="dogSwitchMain">${d.photo?`<img src="${d.photo}" alt="">`:`<span class="dogSwitchAvatar">🐕</span>`}
+    <div><b>${esc(d.name)}</b><div class="muted">${esc(d.breed||"Порода не указана")} · ${esc(d.sex||"")}</div>${d.weight?`<small>${esc(d.weight)} кг</small>`:""}</div>
+   </div>
+   <div class="dogSwitchActions"><button class="btn small ${d.id===active?"":"alt"}" onclick='window.k9selectDog("${d.id}")'>${d.id===active?"✓ Активна":"Выбрать"}</button>
+   <button class="btn small alt" onclick='window.k9edit("dog",${JSON.stringify(d).replace(/</g,"\\u003c")})'>Изменить</button></div>
+ </div>`).join(""):`<div class="empty">Пока нет профилей. Создай первого ниже.</div>`;
 }
 function renderSimple(id,arr,key,empty,type,fn){
  const el=$(id);if(!arr.length){el.innerHTML=`<div class="empty">${empty}</div>`;return}
  el.innerHTML=arr.slice().reverse().map(fn).join("");
 }
 function renderTraining(){
-  $("trCount").textContent=db.trainings.length+" записей";
-  renderSimple("trainingList",db.trainings,"","Пока нет тренировок","training",r=>{
+ const rows=dogRecords("trainings");
+ $("trCount").textContent=rows.length+" записей";
+ renderSimple("trainingList",rows,"","Пока нет тренировок","training",r=>{
     const slot=r.slot==="Другое"?(r.slotCustom||"Другое"):(r.slot||"Время не указано");
     const physical=(r.physical||[]).filter(x=>x.name).map(x=>`<div class="exercise-mini"><strong>${esc(x.name)}</strong> · ${esc(x.qty||1)} ${esc(x.unit||"раз")}</div>`).join("");
     const commands=(r.commands||[]).filter(x=>x.name).map(x=>`<div class="exercise-mini"><strong>${esc(x.name)}</strong> · ${esc(x.qty||1)} ${esc(x.unit||"раз")}</div>`).join("");
     return `<div class="item"><div class="row"><b>${esc(r.name||"Тренировка")}</b><span class="pill">${esc(r.date||"")}</span></div><div class="sessionMeta"><span>🕐 ${esc(slot)}</span>${physical?`<span>💪 ${esc(r.physicalRounds||1)} круг.</span>`:""}${commands?`<span>🎯 ${esc(r.commandRounds||1)} круг.</span>`:""}</div>${physical?`<div class="sessionSection"><b>💪 Физическая нагрузка</b>${physical}</div>`:""}${commands?`<div class="sessionSection"><b>🎯 Команды</b>${commands}</div>`:""}${r.notes?`<div class="training-total"><b>Итоги:</b><br>${esc(r.notes)}</div>`:""}${cardActions("training",r)}</div>`;
   });
 }
-function renderWalk(){renderSimple("walkList",db.walks,"","Пока нет прогулок","walk",r=>`<div class="item"><b>${esc(r.date)}</b> · ${esc(r.min||0)} мин${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("walk",r)}</div>`)}
-function renderParams(){renderSimple("paramList",db.params,"","Пока нет замеров","params",r=>`<div class="item"><b>${esc(r.date)}</b><p>Вес ${esc(r.weight||"—")} кг · холка ${esc(r.height||"—")} см · грудь ${esc(r.chest||"—")} см</p><p>Шея ${esc(r.neck||"—")} см · спина ${esc(r.back||"—")} см</p>${r.gear?`<p class="muted">${esc(r.gear)}</p>`:""}${cardActions("params",r)}</div>`)}
-function renderHealth(){renderSimple("healthList",db.health,"","Пока нет записей","health",r=>`<div class="item"><div class="row"><b>${esc(r.name)}</b><span class="pill">${esc(r.type)}</span></div><div class="muted">${esc(r.date)}</div>${r.notes?`<p>${esc(r.notes)}</p>`:""}${cardActions("health",r)}</div>`)}
-function renderFood(){renderSimple("foodList",db.food,"","Пока нет записей","food",r=>`<div class="item"><div class="row"><b>${esc(r.name)}</b><span class="pill">${esc(r.type)}</span></div><div>${esc(r.date)} · ${esc(r.amount||"")}</div>${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("food",r)}</div>`)}
-function renderCycle(){renderSimple("cycleList",db.cycles,"","Пока нет циклов","cycle",r=>`<div class="item"><b>${esc(r.start)}</b>${r.end?` — ${esc(r.end)}`:""}${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("cycle",r)}</div>`)}
+function renderWalk(){renderSimple("walkList",dogRecords("walks"),"","Пока нет прогулок","walk",r=>`<div class="item"><b>${esc(r.date)}</b> · ${esc(r.min||0)} мин${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("walk",r)}</div>`)}
+function renderParams(){renderSimple("paramList",dogRecords("params"),"","Пока нет замеров","params",r=>`<div class="item"><b>${esc(r.date)}</b><p>Вес ${esc(r.weight||"—")} кг · холка ${esc(r.height||"—")} см · грудь ${esc(r.chest||"—")} см</p><p>Шея ${esc(r.neck||"—")} см · спина ${esc(r.back||"—")} см</p>${r.gear?`<p class="muted">${esc(r.gear)}</p>`:""}${cardActions("params",r)}</div>`)}
+function renderHealth(){renderSimple("healthList",dogRecords("health"),"","Пока нет записей","health",r=>`<div class="item"><div class="row"><b>${esc(r.name)}</b><span class="pill">${esc(r.type)}</span></div><div class="muted">${esc(r.date)}</div>${r.notes?`<p>${esc(r.notes)}</p>`:""}${cardActions("health",r)}</div>`)}
+function renderFood(){renderSimple("foodList",dogRecords("food"),"","Пока нет записей","food",r=>`<div class="item"><div class="row"><b>${esc(r.name)}</b><span class="pill">${esc(r.type)}</span></div><div>${esc(r.date)} · ${esc(r.amount||"")}</div>${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("food",r)}</div>`)}
+function renderCycle(){renderSimple("cycleList",dogRecords("cycles"),"","Пока нет циклов","cycle",r=>`<div class="item"><b>${esc(r.start)}</b>${r.end?` — ${esc(r.end)}`:""}${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("cycle",r)}</div>`)}
 function renderHome(){
- const d=db.dogs[0];
+ const d=activeDog();
  $("homeName").textContent=d?.name||"Моя собака";
  $("homeMeta").textContent=d?`${d.breed||"Порода не указана"} · ${d.sex||""}`:"Создай профиль";
  $("today").textContent=today();
- $("sTrain").textContent=db.trainings.length;$("sWalk").textContent=db.walks.length;$("sMed").textContent=db.health.filter(x=>x.type==="Лекарство").length;
- const scores=db.trainings.map(x=>Number(x.score)).filter(Number.isFinite);
+ const trains=dogRecords("trainings"), walks=dogRecords("walks"), health=dogRecords("health");
+ $("sTrain").textContent=trains.length;$("sWalk").textContent=walks.length;$("sMed").textContent=health.filter(x=>x.type==="Лекарство").length;
+ const scores=trains.map(x=>Number(x.score)).filter(Number.isFinite);
  $("sScore").textContent=scores.length?(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1):"—";
  const photo=$("homePhoto"), fallback=$("homeAvatarFallback");
  if(d?.photo){photo.src=d.photo;photo.hidden=false;fallback.style.display="none"}else{photo.hidden=true;fallback.style.display="block"}
- const upcoming=[...db.trainings].filter(x=>x.date&&x.date>=today()).sort((a,b)=>String(a.date).localeCompare(String(b.date)))[0];
+ const upcoming=[...trains].filter(x=>x.date&&x.date>=today()).sort((a,b)=>String(a.date).localeCompare(String(b.date)))[0];
  const box=$("nextTraining");
  if(upcoming){const slot=upcoming.slot==="Другое"?(upcoming.slotCustom||"Другое"):(upcoming.slot||"Время не указано");box.innerHTML=`<span class="nextIcon">📋</span><div><span class="muted">${esc(upcoming.date)} · ${esc(slot)}</span><b>${esc(upcoming.name||"Тренировка")}</b></div>`}
  else{box.innerHTML=`<span class="nextIcon">📋</span><div><span class="muted">Ближайшая тренировка</span><b>Пока не запланирована</b></div>`}
@@ -936,12 +1012,21 @@ function renderAll(){renderDogs();renderTraining();renderWalk();renderParams();r
 function bindSave(btn,arr,fields,build,clearIds){
  $(btn).onclick=()=>{const obj=build();if(!obj)return;const i=obj.id?db[arr].findIndex(x=>x.id===obj.id):-1;if(i>=0)db[arr][i]=obj;else{obj.id=id();db[arr].push(obj)}save();clearIds.forEach(x=>{if($(x))$(x).value=""});};
 }
-window._dogPhotoData="";
+window._dogPhotoData="";window._passportData="";window._pedigreeData="";
+window.k9selectDog=function(did){if(!db.dogs.some(d=>d.id===did))return;db.activeDogId=did;clearDogForm();save();show("home")};
+$("newDogBtn").onclick=()=>{clearDogForm();show("dogs")};
 $("dogPhoto").onchange=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{window._dogPhotoData=r.result;$("dogPhotoPreview").src=r.result;$("dogPhotoPreview").hidden=false;$("dogPhotoFallback").style.display="none"};r.readAsDataURL(f)};
-bindSave("saveDog","dogs",[],()=>{const name=$("dogName").value.trim();if(!name){alert("Укажи кличку");return null}return {id:$("dogId").value,name,breed:$("dogBreed").value,sex:$("dogSex").value,dob:$("dogDob").value,weight:$("dogWeight").value,notes:$("dogNotes").value,photo:window._dogPhotoData||""}},["dogId","dogName","dogBreed","dogDob","dogWeight","dogNotes"]);
+$("saveDog").onclick=()=>{
+ const name=$("dogName").value.trim();if(!name){alert("Укажи кличку");return}
+ const oid=$("dogId").value;const obj={id:oid,name,breed:$("dogBreed").value,sex:$("dogSex").value,dob:$("dogDob").value,weight:$("dogWeight").value,notes:$("dogNotes").value,photo:window._dogPhotoData||"",docs:{passport:window._passportData||"",pedigree:window._pedigreeData||"",chip:$("dogChip").value.trim(),notes:$("dogDocNotes").value}};
+ const i=oid?db.dogs.findIndex(x=>x.id===oid):-1;
+ if(i>=0){obj.id=oid;db.dogs[i]=Object.assign({},db.dogs[i],obj)}
+ else{obj.id=id();db.dogs.push(obj)}
+ db.activeDogId=obj.id;save();clearDogForm();show("home");
+};
 $("saveTraining").onclick=()=>{
   if(!$("trName").value.trim() && !document.querySelector('#physicalRows input[data-field="name"]') && !document.querySelector('#commandRows input[data-field="name"]')){alert("Добавь название или хотя бы одно упражнение");return}
-  const obj={id:$("trId").value,date:$("trDate").value||today(),slot:$("trSlot").value,slotCustom:$("trSlotCustom").value.trim(),name:$("trName").value.trim()||"Тренировка",physical:collectExercises("physicalRows"),physicalRounds:Math.max(1,Number($("physicalRounds").value)||1),commands:collectExercises("commandRows"),commandRounds:Math.max(1,Number($("commandRounds").value)||1),notes:$("trNotes").value};
+  const obj={id:$("trId").value,dogId:activeDogId(),date:$("trDate").value||today(),slot:$("trSlot").value,slotCustom:$("trSlotCustom").value.trim(),name:$("trName").value.trim()||"Тренировка",physical:collectExercises("physicalRows"),physicalRounds:Math.max(1,Number($("physicalRounds").value)||1),commands:collectExercises("commandRows"),commandRounds:Math.max(1,Number($("commandRounds").value)||1),notes:$("trNotes").value};
   const i=obj.id?db.trainings.findIndex(x=>x.id===obj.id):-1;if(i>=0)db.trainings[i]=obj;else{obj.id=id();db.trainings.push(obj)};save();clearTrainingForm();
 };
 bindSave("saveWalk","walks",[],()=>({id:$("walkId").value,date:$("walkDate").value||today(),min:$("walkMin").value,notes:$("walkNotes").value}),["walkId","walkMin","walkNotes"]);
@@ -961,7 +1046,18 @@ $("addCommand").onclick=()=>addExercise("commandRows","command");
 ["physicalRows","commandRows"].forEach(id=>$(id).addEventListener("click",e=>{if(e.target.classList.contains("xbtn")){const rows=$(id).querySelectorAll(".exercise-row");if(rows.length>1)e.target.closest(".exercise-row").remove()}}));
 function clearTrainingForm(){["trId","trName","trSlotCustom","trNotes"].forEach(x=>$(x).value="");$("trDate").value=today();$("trSlot").value="Утро";$("physicalRounds").value=1;$("commandRounds").value=1;$("trainingFormTitle").textContent="Новая тренировка";toggleCustomSlot();renderExerciseRows("physicalRows",[],"physical");renderExerciseRows("commandRows",[],"command")}
 function setDefaults(){["trDate","walkDate","parDate","healthDate","foodDate","cycleStart"].forEach(x=>{if($(x))$(x).value=today()})}
-$("clearDog").onclick=()=>{["dogId","dogName","dogBreed","dogDob","dogWeight","dogNotes"].forEach(x=>$(x).value="");$("dogPhoto").value="";window._dogPhotoData="";$("dogPhotoPreview").hidden=true;$("dogPhotoFallback").style.display="block"};
+function setDocPreview(imgId,fallbackId,data){const im=$(imgId),fb=$(fallbackId);if(data){im.src=data;im.hidden=false;fb.style.display="none"}else{im.hidden=true;fb.style.display="block"}}
+function clearDogForm(){
+ ["dogId","dogName","dogBreed","dogDob","dogWeight","dogNotes","dogChip","dogDocNotes"].forEach(x=>{if($(x))$(x).value=""});
+ $("dogSex").value="Сука";$("dogPhoto").value="";$("passportPhoto").value="";$("pedigreePhoto").value="";
+ window._dogPhotoData="";window._passportData="";window._pedigreeData="";
+ $("dogPhotoPreview").hidden=true;$("dogPhotoFallback").style.display="block";setDocPreview("passportPreview","passportFallback","");setDocPreview("pedigreePreview","pedigreeFallback","");
+ $("dogTitle").textContent="Новая собака";
+}
+function readImage(input,cb){const f=input.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(f)}
+$("passportPhoto").onchange=e=>readImage(e.target,v=>{window._passportData=v;setDocPreview("passportPreview","passportFallback",v)});
+$("pedigreePhoto").onchange=e=>readImage(e.target,v=>{window._pedigreeData=v;setDocPreview("pedigreePreview","pedigreeFallback",v)});
+$("clearDog").onclick=clearDogForm;
 $("clearTraining").onclick=clearTrainingForm;
 $("clearWalk").onclick=()=>{["walkId","walkMin","walkNotes"].forEach(x=>$(x).value="")};
 $("clearParam").onclick=()=>{["parId","parWeight","parHeight","parChest","parNeck","parBack","parGear"].forEach(x=>$(x).value="")};
@@ -970,7 +1066,7 @@ $("clearFood").onclick=()=>{["foodId","foodName","foodAmount","foodNotes"].forEa
 $("clearCycle").onclick=()=>{["cycleId","cycleEnd","cycleNotes"].forEach(x=>$(x).value="")};
 
 function downloadBackup(){
-  const payload={version:7,savedAt:new Date().toISOString(),data:db};
+  const payload={version:11,savedAt:new Date().toISOString(),data:db};
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="k9-training-log-backup-"+today()+".json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
@@ -986,13 +1082,13 @@ $("restoreBtn").onclick=()=>{
     const b=JSON.parse(localStorage.getItem(BACKUP_KEY)||"null");
     if(!b?.data){alert("Автокопия не найдена");return}
     if(confirm("Восстановить последнюю автокопию? Текущие данные будут заменены.")){
-      db=Object.assign(blank(),b.data);localStorage.setItem(KEY,JSON.stringify(db));renderAll();alert("Автокопия восстановлена");updateBackupStatus();
+      db=Object.assign(blank(),b.data);if(!db.activeDogId)db.activeDogId=db.dogs[0]?.id||null;localStorage.setItem(KEY,JSON.stringify(db));renderAll();alert("Автокопия восстановлена");updateBackupStatus();
     }
   }catch(e){alert("Не удалось восстановить автокопию")}
 };
-$("importFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);const data=x?.data||x;if(!data||!Array.isArray(data.dogs)||!Array.isArray(data.trainings))throw 0;makeBackup();db=Object.assign(blank(),data);localStorage.setItem(KEY,JSON.stringify(db));renderAll();updateBackupStatus();alert("Данные импортированы")}catch(_){alert("Не удалось импортировать файл")}};r.readAsText(f)};
+$("importFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);const data=x?.data||x;if(!data||!Array.isArray(data.dogs)||!Array.isArray(data.trainings))throw 0;makeBackup();db=Object.assign(blank(),data);if(!db.activeDogId)db.activeDogId=db.dogs[0]?.id||null;localStorage.setItem(KEY,JSON.stringify(db));renderAll();updateBackupStatus();alert("Данные импортированы")}catch(_){alert("Не удалось импортировать файл")}};r.readAsText(f)};
 $("resetBtn").onclick=()=>{if(confirm("Удалить ВСЕ данные? Перед удалением будет сохранена автокопия.")){makeBackup();db=blank();localStorage.setItem(KEY,JSON.stringify(db));renderAll();updateBackupStatus()}};
-setDefaults();clearTrainingForm();renderAll();updateBackupStatus();
+setDefaults();clearTrainingForm();clearDogForm();renderAll();updateBackupStatus();
 })();
 </script>
 </body>
