@@ -3,14 +3,263 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#10252a">
+<meta name="theme-color" content="#102B35">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <link rel="manifest" href="manifest.json">
-<title>K9 Training Log v7</title>
+<title>K9 Training Log</title>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#f5f6f3;color:#182326;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}.app{max-width:720px;margin:auto;min-height:100vh;padding-bottom:96px}.top{background:linear-gradient(145deg,#10252a,#183b3c);color:white;padding:28px 18px 22px}.top h1{margin:0;font-size:29px;letter-spacing:-.5px}.top p{margin:7px 0 0;color:#cbd9d7;font-size:14px}.screen{display:none}.screen.active{display:block}main{padding:15px}.hero,.card,.tile{background:#fff;border:1px solid #e1e5e2;border-radius:20px;padding:16px;margin-bottom:12px;box-shadow:0 3px 12px #10252a0a}.hero{min-height:122px;background:linear-gradient(145deg,#e3eee9,#d7e4de);display:flex;align-items:end}.hero b{font-size:28px;letter-spacing:-.5px}.muted{color:#7a8587}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.tile{text-align:left;min-height:100px;border:1px solid #e1e5e2;cursor:pointer}.tile b{display:block;font-size:17px;margin-bottom:7px}.row{display:flex;justify-content:space-between;align-items:center;gap:8px}.pill{background:#e4f2ec;color:#287761;border-radius:999px;padding:7px 10px;font-size:12px;font-weight:800}.btn{border:0;border-radius:12px;padding:11px 14px;background:#287f69;color:#fff;font-weight:750;font-size:14px}.btn.alt{background:#eef1f0;color:#243235}.btn.danger{background:#f3dfdf;color:#8d3030}.btn.small{padding:8px 10px;font-size:12px}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}label{display:block;font-size:13px;font-weight:750;margin-top:9px}input,select,textarea{width:100%;margin-top:5px;padding:11px;border:1px solid #d1d7d4;border-radius:11px;background:#fafbf9;color:#172125;font:inherit}textarea{min-height:80px}.item{border-top:1px solid #eceeeb;padding-top:12px;margin-top:12px}.item:first-child{border-top:0;margin-top:0;padding-top:0}.empty{text-align:center;color:#899294;padding:16px}.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}.stat{background:#f4f6f3;border-radius:13px;padding:11px}.stat b{display:block;font-size:20px}.nav{position:fixed;bottom:0;left:0;right:0;z-index:20;display:flex;justify-content:space-around;background:#fffffff5;backdrop-filter:blur(16px);border-top:1px solid #ddd;padding:7px 0 calc(7px + env(safe-area-inset-bottom))}.nav button{border:0;background:none;color:#7b8485;font-size:10px;min-width:65px}.nav button.active{color:#087d63;font-weight:800}.nav span{display:block;font-size:18px;margin-bottom:2px}.tag{display:inline-block;background:#edf1ef;border-radius:8px;padding:4px 7px;margin:2px;font-size:12px}.notice{padding:12px;border-radius:13px;background:#fff6dc;border:1px solid #ead9a8;margin-bottom:12px}.sectionHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}.sectionHead h3{margin:0;font-size:18px}.training-block{border:1px solid #e1e6e2;background:#fbfcfa;border-radius:16px;padding:13px;margin-top:10px}.training-block h3{margin:0;font-size:17px}.exercise-row{display:grid;grid-template-columns:minmax(0,1.6fr) .72fr .9fr auto;gap:7px;align-items:end;padding:9px 0;border-top:1px solid #e9ece9}.exercise-row:first-child{border-top:0}.exercise-row .xbtn{width:38px;height:40px;border:0;border-radius:10px;background:#f3e6e6;color:#8d3030;font-size:18px}.rounds{display:flex;align-items:end;gap:8px;margin-top:9px}.rounds label{flex:1}.rounds .roundBadge{padding:11px 12px;background:#eef5f1;border-radius:11px;color:#287761;font-weight:800;white-space:nowrap}.slotCustom{display:none}.slotCustom.show{display:block}.sessionMeta{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}.sessionMeta span{background:#edf3f0;border-radius:999px;padding:5px 8px;font-size:12px;color:#41645a}.sessionSection{margin-top:10px}.sessionSection b{font-size:13px}.exercise-mini{padding:6px 0;border-top:1px solid #edf0ee}.exercise-mini:first-child{border-top:0}.exercise-mini strong{font-weight:700}.training-total{background:#eef5f1;border-radius:13px;padding:10px;margin-top:10px}.subtle{font-size:12px;color:#7b8585}
-@media(max-width:430px){main{padding:12px}.grid{gap:8px}.tile{padding:14px;min-height:92px}.exercise-row{grid-template-columns:minmax(0,1.4fr) .65fr .85fr auto}.top{padding-top:24px}.top h1{font-size:27px}}
+*{box-sizing:border-box}
+:root{
+  --blue:#28A9E0;
+  --blue-dark:#102B35;
+  --blue-soft:#EAF8FD;
+  --blue-pale:#F4FBFE;
+  --text:#152329;
+  --muted:#74838A;
+  --line:#DCE7EB;
+  --card:#FFFFFF;
+  --success:#34C759;
+  --danger:#FF6B6B;
+  --shadow:0 6px 22px rgba(16,43,53,.07);
+}
+html{background:var(--blue-pale)}
+body{
+  margin:0;
+  background:var(--blue-pale);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text","Segoe UI",sans-serif;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea{font:inherit}
+button{ -webkit-tap-highlight-color:transparent }
+.app{max-width:720px;margin:auto;min-height:100vh;padding-bottom:104px}
+
+/* Header */
+.top{
+  position:relative;
+  overflow:hidden;
+  background:linear-gradient(145deg,#102B35 0%,#174A5A 58%,#197C9F 100%);
+  color:#fff;
+  padding:27px 18px 24px;
+}
+.top:after{
+  content:"";
+  position:absolute;
+  width:190px;height:190px;
+  right:-70px;bottom:-105px;
+  border-radius:50%;
+  background:rgba(40,169,224,.22);
+}
+.top h1{position:relative;z-index:1;margin:0;font-size:29px;letter-spacing:-.7px;font-weight:800}
+.top p{position:relative;z-index:1;margin:7px 0 0;color:#D9EEF5;font-size:14px;line-height:1.35}
+
+/* Screens */
+.screen{display:none}
+.screen.active{display:block}
+main{padding:15px}
+
+/* Typography */
+h2{margin:5px 2px 14px;font-size:25px;letter-spacing:-.5px}
+h3{letter-spacing:-.2px}
+.muted{color:var(--muted)}
+.subtle{font-size:12px;color:#829198}
+
+/* Cards */
+.hero,.card,.tile{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:20px;
+  padding:16px;
+  margin-bottom:12px;
+  box-shadow:var(--shadow);
+}
+.hero{
+  min-height:128px;
+  background:linear-gradient(145deg,#DDF5FC,#CBEAF3);
+  display:flex;
+  align-items:end;
+  border-color:#C7E5ED;
+}
+.hero b{font-size:28px;letter-spacing:-.6px}
+
+/* Layout */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+/* Home tiles */
+.tile{
+  text-align:left;
+  min-height:96px;
+  cursor:pointer;
+  transition:transform .12s ease,box-shadow .12s ease,border-color .12s ease;
+}
+.tile:active{transform:scale(.985)}
+.tile b{display:block;font-size:17px;margin-bottom:7px}
+.tile:first-letter{color:var(--blue)}
+
+/* Pills / tags */
+.pill{
+  background:#E4F7FD;
+  color:#087FAE;
+  border-radius:999px;
+  padding:7px 10px;
+  font-size:12px;
+  font-weight:800;
+}
+.tag{
+  display:inline-block;
+  background:#EEF7FA;
+  color:#35606D;
+  border-radius:8px;
+  padding:4px 7px;
+  margin:2px;
+  font-size:12px;
+}
+
+/* Buttons */
+.btn{
+  border:0;
+  border-radius:13px;
+  padding:11px 14px;
+  background:var(--blue);
+  color:#fff;
+  font-weight:800;
+  font-size:14px;
+  box-shadow:0 3px 9px rgba(40,169,224,.18);
+  cursor:pointer;
+}
+.btn:active{transform:translateY(1px)}
+.btn.alt{background:#EDF3F5;color:#29414A;box-shadow:none}
+.btn.danger{background:#FFE5E5;color:#A63A3A;box-shadow:none}
+.btn.small{padding:8px 10px;font-size:12px}
+.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+
+/* Forms */
+.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+label{display:block;font-size:13px;font-weight:750;margin-top:9px}
+input,select,textarea{
+  width:100%;
+  margin-top:5px;
+  padding:11px 12px;
+  border:1px solid #D4E1E5;
+  border-radius:12px;
+  background:#FAFCFD;
+  color:var(--text);
+  outline:none;
+}
+input:focus,select:focus,textarea:focus{
+  border-color:var(--blue);
+  box-shadow:0 0 0 3px rgba(40,169,224,.12);
+}
+textarea{min-height:80px}
+
+/* Stats */
+.stat{background:#F3FAFC;border-radius:14px;padding:11px}
+.stat b{display:block;font-size:20px;color:var(--blue-dark);margin-top:2px}
+
+/* Lists */
+.item{border-top:1px solid #E8EFF1;padding-top:12px;margin-top:12px}
+.item:first-child{border-top:0;margin-top:0;padding-top:0}
+.empty{text-align:center;color:#89979C;padding:16px}
+
+/* Notices */
+.notice{
+  padding:12px;
+  border-radius:14px;
+  background:#FFF8DF;
+  border:1px solid #EBDDAF;
+  margin-bottom:12px;
+}
+
+/* Training */
+.sectionHead{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:10px}
+.sectionHead h3{margin:0;font-size:18px}
+.training-block{
+  border:1px solid #DCE9ED;
+  background:#F9FCFD;
+  border-radius:17px;
+  padding:13px;
+  margin-top:10px;
+}
+.training-block h3{margin:0;font-size:17px}
+.exercise-row{
+  display:grid;
+  grid-template-columns:minmax(0,1.6fr) .72fr .9fr auto;
+  gap:7px;
+  align-items:end;
+  padding:9px 0;
+  border-top:1px solid #E6EEF1;
+}
+.exercise-row:first-child{border-top:0}
+.exercise-row .xbtn{
+  width:38px;height:40px;border:0;border-radius:10px;
+  background:#FFE8E8;color:#A63A3A;font-size:18px;
+}
+.rounds{display:flex;align-items:end;gap:8px;margin-top:9px}
+.rounds label{flex:1}
+.rounds .roundBadge{
+  padding:11px 12px;background:#E8F8FD;border-radius:11px;
+  color:#087FAE;font-weight:800;white-space:nowrap
+}
+.slotCustom{display:none}
+.slotCustom.show{display:block}
+.sessionMeta{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.sessionMeta span{background:#EAF6FA;border-radius:999px;padding:5px 8px;font-size:12px;color:#416875}
+.sessionSection{margin-top:10px}
+.sessionSection b{font-size:13px}
+.exercise-mini{padding:6px 0;border-top:1px solid #EDF1F2}
+.exercise-mini:first-child{border-top:0}
+.exercise-mini strong{font-weight:750}
+.training-total{background:#E8F8FD;border-radius:13px;padding:10px;margin-top:10px}
+
+/* Bottom navigation */
+.nav{
+  position:fixed;
+  bottom:0;left:0;right:0;
+  z-index:20;
+  display:flex;
+  justify-content:flex-start;
+  gap:2px;
+  overflow-x:auto;
+  background:rgba(255,255,255,.94);
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+  border-top:1px solid #DDE8EC;
+  padding:7px 6px calc(7px + env(safe-area-inset-bottom));
+}
+.nav::-webkit-scrollbar{display:none}
+.nav button{
+  flex:0 0 72px;
+  border:0;
+  background:none;
+  color:#7B8A90;
+  font-size:10px;
+  min-width:72px;
+  padding:3px 2px;
+  border-radius:12px;
+}
+.nav button.active{
+  color:#0784B7;
+  font-weight:800;
+  background:#EAF8FD;
+}
+.nav span{display:block;font-size:18px;margin-bottom:2px}
+
+/* Small utility refinements */
+hr{border:0;border-top:1px solid #E5EEF1}
+a{color:#087FAE}
+
+@media(max-width:430px){
+  main{padding:12px}
+  .grid{gap:8px}
+  .tile{padding:14px;min-height:92px}
+  .top{padding-top:24px}
+  .top h1{font-size:27px}
+  .exercise-row{grid-template-columns:minmax(0,1.4fr) .65fr .85fr auto}
+  .hero{min-height:116px}
+}
 </style>
 </head>
 <body>
