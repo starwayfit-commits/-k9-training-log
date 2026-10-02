@@ -1,15 +1,12 @@
-const C='k9-v1';
+self.addEventListener("install", () => self.skipWaiting());
 
-self.addEventListener('install',e =>
-  e.waitUntil(
-    caches.open(C).then(c =>
-      c.addAll(['./','./index.html','./manifest.json'])
-    )
-  )
-);
+self.addEventListener("activate", async () => {
+  try {
+    const keys = await caches.keys();
+    await Promise.all(keys.map(k => caches.delete(k)));
+  } catch (e) {}
 
-self.addEventListener('fetch',e =>
-  e.respondWith(
-    caches.match(e.request).then(r => r || fetch(e.request))
-  )
-);
+  try {
+    await self.registration.unregister();
+  } catch (e) {}
+});
