@@ -471,6 +471,42 @@ input:focus,select:focus,textarea:focus{
   .top{padding-top:calc(20px + env(safe-area-inset-top))}
 }
 
+
+/* v9.1 — bottom navigation spacing fix for narrow iPhones */
+.nav{
+  display:grid !important;
+  grid-template-columns:repeat(6,minmax(0,1fr)) !important;
+  align-items:center;
+  gap:2px !important;
+  padding:7px 6px calc(7px + env(safe-area-inset-bottom)) !important;
+}
+.nav button{
+  width:100% !important;
+  min-width:0 !important;
+  max-width:none !important;
+  padding:5px 1px !important;
+  margin:0 !important;
+  font-size:10px !important;
+  line-height:1.15 !important;
+  white-space:nowrap;
+  overflow:hidden;
+}
+.nav span{
+  display:block;
+  font-size:19px !important;
+  line-height:22px;
+  margin-bottom:2px !important;
+}
+.nav button.active{
+  padding-left:2px !important;
+  padding-right:2px !important;
+}
+@media (max-width:390px){
+  .nav{gap:1px !important;padding-left:4px !important;padding-right:4px !important}
+  .nav button{font-size:9px !important}
+  .nav span{font-size:18px !important}
+}
+
 </style>
 
 <style>
