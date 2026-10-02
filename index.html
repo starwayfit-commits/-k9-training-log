@@ -325,6 +325,63 @@ button,input,select,textarea{line-height:1.2}
 h1,h2,h3,p,label,span,b{overflow-wrap:anywhere}
 </style>
 
+
+<style>
+/* v8.2 — fix native iOS date/select overflow */
+.formgrid{
+  width:100%;
+  min-width:0;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+}
+.formgrid label{
+  display:block;
+  width:100%;
+  min-width:0 !important;
+  max-width:100%;
+  overflow:hidden;
+}
+.formgrid input,
+.formgrid select{
+  display:block;
+  width:100% !important;
+  min-width:0 !important;
+  max-width:100% !important;
+  box-sizing:border-box !important;
+  margin-left:0;
+  margin-right:0;
+}
+
+/* iOS date controls have a large intrinsic width unless appearance is reset */
+.formgrid input[type="date"]{
+  -webkit-appearance:none;
+  appearance:none;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  padding-right:10px;
+}
+
+/* Keep the select compact while retaining the native picker */
+.formgrid select{
+  padding-right:8px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+
+/* On narrow iPhones, give each column enough room and never allow overlap */
+@media(max-width:430px){
+  .formgrid{
+    grid-template-columns:minmax(0,1fr) minmax(0,1fr) !important;
+    gap:8px !important;
+  }
+  .formgrid input[type="date"],
+  .formgrid select{
+    font-size:16px;
+    height:50px;
+  }
+}
+</style>
+
 </head>
 <body>
 <div class="app">
