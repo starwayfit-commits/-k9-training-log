@@ -1,9 +1,9 @@
 {
-  "name": "K9 Training Log",
-  "short_name": "K9 Log",
-  "start_url": "./index.html",
-  "display": "standalone",
-  "background_color": "#f5f4f0",
-  "theme_color": "#10252a",
-  "lang": "ru"
+  "name":"K9 Training Log",
+  "short_name":"K9 Log",
+  "start_url":"./",
+  "display":"standalone",
+  "background_color":"#f4f5f1",
+  "theme_color":"#10252a",
+  "lang":"ru"
 }
