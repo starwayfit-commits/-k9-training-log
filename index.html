@@ -676,6 +676,103 @@ h1,h2,h3,p,label,span,b{overflow-wrap:anywhere}
 }
 </style>
 
+
+<style>
+/* v13 — complete dog profile */
+.profilePageHead{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;margin:4px 2px 14px}
+.profilePageHead h2{margin:2px 0 0}
+.profileSwitchCard{padding:14px 15px}
+.profileSwitchTop{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:7px}
+.dogSwitchList{display:flex;flex-direction:column}
+.dogSwitch{display:flex;align-items:center;justify-content:space-between;gap:9px;padding:10px 0;border-bottom:1px solid #E9F0F2}
+.dogSwitch:last-child{border-bottom:0}
+.dogSwitch.selected{background:#EAF8FD;margin:0 -7px;padding:10px 7px;border-radius:14px;border-bottom:0}
+.dogSwitchMain{display:flex;align-items:center;gap:10px;min-width:0}
+.dogSwitchMain>div{min-width:0}
+.dogSwitchMain b{display:block;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.dogSwitchMain small{color:#849297}
+.dogSwitchAvatar,.dogSwitchMain img{width:46px;height:46px;border-radius:15px;display:grid;place-items:center;object-fit:cover;background:#E4F6FA;font-size:22px;flex:0 0 46px}
+.dogSwitchActions{display:flex;gap:5px;align-items:center;justify-content:flex-end}
+.dogSwitchActions .btn{white-space:nowrap}
+.profileEmpty{text-align:center;padding:30px 18px}
+.profileEmptyIcon{font-size:46px}
+.profileEmpty h3{margin:8px 0 4px}
+.profileHero{position:relative;display:flex;align-items:center;gap:14px;padding:17px;border-radius:23px;background:linear-gradient(135deg,#123D4A,#0D718B 58%,#18A8D5);color:#fff;box-shadow:0 11px 28px rgba(10,85,105,.16);overflow:hidden;margin-bottom:10px}
+.profileHero:after{content:"";position:absolute;width:155px;height:155px;right:-65px;top:-75px;border-radius:50%;background:rgba(255,255,255,.10)}
+.profileHeroPhoto{width:88px;height:88px;flex:0 0 88px;border-radius:25px;background:rgba(255,255,255,.18);display:grid;place-items:center;overflow:hidden;position:relative;z-index:1}
+.profileHeroPhoto img{width:100%;height:100%;object-fit:cover}
+.profileHeroPhoto span{font-size:40px}
+.profileHeroInfo{min-width:0;position:relative;z-index:1}
+.profileHeroInfo>b{display:block;font-size:27px;letter-spacing:-.7px;line-height:1.05;margin:4px 0}
+.profileHeroInfo .muted{color:#D9F1F6;font-size:13px}
+.profileHeroTags{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.profileHeroTags span{padding:4px 7px;border-radius:999px;background:rgba(255,255,255,.16);font-size:10px;font-weight:700}
+.profileHeroEdit{margin-left:auto;position:relative;z-index:2;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.12);color:#fff;border-radius:12px;padding:8px 9px;font-size:11px;font-weight:800}
+.profileTabs{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:4px;background:#E8F3F6;border-radius:15px;margin-bottom:10px}
+.profileTab{border:0;background:transparent;color:#708087;border-radius:11px;padding:9px 4px;font-size:11px;font-weight:750}
+.profileTab.active{background:#fff;color:#087FAE;box-shadow:0 2px 8px rgba(16,55,66,.07)}
+.profileTabPanel{display:none}
+.profileTabPanel.active{display:block}
+.profileInfoGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:10px}
+.profileInfoCard{background:#fff;border:1px solid #DDE9EC;border-radius:17px;padding:13px;box-shadow:0 5px 17px rgba(16,55,66,.04)}
+.profileInfoCard span{display:block;color:#7D8C91;font-size:10px;margin-bottom:4px}
+.profileInfoCard b{font-size:14px}
+.profileCardTitle{font-weight:800;font-size:15px;margin-bottom:8px}
+.profileNoteCard{margin-bottom:10px}
+.profileNoteText{font-size:13px;line-height:1.45;white-space:pre-wrap}
+.profileQuickStats{margin-bottom:10px}
+.profileStatsGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:5px}
+.profileStatsGrid>div{text-align:center;background:#F4FAFC;border-radius:13px;padding:10px 3px}
+.profileStatsGrid b{display:block;font-size:19px}
+.profileStatsGrid span{display:block;color:#87969B;font-size:9px;margin-top:2px}
+.documentMainCard{margin-bottom:9px}
+.chipValue{font-size:18px;font-weight:800;letter-spacing:.3px;word-break:break-all}
+.profileDocNotes{font-size:11px;line-height:1.35;margin-top:7px;white-space:pre-wrap}
+.docViewGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px}
+.docViewCard{border:1px solid #DDE9EC;background:#fff;border-radius:18px;padding:10px;text-align:left;display:grid;grid-template-columns:58px minmax(0,1fr) auto;align-items:center;gap:9px;color:var(--text)}
+.docViewPreview{width:58px;height:72px;border-radius:12px;background:#EDF8FA;display:grid;place-items:center;overflow:hidden}
+.docViewPreview img{width:100%;height:100%;object-fit:cover}
+.docViewPreview span{font-size:28px}
+.docViewCard b{display:block;font-size:12px}
+.docViewCard span{display:block;color:#8A989D;font-size:9px;margin-top:3px}
+.docViewCard i{font-style:normal;color:#A0ADB1;font-size:22px}
+.profileWideBtn{width:100%;margin-top:9px}
+.profileSectionHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:2px 2px 9px}
+.profileSectionHead>b,.profileSectionHead>div>b{font-size:15px}
+.profileSectionHead .muted{display:block;font-size:10px;margin-top:2px}
+.latestParamsGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-bottom:9px}
+.latestParam{background:#fff;border:1px solid #DDE9EC;border-radius:17px;padding:13px}
+.latestParam span{display:block;color:#819096;font-size:10px}
+.latestParam b{display:block;font-size:18px;margin-top:3px}
+.gearCard{margin-bottom:0}
+.historyList{background:#fff;border:1px solid #DDE9EC;border-radius:18px;overflow:hidden}
+.historyItem{display:flex;align-items:flex-start;gap:10px;padding:12px 13px;border-bottom:1px solid #EDF2F3}
+.historyItem:last-child{border-bottom:0}
+.historyIcon{width:36px;height:36px;border-radius:11px;background:#E9F7FB;display:grid;place-items:center;flex:0 0 36px}
+.historyItem b{display:block;font-size:12px}
+.historyItem small{display:block;color:#8A989D;font-size:9px;margin-top:3px}
+.historyItem p{margin:4px 0 0;font-size:11px;color:#66767D}
+.dogEditorPanel{margin-top:10px}
+.imageViewer{position:fixed;inset:0;z-index:100;background:rgba(5,18,23,.92);display:grid;place-items:center;padding:22px}
+.imageViewer[hidden]{display:none}
+.imageViewer img{max-width:100%;max-height:82vh;border-radius:14px;object-fit:contain}
+.imageViewer button{position:absolute;right:17px;top:calc(15px + env(safe-area-inset-top));width:42px;height:42px;border:0;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:28px}
+@media(max-width:430px){
+  .profileHero{padding:14px;gap:10px}
+  .profileHeroPhoto{width:74px;height:74px;flex-basis:74px;border-radius:21px}
+  .profileHeroInfo>b{font-size:23px}
+  .profileHeroEdit{padding:7px 8px;font-size:10px}
+  .profileTab{font-size:10px;padding:9px 2px}
+  .profileStatsGrid{grid-template-columns:1fr 1fr}
+  .docViewCard{grid-template-columns:50px minmax(0,1fr) auto}
+  .docViewPreview{width:50px;height:64px}
+}
+@media(max-width:360px){
+  .dogSwitchActions .btn{font-size:9px;padding:7px 6px}
+  .profileHeroEdit{display:none}
+}
+</style>
+
 </head>
 <body>
 <div class="app">
@@ -716,36 +813,149 @@ h1,h2,h3,p,label,span,b{overflow-wrap:anywhere}
 </section>
 
 <section id="dogs" class="screen">
-<h2>🐕 Профили собак</h2>
-<div class="card profileSwitcher">
-  <div class="sectionHead"><div><b>Активная собака</b><div class="muted">Все тренировки, здоровье и записи относятся к выбранному профилю.</div></div><span class="pill" id="activeDogLabel">—</span></div>
-  <div id="dogList"></div>
-  <button class="btn alt" id="newDogBtn" type="button">＋ Добавить собаку</button>
-</div>
-
-<div class="card">
- <b id="dogTitle">Новая собака</b><input id="dogId" type="hidden">
- <div class="profilePhotoRow">
-  <div class="profilePreview"><img id="dogPhotoPreview" alt="Фото собаки" hidden><span id="dogPhotoFallback">🐕</span></div>
-  <div class="profilePhotoText"><b>Фото собаки</b><span class="muted">Одно основное фото</span><label class="photoBtn">＋ Выбрать фото<input id="dogPhoto" type="file" accept="image/*"></label></div>
- </div>
- <label>Кличка<input id="dogName" placeholder="Кличка"></label>
- <div class="formgrid"><label>Порода<input id="dogBreed" placeholder="Порода"></label><label>Пол<select id="dogSex"><option>Сука</option><option>Кобель</option></select></label></div>
- <div class="formgrid"><label>Дата рождения<input id="dogDob" type="date"></label><label>Вес, кг<input id="dogWeight" type="number" step="0.1"></label></div>
- <label>Описание / заметки<textarea id="dogNotes" placeholder="Особенности, цели..."></textarea></label>
-
- <div class="documentsBox">
-  <div class="sectionHead"><div><h3>📄 Документы</h3><span class="muted">Паспорт, родословная и идентификация</span></div></div>
-  <label>Номер чипа<input id="dogChip" inputmode="numeric" placeholder="Например: 64309810XXXXXXXXX"></label>
-  <div class="docGrid">
-   <div class="docCard"><div class="docPreview"><img id="passportPreview" alt="Фото паспорта" hidden><span id="passportFallback">📘</span></div><b>Паспорт</b><label class="photoBtn">＋ Добавить фото<input id="passportPhoto" type="file" accept="image/*"></label></div>
-   <div class="docCard"><div class="docPreview"><img id="pedigreePreview" alt="Фото родословной" hidden><span id="pedigreeFallback">📜</span></div><b>Родословная</b><label class="photoBtn">＋ Добавить фото<input id="pedigreePhoto" type="file" accept="image/*"></label></div>
+  <div class="profilePageHead">
+    <div>
+      <span class="eyebrow">МОИ СОБАКИ</span>
+      <h2>🐕 Профиль</h2>
+    </div>
+    <button class="btn small alt" id="newDogBtn" type="button">＋ Собака</button>
   </div>
-  <label>Дополнительно<textarea id="dogDocNotes" placeholder="Регистрационный номер, клуб, пометки по документам..."></textarea></label>
- </div>
 
- <div class="actions"><button class="btn" id="saveDog">Сохранить</button><button class="btn alt" id="clearDog">Очистить</button></div>
-</div>
+  <div class="profileSwitchCard card">
+    <div class="profileSwitchTop">
+      <div>
+        <b>Активный профиль</b>
+        <div class="muted">Все записи приложения относятся к выбранной собаке.</div>
+      </div>
+      <span class="pill" id="activeDogLabel">—</span>
+    </div>
+    <div id="dogList" class="dogSwitchList"></div>
+  </div>
+
+  <div id="profileEmpty" class="card profileEmpty" hidden>
+    <div class="profileEmptyIcon">🐕</div>
+    <h3>Пока нет профиля</h3>
+    <p class="muted">Создай профиль собаки — после этого здесь появятся документы, параметры и история.</p>
+    <button class="btn" id="emptyNewDogBtn" type="button">＋ Создать профиль</button>
+  </div>
+
+  <div id="profileView" class="profileView">
+    <div class="profileHero">
+      <div class="profileHeroPhoto">
+        <img id="profileHeroPhoto" alt="Фото собаки" hidden>
+        <span id="profileHeroFallback">🐕</span>
+      </div>
+      <div class="profileHeroInfo">
+        <span class="eyebrow">АКТИВНАЯ СОБАКА</span>
+        <b id="profileHeroName">—</b>
+        <div id="profileHeroMeta" class="muted">—</div>
+        <div id="profileHeroTags" class="profileHeroTags"></div>
+      </div>
+      <button class="profileHeroEdit" id="editActiveDog" type="button">Изменить</button>
+    </div>
+
+    <div class="profileTabs" role="tablist">
+      <button class="profileTab active" data-profile-tab="main" type="button">Основное</button>
+      <button class="profileTab" data-profile-tab="docs" type="button">Документы</button>
+      <button class="profileTab" data-profile-tab="params" type="button">Параметры</button>
+      <button class="profileTab" data-profile-tab="history" type="button">История</button>
+    </div>
+
+    <div class="profileTabPanel active" id="profileTabMain">
+      <div class="profileInfoGrid">
+        <div class="profileInfoCard"><span>Порода</span><b id="profileBreed">—</b></div>
+        <div class="profileInfoCard"><span>Пол</span><b id="profileSex">—</b></div>
+        <div class="profileInfoCard"><span>Дата рождения</span><b id="profileDob">—</b></div>
+        <div class="profileInfoCard"><span>Вес</span><b id="profileWeight">—</b></div>
+      </div>
+      <div class="card profileNoteCard">
+        <div class="profileCardTitle">📝 Заметки</div>
+        <div id="profileNotes" class="profileNoteText muted">Пока нет заметок.</div>
+      </div>
+      <div class="card profileQuickStats">
+        <div class="profileCardTitle">Статистика</div>
+        <div class="profileStatsGrid">
+          <div><b id="profileTrainCount">0</b><span>тренировок</span></div>
+          <div><b id="profileWalkCount">0</b><span>прогулок</span></div>
+          <div><b id="profileHealthCount">0</b><span>записей здоровья</span></div>
+          <div><b id="profileFoodCount">0</b><span>записей кормления</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profileTabPanel" id="profileTabDocs">
+      <div class="card documentMainCard">
+        <div class="profileCardTitle">🔢 Микрочип</div>
+        <div class="chipValue" id="profileChip">Не указан</div>
+        <div id="profileDocNotes" class="muted profileDocNotes"></div>
+      </div>
+      <div class="docViewGrid">
+        <button class="docViewCard" id="viewPassport" type="button">
+          <div class="docViewPreview"><img id="profilePassport" alt="Ветпаспорт" hidden><span id="profilePassportFallback">📘</span></div>
+          <div><b>Ветпаспорт</b><span id="passportStatus">Не загружен</span></div>
+          <i>›</i>
+        </button>
+        <button class="docViewCard" id="viewPedigree" type="button">
+          <div class="docViewPreview"><img id="profilePedigree" alt="Родословная" hidden><span id="profilePedigreeFallback">📜</span></div>
+          <div><b>Родословная</b><span id="pedigreeStatus">Не загружена</span></div>
+          <i>›</i>
+        </button>
+      </div>
+      <button class="btn profileWideBtn" id="editDogDocs" type="button">✎ Редактировать документы</button>
+    </div>
+
+    <div class="profileTabPanel" id="profileTabParams">
+      <div class="profileSectionHead">
+        <div><b>Последние параметры</b><span class="muted">Последний сохранённый замер</span></div>
+        <button class="btn small alt" data-show="params" type="button">Все замеры</button>
+      </div>
+      <div class="latestParamsGrid" id="latestParamsGrid"></div>
+      <div class="card gearCard">
+        <div class="profileCardTitle">🎽 Амуниция и размеры</div>
+        <div id="profileGear" class="muted">Пока нет сохранённых размеров.</div>
+      </div>
+    </div>
+
+    <div class="profileTabPanel" id="profileTabHistory">
+      <div class="profileSectionHead">
+        <div><b>Последние записи</b><span class="muted">Все события по этой собаке</span></div>
+      </div>
+      <div id="profileHistoryList" class="historyList"></div>
+    </div>
+  </div>
+
+  <div id="dogEditorPanel" class="card dogEditorPanel" hidden>
+    <div class="profileSectionHead">
+      <div><b id="dogTitle">Новая собака</b><span class="muted">Основные данные и документы</span></div>
+      <button class="btn small alt" id="closeDogEditor" type="button">Закрыть</button>
+    </div>
+    <input id="dogId" type="hidden">
+    <div class="profilePhotoRow">
+      <div class="profilePreview"><img id="dogPhotoPreview" alt="Фото собаки" hidden><span id="dogPhotoFallback">🐕</span></div>
+      <div class="profilePhotoText"><b>Фото собаки</b><span class="muted">Одно основное фото</span><label class="photoBtn">＋ Выбрать фото<input id="dogPhoto" type="file" accept="image/*"></label></div>
+    </div>
+    <label>Кличка<input id="dogName" placeholder="Кличка"></label>
+    <div class="formgrid"><label>Порода<input id="dogBreed" placeholder="Порода"></label><label>Пол<select id="dogSex"><option>Сука</option><option>Кобель</option></select></label></div>
+    <div class="formgrid"><label>Дата рождения<input id="dogDob" type="date"></label><label>Вес, кг<input id="dogWeight" type="number" step="0.1"></label></div>
+    <label>Описание / заметки<textarea id="dogNotes" placeholder="Особенности, цели..."></textarea></label>
+
+    <div class="documentsBox">
+      <div class="sectionHead"><div><h3>📄 Документы</h3><span class="muted">Паспорт, родословная и идентификация</span></div></div>
+      <label>Номер чипа<input id="dogChip" inputmode="numeric" placeholder="Например: 64309810XXXXXXXXX"></label>
+      <div class="docGrid">
+        <div class="docCard"><div class="docPreview"><img id="passportPreview" alt="Фото паспорта" hidden><span id="passportFallback">📘</span></div><b>Паспорт</b><label class="photoBtn">＋ Добавить фото<input id="passportPhoto" type="file" accept="image/*"></label></div>
+        <div class="docCard"><div class="docPreview"><img id="pedigreePreview" alt="Фото родословной" hidden><span id="pedigreeFallback">📜</span></div><b>Родословная</b><label class="photoBtn">＋ Добавить фото<input id="pedigreePhoto" type="file" accept="image/*"></label></div>
+      </div>
+      <label>Дополнительно<textarea id="dogDocNotes" placeholder="Регистрационный номер, клуб, пометки по документам..."></textarea></label>
+    </div>
+
+    <div class="actions"><button class="btn" id="saveDog">Сохранить</button><button class="btn alt" id="clearDog">Очистить</button></div>
+  </div>
+
+  <div class="imageViewer" id="imageViewer" hidden>
+    <button id="closeImageViewer" type="button">×</button>
+    <img id="imageViewerImg" alt="Просмотр документа">
+  </div>
 </section>
 
 <section id="training" class="screen">
@@ -946,7 +1156,8 @@ function edit(type,rec){
  $("dogChip").value=rec.docs?.chip||"";$("dogDocNotes").value=rec.docs?.notes||"";
  if(rec.photo){$("dogPhotoPreview").src=rec.photo;$("dogPhotoPreview").hidden=false;$("dogPhotoFallback").style.display="none"}else{$("dogPhotoPreview").hidden=true;$("dogPhotoFallback").style.display="block"}
  setDocPreview("passportPreview","passportFallback",window._passportData);setDocPreview("pedigreePreview","pedigreeFallback",window._pedigreeData);
- show("dogs");return}
+ $("dogTitle").textContent="Редактирование профиля";$("dogEditorPanel").hidden=false;
+ show("dogs");setProfileTab("main");return}
  if(type==="training"){
    $("trId").value=rec.id||"";$("trDate").value=rec.date||today();$("trSlot").value=rec.slot||"Утро";$("trSlotCustom").value=rec.slotCustom||"";$("trName").value=rec.name||"";$("physicalRounds").value=rec.physicalRounds||1;$("commandRounds").value=rec.commandRounds||1;$("trNotes").value=rec.notes||"";
    toggleCustomSlot(); renderExerciseRows("physicalRows",rec.physical||[],"physical"); renderExerciseRows("commandRows",rec.commands||[],"command"); $("trainingFormTitle").textContent="Редактировать тренировку"; show("training"); return;
@@ -970,17 +1181,92 @@ function cardActions(type,rec){return `<div class="actions"><button class="btn s
 window.k9edit=edit;
 window.k9del=function(type,i){if(confirm("Удалить запись?")){const arr={dog:"dogs",training:"trainings",walk:"walks",params:"params",health:"health",food:"food",cycle:"cycles"}[type];remove(arr,i)}};
 
-function renderDogs(){
- const active=activeDogId();
- $("activeDogLabel").textContent=activeDog()?.name||"Нет профиля";
- $("dogList").innerHTML=db.dogs.length?db.dogs.map(d=>`<div class="dogSwitch ${d.id===active?"selected":""}">
-   <div class="dogSwitchMain">${d.photo?`<img src="${d.photo}" alt="">`:`<span class="dogSwitchAvatar">🐕</span>`}
-    <div><b>${esc(d.name)}</b><div class="muted">${esc(d.breed||"Порода не указана")} · ${esc(d.sex||"")}</div>${d.weight?`<small>${esc(d.weight)} кг</small>`:""}</div>
-   </div>
-   <div class="dogSwitchActions"><button class="btn small ${d.id===active?"":"alt"}" onclick='window.k9selectDog("${d.id}")'>${d.id===active?"✓ Активна":"Выбрать"}</button>
-   <button class="btn small alt" onclick='window.k9edit("dog",${JSON.stringify(d).replace(/</g,"\\u003c")})'>Изменить</button></div>
- </div>`).join(""):`<div class="empty">Пока нет профилей. Создай первого ниже.</div>`;
+function formatDateRu(v){
+ if(!v)return "—";
+ const d=new Date(v+"T00:00:00");
+ if(Number.isNaN(d.getTime()))return v;
+ return d.toLocaleDateString("ru-RU",{day:"numeric",month:"short",year:"numeric"}).replace(" г.","");
 }
+function setProfileTab(tab){
+ document.querySelectorAll(".profileTab").forEach(b=>b.classList.toggle("active",b.dataset.profileTab===tab));
+ document.querySelectorAll(".profileTabPanel").forEach(p=>p.classList.toggle("active",p.id==="profileTab"+tab.charAt(0).toUpperCase()+tab.slice(1)));
+}
+function openDogEditor(){
+ $("dogEditorPanel").hidden=false;
+ $("profileView").style.display="none";
+}
+function closeDogEditor(){
+ $("dogEditorPanel").hidden=true;
+ $("profileView").style.display="";
+}
+function renderDogs(){
+ const active=activeDog();
+ const activeId=active?.id||null;
+ $("activeDogLabel").textContent=active?.name||"Нет профиля";
+
+ $("dogList").innerHTML=db.dogs.length?db.dogs.map(d=>`<div class="dogSwitch ${d.id===activeId?"selected":""}">
+   <div class="dogSwitchMain">${d.photo?`<img src="${d.photo}" alt="">`:`<span class="dogSwitchAvatar">🐕</span>`}
+    <div><b>${esc(d.name||"Без имени")}</b><div class="muted">${esc(d.breed||"Порода не указана")} · ${esc(d.sex||"")}</div>${d.weight?`<small>${esc(d.weight)} кг</small>`:""}</div>
+   </div>
+   <div class="dogSwitchActions"><button class="btn small ${d.id===activeId?"":"alt"}" onclick='window.k9selectDog("${d.id}")'>${d.id===activeId?"✓":"Выбрать"}</button></div>
+ </div>`).join(""):`<div class="empty">Добавь первую собаку.</div>`;
+
+ $("profileEmpty").hidden=!!active;
+ $("profileView").style.display=active?"":"none";
+ if(!active)return;
+
+ $("profileHeroName").textContent=active.name||"Без имени";
+ $("profileHeroMeta").textContent=[active.breed||"Порода не указана",active.sex||""].filter(Boolean).join(" · ");
+ $("profileHeroTags").innerHTML=[
+   active.dob?`<span>🎂 ${esc(formatDateRu(active.dob))}</span>`:"",
+   active.weight?`<span>⚖️ ${esc(active.weight)} кг</span>`:"",
+   active.docs?.chip?`<span>🔢 Чип есть</span>`:""
+ ].filter(Boolean).join("");
+
+ const heroPhoto=$("profileHeroPhoto"),heroFallback=$("profileHeroFallback");
+ if(active.photo){heroPhoto.src=active.photo;heroPhoto.hidden=false;heroFallback.style.display="none"}else{heroPhoto.hidden=true;heroFallback.style.display="block"}
+
+ $("profileBreed").textContent=active.breed||"—";
+ $("profileSex").textContent=active.sex||"—";
+ $("profileDob").textContent=formatDateRu(active.dob);
+ $("profileWeight").textContent=active.weight?active.weight+" кг":"—";
+ $("profileNotes").textContent=active.notes||"Пока нет заметок.";
+
+ const trains=dogRecords("trainings"),walks=dogRecords("walks"),health=dogRecords("health"),food=dogRecords("food");
+ $("profileTrainCount").textContent=trains.length;
+ $("profileWalkCount").textContent=walks.length;
+ $("profileHealthCount").textContent=health.length;
+ $("profileFoodCount").textContent=food.length;
+
+ $("profileChip").textContent=active.docs?.chip||"Не указан";
+ $("profileDocNotes").textContent=active.docs?.notes||"";
+ const pp=active.docs?.passport||"", ped=active.docs?.pedigree||"";
+ setDocPreview("profilePassport","profilePassportFallback",pp);
+ setDocPreview("profilePedigree","profilePedigreeFallback",ped);
+ $("passportStatus").textContent=pp?"Открыть фото":"Не загружен";
+ $("pedigreeStatus").textContent=ped?"Открыть фото":"Не загружена";
+
+ const latest=dogRecords("params").slice().sort((a,b)=>String(b.date).localeCompare(String(a.date)))[0];
+ const lp=[
+  ["Вес",latest?.weight?latest.weight+" кг":"—"],
+  ["Холка",latest?.height?latest.height+" см":"—"],
+  ["Грудь",latest?.chest?latest.chest+" см":"—"],
+  ["Шея",latest?.neck?latest.neck+" см":"—"],
+  ["Спина",latest?.back?latest.back+" см":"—"]
+ ];
+ $("latestParamsGrid").innerHTML=lp.map(([n,v])=>`<div class="latestParam"><span>${n}</span><b>${esc(v)}</b></div>`).join("");
+ $("profileGear").textContent=latest?.gear||"Пока нет сохранённых размеров.";
+
+ const history=[];
+ trains.forEach(r=>history.push({date:r.date||"",icon:"📋",title:r.name||"Тренировка",sub:`${r.slot==="Другое"?(r.slotCustom||"Другое"):(r.slot||"Время не указано")}`,note:r.notes||""}));
+ walks.forEach(r=>history.push({date:r.date||"",icon:"🐾",title:"Прогулка",sub:`${r.min||0} мин`,note:r.notes||""}));
+ health.forEach(r=>history.push({date:r.date||"",icon:"🩺",title:r.name||"Запись здоровья",sub:r.type||"Здоровье",note:r.notes||""}));
+ food.forEach(r=>history.push({date:r.date||"",icon:"🥩",title:r.name||"Кормление",sub:[r.type,r.amount].filter(Boolean).join(" · "),note:r.notes||""}));
+ dogRecords("cycles").forEach(r=>history.push({date:r.start||"",icon:"🩸",title:"Цикл",sub:r.end?`${r.start} — ${r.end}`:"Начало",note:r.notes||""}));
+ history.sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+ $("profileHistoryList").innerHTML=history.length?history.slice(0,10).map(h=>`<div class="historyItem"><span class="historyIcon">${h.icon}</span><div><b>${esc(h.title)}</b><small>${esc(formatDateRu(h.date))}${h.sub?" · "+esc(h.sub):""}</small>${h.note?`<p>${esc(h.note)}</p>`:""}</div></div>`).join(""):`<div class="empty">История пока пустая.</div>`;
+}
+
 function renderSimple(id,arr,key,empty,type,fn){
  const el=$(id);if(!arr.length){el.innerHTML=`<div class="empty">${empty}</div>`;return}
  el.innerHTML=arr.slice().reverse().map(fn).join("");
@@ -1021,8 +1307,34 @@ function bindSave(btn,arr,fields,build,clearIds){
  $(btn).onclick=()=>{const obj=build();if(!obj)return;const i=obj.id?db[arr].findIndex(x=>x.id===obj.id):-1;if(i>=0)db[arr][i]=obj;else{obj.id=id();db[arr].push(obj)}save();clearIds.forEach(x=>{if($(x))$(x).value=""});};
 }
 window._dogPhotoData="";window._passportData="";window._pedigreeData="";
-window.k9selectDog=function(did){if(!db.dogs.some(d=>d.id===did))return;db.activeDogId=did;clearDogForm();save();show("home")};
-$("newDogBtn").onclick=()=>{clearDogForm();show("dogs")};
+window.k9selectDog=function(did){
+  if(!db.dogs.some(d=>d.id===did))return;
+  db.activeDogId=did;
+  clearDogForm();
+  closeDogEditor();
+  save();
+  show("dogs");
+  setProfileTab("main");
+};
+$("newDogBtn").onclick=()=>{
+  clearDogForm();
+  $("dogTitle").textContent="Новая собака";
+  openDogEditor();
+  show("dogs");
+};
+$("emptyNewDogBtn").onclick=()=>{$("newDogBtn").click()};
+$("editActiveDog").onclick=()=>{const d=activeDog();if(d)edit("dog",d)};
+$("editDogDocs").onclick=()=>{const d=activeDog();if(d){edit("dog",d);setTimeout(()=>setProfileTab("docs"),0)}};
+$("closeDogEditor").onclick=()=>{closeDogEditor();renderDogs()};
+document.querySelectorAll(".profileTab").forEach(b=>b.addEventListener("click",()=>setProfileTab(b.dataset.profileTab)));
+function openViewer(data){
+ if(!data){alert("Фото ещё не загружено.");return}
+ $("imageViewerImg").src=data;$("imageViewer").hidden=false;
+}
+$("viewPassport").onclick=()=>openViewer(activeDog()?.docs?.passport||"");
+$("viewPedigree").onclick=()=>openViewer(activeDog()?.docs?.pedigree||"");
+$("closeImageViewer").onclick=()=>$("imageViewer").hidden=true;
+$("imageViewer").onclick=e=>{if(e.target.id==="imageViewer")$("imageViewer").hidden=true};
 $("dogPhoto").onchange=e=>{const f=e.target.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>{window._dogPhotoData=r.result;$("dogPhotoPreview").src=r.result;$("dogPhotoPreview").hidden=false;$("dogPhotoFallback").style.display="none"};r.readAsDataURL(f)};
 $("saveDog").onclick=()=>{
  const name=$("dogName").value.trim();if(!name){alert("Укажи кличку");return}
@@ -1030,7 +1342,7 @@ $("saveDog").onclick=()=>{
  const i=oid?db.dogs.findIndex(x=>x.id===oid):-1;
  if(i>=0){obj.id=oid;db.dogs[i]=Object.assign({},db.dogs[i],obj)}
  else{obj.id=id();db.dogs.push(obj)}
- db.activeDogId=obj.id;save();clearDogForm();show("home");
+ db.activeDogId=obj.id;save();clearDogForm();closeDogEditor();show("dogs");setProfileTab("main");
 };
 $("saveTraining").onclick=()=>{
   if(!$("trName").value.trim() && !document.querySelector('#physicalRows input[data-field="name"]') && !document.querySelector('#commandRows input[data-field="name"]')){alert("Добавь название или хотя бы одно упражнение");return}
@@ -1095,7 +1407,7 @@ $("clearFood").onclick=()=>{["foodId","foodName","foodAmount","foodNotes"].forEa
 $("clearCycle").onclick=()=>{["cycleId","cycleEnd","cycleNotes"].forEach(x=>$(x).value="")};
 
 function downloadBackup(){
-  const payload={version:12,savedAt:new Date().toISOString(),data:db};
+  const payload={version:13,savedAt:new Date().toISOString(),data:db};
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="k9-training-log-backup-"+today()+".json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
@@ -1117,7 +1429,7 @@ $("restoreBtn").onclick=()=>{
 };
 $("importFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);const data=x?.data||x;if(!data||!Array.isArray(data.dogs)||!Array.isArray(data.trainings))throw 0;makeBackup();db=Object.assign(blank(),data);if(!db.activeDogId)db.activeDogId=db.dogs[0]?.id||null;localStorage.setItem(KEY,JSON.stringify(db));renderAll();updateBackupStatus();alert("Данные импортированы")}catch(_){alert("Не удалось импортировать файл")}};r.readAsText(f)};
 $("resetBtn").onclick=()=>{if(confirm("Удалить ВСЕ данные? Перед удалением будет сохранена автокопия.")){makeBackup();db=blank();localStorage.setItem(KEY,JSON.stringify(db));renderAll();updateBackupStatus()}};
-setDefaults();clearTrainingForm();clearDogForm();renderAll();updateBackupStatus();
+setDefaults();clearTrainingForm();clearDogForm();closeDogEditor();setProfileTab("main");renderAll();updateBackupStatus();
 })();
 </script>
 </body>
