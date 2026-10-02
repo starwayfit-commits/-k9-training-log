@@ -907,15 +907,23 @@ if(db.dogs.length){
   if(!db.activeDogId) db.activeDogId=firstDog;
 }
 
+function backupData(){
+  // Автокопия хранится без больших фотографий/сканов, чтобы не переполнять память Safari.
+  const copy=JSON.parse(JSON.stringify(db));
+  copy.dogs=(copy.dogs||[]).map(d=>({...d,photo:"",docs:{...(d.docs||{}),passport:"",pedigree:""}}));
+  return copy;
+}
 function makeBackup(){
-  try{localStorage.setItem(BACKUP_KEY,JSON.stringify({savedAt:new Date().toISOString(),data:db}))}catch(e){}
+  try{localStorage.setItem(BACKUP_KEY,JSON.stringify({savedAt:new Date().toISOString(),data:backupData()}))}catch(e){}
 }
 function save(){
   try{
-    makeBackup();
     localStorage.setItem(KEY,JSON.stringify(db));
-  }catch(e){alert("Не удалось сохранить данные. Сделай экспорт резервной копии.")}
-  renderAll()
+    makeBackup();
+  }catch(e){
+    alert("Не удалось сохранить данные. Похоже, память Safari переполнена. Удали старые/лишние фото документов или сделай экспорт.");
+  }
+  renderAll(); updateBackupStatus();
 }
 function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
 function $(x){return document.getElementById(x)}
@@ -1029,11 +1037,11 @@ $("saveTraining").onclick=()=>{
   const obj={id:$("trId").value,dogId:activeDogId(),date:$("trDate").value||today(),slot:$("trSlot").value,slotCustom:$("trSlotCustom").value.trim(),name:$("trName").value.trim()||"Тренировка",physical:collectExercises("physicalRows"),physicalRounds:Math.max(1,Number($("physicalRounds").value)||1),commands:collectExercises("commandRows"),commandRounds:Math.max(1,Number($("commandRounds").value)||1),notes:$("trNotes").value};
   const i=obj.id?db.trainings.findIndex(x=>x.id===obj.id):-1;if(i>=0)db.trainings[i]=obj;else{obj.id=id();db.trainings.push(obj)};save();clearTrainingForm();
 };
-bindSave("saveWalk","walks",[],()=>({id:$("walkId").value,date:$("walkDate").value||today(),min:$("walkMin").value,notes:$("walkNotes").value}),["walkId","walkMin","walkNotes"]);
-bindSave("saveParam","params",[],()=>({id:$("parId").value,date:$("parDate").value||today(),weight:$("parWeight").value,height:$("parHeight").value,chest:$("parChest").value,neck:$("parNeck").value,back:$("parBack").value,gear:$("parGear").value}),["parId","parWeight","parHeight","parChest","parNeck","parBack","parGear"]);
-bindSave("saveHealth","health",[],()=>{if(!$("healthName").value.trim()){alert("Укажи название");return null}return {id:$("healthId").value,date:$("healthDate").value||today(),type:$("healthType").value,name:$("healthName").value,notes:$("healthNotes").value}},["healthId","healthName","healthNotes"]);
-bindSave("saveFood","food",[],()=>{if(!$("foodName").value.trim()){alert("Укажи название");return null}return {id:$("foodId").value,date:$("foodDate").value||today(),type:$("foodType").value,name:$("foodName").value,amount:$("foodAmount").value,notes:$("foodNotes").value}},["foodId","foodName","foodAmount","foodNotes"]);
-bindSave("saveCycle","cycles",[],()=>({id:$("cycleId").value,start:$("cycleStart").value||today(),end:$("cycleEnd").value,notes:$("cycleNotes").value}),["cycleId","cycleStart","cycleEnd","cycleNotes"]);
+bindSave("saveWalk","walks",[],()=>({id:$("walkId").value,dogId:activeDogId(),date:$("walkDate").value||today(),min:$("walkMin").value,notes:$("walkNotes").value}),["walkId","walkMin","walkNotes"]);
+bindSave("saveParam","params",[],()=>({id:$("parId").value,dogId:activeDogId(),date:$("parDate").value||today(),weight:$("parWeight").value,height:$("parHeight").value,chest:$("parChest").value,neck:$("parNeck").value,back:$("parBack").value,gear:$("parGear").value}),["parId","parWeight","parHeight","parChest","parNeck","parBack","parGear"]);
+bindSave("saveHealth","health",[],()=>{if(!$("healthName").value.trim()){alert("Укажи название");return null}return {id:$("healthId").value,dogId:activeDogId(),date:$("healthDate").value||today(),type:$("healthType").value,name:$("healthName").value,notes:$("healthNotes").value}},["healthId","healthName","healthNotes"]);
+bindSave("saveFood","food",[],()=>{if(!$("foodName").value.trim()){alert("Укажи название");return null}return {id:$("foodId").value,dogId:activeDogId(),date:$("foodDate").value||today(),type:$("foodType").value,name:$("foodName").value,amount:$("foodAmount").value,notes:$("foodNotes").value}},["foodId","foodName","foodAmount","foodNotes"]);
+bindSave("saveCycle","cycles",[],()=>({id:$("cycleId").value,dogId:activeDogId(),start:$("cycleStart").value||today(),end:$("cycleEnd").value,notes:$("cycleNotes").value}),["cycleId","cycleStart","cycleEnd","cycleNotes"]);
 
 function toggleCustomSlot(){const isCustom=$("trSlot").value==="Другое";$("slotCustom").classList.toggle("show",isCustom)}
 $("trSlot").addEventListener("change",toggleCustomSlot);
@@ -1054,9 +1062,30 @@ function clearDogForm(){
  $("dogPhotoPreview").hidden=true;$("dogPhotoFallback").style.display="block";setDocPreview("passportPreview","passportFallback","");setDocPreview("pedigreePreview","pedigreeFallback","");
  $("dogTitle").textContent="Новая собака";
 }
-function readImage(input,cb){const f=input.files?.[0];if(!f)return;const r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(f)}
-$("passportPhoto").onchange=e=>readImage(e.target,v=>{window._passportData=v;setDocPreview("passportPreview","passportFallback",v)});
-$("pedigreePhoto").onchange=e=>readImage(e.target,v=>{window._pedigreeData=v;setDocPreview("pedigreePreview","pedigreeFallback",v)});
+function compressImage(file,maxSide=1600,quality=.76){
+ return new Promise((resolve,reject)=>{
+  if(!file||!file.type.startsWith("image/")){reject(new Error("not-image"));return}
+  const r=new FileReader();
+  r.onerror=()=>reject(r.error||new Error("read-error"));
+  r.onload=()=>{
+   const img=new Image();
+   img.onload=()=>{
+    const scale=Math.min(1,maxSide/Math.max(img.naturalWidth||img.width,img.naturalHeight||img.height));
+    const w=Math.max(1,Math.round((img.naturalWidth||img.width)*scale));
+    const h=Math.max(1,Math.round((img.naturalHeight||img.height)*scale));
+    const c=document.createElement("canvas");c.width=w;c.height=h;
+    const ctx=c.getContext("2d");ctx.fillStyle="#fff";ctx.fillRect(0,0,w,h);ctx.drawImage(img,0,0,w,h);
+    resolve(c.toDataURL("image/jpeg",quality));
+   };
+   img.onerror=()=>reject(new Error("decode-error"));img.src=r.result;
+  };
+  r.readAsDataURL(file);
+ });
+}
+function readImage(input,cb,maxSide=1600){const f=input.files?.[0];if(!f)return;compressImage(f,maxSide,.76).then(cb).catch(()=>{const r=new FileReader();r.onload=()=>cb(r.result);r.readAsDataURL(f)})}
+$("dogPhoto").onchange=e=>readImage(e.target,v=>{window._dogPhotoData=v;$("dogPhotoPreview").src=v;$("dogPhotoPreview").hidden=false;$("dogPhotoFallback").style.display="none"},1000);
+$("passportPhoto").onchange=e=>readImage(e.target,v=>{window._passportData=v;setDocPreview("passportPreview","passportFallback",v)},1600);
+$("pedigreePhoto").onchange=e=>readImage(e.target,v=>{window._pedigreeData=v;setDocPreview("pedigreePreview","pedigreeFallback",v)},1600);
 $("clearDog").onclick=clearDogForm;
 $("clearTraining").onclick=clearTrainingForm;
 $("clearWalk").onclick=()=>{["walkId","walkMin","walkNotes"].forEach(x=>$(x).value="")};
@@ -1066,7 +1095,7 @@ $("clearFood").onclick=()=>{["foodId","foodName","foodAmount","foodNotes"].forEa
 $("clearCycle").onclick=()=>{["cycleId","cycleEnd","cycleNotes"].forEach(x=>$(x).value="")};
 
 function downloadBackup(){
-  const payload={version:11,savedAt:new Date().toISOString(),data:db};
+  const payload={version:12,savedAt:new Date().toISOString(),data:db};
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="k9-training-log-backup-"+today()+".json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
