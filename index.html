@@ -260,6 +260,217 @@ a{color:#087FAE}
   .exercise-row{grid-template-columns:minmax(0,1.4fr) .65fr .85fr auto}
   .hero{min-height:116px}
 }
+
+/* v9 — visual design polish, functionality unchanged */
+:root{
+  --blue:#19A9DC;
+  --blue-strong:#0789BA;
+  --blue-dark:#103742;
+  --blue-soft:#E7F7FC;
+  --blue-pale:#F5FAFC;
+  --text:#14262D;
+  --muted:#718188;
+  --line:#DCE8EC;
+  --card:#FFFFFF;
+  --shadow:0 8px 28px rgba(16,55,66,.08);
+}
+
+/* Cleaner page rhythm */
+body{
+  background:
+    radial-gradient(circle at 100% 0%, rgba(25,169,220,.07), transparent 28rem),
+    var(--blue-pale);
+}
+main{padding:18px 15px 24px}
+
+/* More premium header */
+.top{
+  padding:28px 20px 26px;
+  background:
+    radial-gradient(circle at 94% 88%, rgba(67,196,240,.30) 0 14%, transparent 15%),
+    radial-gradient(circle at 78% 112%, rgba(31,154,199,.28) 0 21%, transparent 22%),
+    linear-gradient(145deg,#102B35 0%,#124A5A 48%,#118DB7 100%);
+}
+.top:after{display:none}
+.top h1{
+  font-size:30px;
+  letter-spacing:-1px;
+}
+.top p{
+  font-size:15px;
+  color:#E2F4F8;
+  max-width:590px;
+}
+
+/* Section titles */
+h2{
+  margin:7px 3px 15px;
+  font-size:26px;
+  letter-spacing:-.7px;
+}
+
+/* Cards feel lighter and more structured */
+.hero,.card,.tile{
+  border-radius:22px;
+  border-color:#DCE7EA;
+  box-shadow:0 7px 25px rgba(16,55,66,.065);
+}
+.card{
+  padding:18px;
+}
+.hero{
+  background:linear-gradient(135deg,#E5F8FD 0%,#D7EFF6 100%);
+}
+
+/* Home tiles */
+.grid{gap:11px}
+.tile{
+  min-height:104px;
+  padding:17px;
+  position:relative;
+  overflow:hidden;
+}
+.tile:after{
+  content:"";
+  position:absolute;
+  width:72px;height:72px;
+  right:-28px;bottom:-30px;
+  border-radius:50%;
+  background:rgba(25,169,220,.09);
+}
+.tile b{
+  font-size:18px;
+  letter-spacing:-.25px;
+}
+
+/* Softer labels and tags */
+.pill{
+  background:#DDF4FB;
+  color:#087EA9;
+  padding:8px 12px;
+}
+.tag{
+  background:#EFF8FB;
+  border:1px solid #E0EEF2;
+}
+
+/* Buttons */
+.btn{
+  border-radius:14px;
+  padding:12px 15px;
+  background:linear-gradient(180deg,#22B5E5,#129ECC);
+  box-shadow:0 5px 12px rgba(25,169,220,.20);
+}
+.btn.alt{
+  background:#EEF4F6;
+  border:1px solid #E1EAED;
+}
+
+/* Form controls */
+label{
+  font-size:13px;
+  letter-spacing:.05px;
+}
+input,select,textarea{
+  margin-top:6px;
+  padding:13px 13px;
+  min-height:48px;
+  border:1px solid #D5E2E6;
+  border-radius:14px;
+  background:#FBFDFE;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.8);
+}
+input:focus,select:focus,textarea:focus{
+  border-color:#2BB2E0;
+  box-shadow:0 0 0 4px rgba(43,178,224,.11);
+}
+
+/* Training blocks */
+.training-block{
+  border:1px solid #D9E8EC;
+  background:linear-gradient(180deg,#FCFEFF 0%,#F7FBFC 100%);
+  border-radius:20px;
+  padding:15px;
+  margin-top:12px;
+  box-shadow:0 4px 14px rgba(16,55,66,.035);
+}
+.sectionHead{
+  margin-bottom:12px;
+}
+.sectionHead h3{
+  font-size:19px;
+  letter-spacing:-.3px;
+}
+.exercise-row{
+  gap:8px;
+  padding:11px 0;
+}
+.exercise-row .xbtn{
+  width:42px;height:42px;
+  border-radius:13px;
+  background:#FFECEE;
+  color:#B24747;
+}
+.rounds .roundBadge{
+  padding:12px 13px;
+  background:#E6F7FC;
+  border:1px solid #D4EFF7;
+}
+
+/* Lists / stats */
+.stat{
+  background:linear-gradient(145deg,#F2FAFC,#EAF7FA);
+  border:1px solid #E0EEF1;
+}
+.item{
+  border-top-color:#EAF0F2;
+}
+
+/* Bottom navigation — more like a native iPhone app */
+.nav{
+  justify-content:space-around;
+  gap:0;
+  padding:8px 5px calc(8px + env(safe-area-inset-bottom));
+  background:rgba(255,255,255,.90);
+  border-top:1px solid rgba(215,227,231,.9);
+  box-shadow:0 -7px 24px rgba(16,55,66,.06);
+}
+.nav button{
+  flex:1 1 0;
+  min-width:64px;
+  max-width:104px;
+  min-height:52px;
+  padding:5px 3px;
+  border-radius:16px;
+  font-size:11px;
+  transition:background .15s ease, color .15s ease, transform .15s ease;
+}
+.nav button.active{
+  background:#E4F6FB;
+  color:#0785B3;
+}
+.nav button:active{transform:scale(.96)}
+.nav span{
+  font-size:20px;
+  margin-bottom:3px;
+}
+
+/* Keep the visual polish safe on narrow iPhones */
+@media (max-width:390px){
+  .top{padding-left:17px;padding-right:17px}
+  .top h1{font-size:27px}
+  main{padding-left:12px;padding-right:12px}
+  .card{padding:15px}
+  .grid{gap:8px}
+  .tile{padding:14px;min-height:98px}
+  .nav button{font-size:10px}
+}
+
+/* Prevent the iPhone status bar from visually competing with the title */
+@supports (padding-top: env(safe-area-inset-top)){
+  .top{padding-top:calc(20px + env(safe-area-inset-top))}
+}
+
 </style>
 
 <style>
