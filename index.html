@@ -1097,7 +1097,7 @@ h1,h2,h3,p,label,span,b{overflow-wrap:anywhere}
 </div>
 
 <div class="card">
-  <div class="training-history-head"><b>История тренировок</b><span class="muted" id="trCount"></span></div>
+  <div class="training-history-head"><b>История тренировок</b><div class="actions" style="margin:0"><span class="muted" id="trCount"></span><button class="btn small alt" id="newTrainingBtn" type="button">＋ Новая тренировка</button></div></div>
   <div class="training-filter">
     <input id="trSearch" placeholder="Поиск по названию или заметкам">
     <select id="trFilter"><option value="all">Все статусы</option><option value="Запланирована">Запланированные</option><option value="Выполнена">Выполненные</option><option value="Пропущена">Пропущенные</option></select>
@@ -1299,14 +1299,20 @@ function backupData(){
 function makeBackup(){
   try{localStorage.setItem(BACKUP_KEY,JSON.stringify({savedAt:new Date().toISOString(),data:backupData()}))}catch(e){}
 }
-function save(){
+function persist(){
   try{
     localStorage.setItem(KEY,JSON.stringify(db));
     makeBackup();
+    return true;
   }catch(e){
     alert("Не удалось сохранить данные. Похоже, память Safari переполнена. Удали старые/лишние фото документов или сделай экспорт.");
+    return false;
   }
+}
+function save(){
+  const ok=persist();
   renderAll(); updateBackupStatus();
+  return ok;
 }
 function id(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}
 function $(x){return document.getElementById(x)}
@@ -1652,9 +1658,56 @@ $("confirmCompletion").onclick=function(){
 };
 
 $("saveTraining").onclick=()=>{
-  if(!$("trName").value.trim() && !document.querySelector('#physicalRows input[data-field="name"]') && !document.querySelector('#commandRows input[data-field="name"]')){alert("Добавь название или хотя бы одно упражнение");return}
-  const obj={id:$("trId").value,dogId:activeDogId(),date:$("trDate").value||today(),slot:$("trSlot").value,slotCustom:$("trSlotCustom").value.trim(),name:$("trName").value.trim()||"Тренировка",status:$("trStatus").value||"Запланирована",physical:collectExercises("physicalRows"),physicalRounds:Math.max(1,Number($("physicalRounds").value)||1),commands:collectExercises("commandRows"),commandRounds:Math.max(1,Number($("commandRounds").value)||1),notes:$("trNotes").value};
-  const i=obj.id?db.trainings.findIndex(x=>x.id===obj.id):-1;if(i>=0)db.trainings[i]=obj;else{obj.id=id();db.trainings.push(obj)};const saveBtn=$("saveTraining");saveBtn.disabled=true;saveBtn.textContent="Сохраняю…";setTimeout(()=>{save();clearTrainingForm();saveBtn.disabled=false;saveBtn.classList.add("is-success");saveBtn.textContent="Сохранено ✓";showToast("Тренировка сохранена ✓");setTimeout(()=>{saveBtn.classList.remove("is-success");saveBtn.textContent="Сохранить тренировку"},800)},120);
+  const saveBtn=$("saveTraining");
+  if(saveBtn.dataset.saving==="1") return;
+  const hasName=$("trName").value.trim();
+  const hasPhysical=[...$("physicalRows").querySelectorAll('input[data-field="name"]')].some(i=>i.value.trim());
+  const hasCommand=[...$("commandRows").querySelectorAll('input[data-field="name"]')].some(i=>i.value.trim());
+  if(!hasName&&!hasPhysical&&!hasCommand){alert("Добавь название или хотя бы одно упражнение");return}
+  saveBtn.dataset.saving="1";
+  saveBtn.disabled=true;
+  saveBtn.classList.add("is-pressed");
+  saveBtn.textContent="Сохраняю…";
+
+  const obj={
+    id:$('trId').value,
+    dogId:activeDogId(),
+    date:$('trDate').value||today(),
+    slot:$('trSlot').value,
+    slotCustom:$('trSlotCustom').value.trim(),
+    name:hasName||"Тренировка",
+    status:$('trStatus').value||"Запланирована",
+    physical:collectExercises("physicalRows"),
+    physicalRounds:Math.max(1,Number($('physicalRounds').value)||1),
+    commands:collectExercises("commandRows"),
+    commandRounds:Math.max(1,Number($('commandRounds').value)||1),
+    notes:$('trNotes').value
+  };
+  const i=obj.id?db.trainings.findIndex(x=>x.id===obj.id):-1;
+  if(i>=0) db.trainings[i]=Object.assign({},db.trainings[i],obj);
+  else {obj.id=id();db.trainings.push(obj)}
+
+  const ok=persist();
+  if(ok){
+    clearTrainingForm();
+    renderAll();
+    updateBackupStatus();
+    saveBtn.classList.remove("is-pressed");
+    saveBtn.classList.add("is-success");
+    saveBtn.disabled=false;
+    saveBtn.dataset.saving="0";
+    saveBtn.textContent="Сохранено ✓";
+    showToast("Тренировка сохранена ✓");
+    setTimeout(()=>{
+      saveBtn.classList.remove("is-success");
+      saveBtn.textContent="Сохранить тренировку";
+    },900);
+  }else{
+    saveBtn.disabled=false;
+    saveBtn.dataset.saving="0";
+    saveBtn.classList.remove("is-pressed");
+    saveBtn.textContent="Сохранить тренировку";
+  }
 };
 bindSave("saveWalk","walks",[],()=>({id:$("walkId").value,dogId:activeDogId(),date:$("walkDate").value||today(),min:$("walkMin").value,notes:$("walkNotes").value}),["walkId","walkMin","walkNotes"]);
 bindSave("saveParam","params",[],()=>({id:$("parId").value,dogId:activeDogId(),date:$("parDate").value||today(),weight:$("parWeight").value,height:$("parHeight").value,chest:$("parChest").value,neck:$("parNeck").value,back:$("parBack").value,gear:$("parGear").value}),["parId","parWeight","parHeight","parChest","parNeck","parBack","parGear"]);
@@ -1738,6 +1791,7 @@ $("passportPhoto").onchange=e=>readImage(e.target,v=>{window._passportData=v;set
 $("pedigreePhoto").onchange=e=>readImage(e.target,v=>{window._pedigreeData=v;setDocPreview("pedigreePreview","pedigreeFallback",v)},1600);
 $("clearDog").onclick=clearDogForm;
 $("clearTraining").onclick=clearTrainingForm;
+$("newTrainingBtn").onclick=()=>{clearTrainingForm();show("training");window.scrollTo({top:0,behavior:"smooth"});$("trName").focus();showToast("Новая тренировка");};
 $("clearWalk").onclick=()=>{["walkId","walkMin","walkNotes"].forEach(x=>$(x).value="")};
 $("clearParam").onclick=()=>{["parId","parWeight","parHeight","parChest","parNeck","parBack","parGear"].forEach(x=>$(x).value="")};
 $("clearHealth").onclick=()=>{["healthId","healthName","healthNotes"].forEach(x=>$(x).value="")};
