@@ -1828,7 +1828,46 @@ function saveFoodPlan(){
   const feedings=collectFeedings();if(!feedings.length){alert("Добавь хотя бы одно кормление");return}
   const obj={id:$('foodId').value,dogId:activeDogId(),date:$('foodDate').value||today(),type:"Рацион",feedingType:getFoodType(),name,feedingsCount:feedings.length,feedings,amount:formatNum(feedings.flatMap(f=>f.items||[]).reduce((s,x)=>s+(Number(x.grams)||0),0))+" г",notes:$('foodNotes').value};
   const i=obj.id?db.food.findIndex(x=>x.id===obj.id):-1;if(i>=0)db.food[i]=obj;else{obj.id=id();db.food.push(obj)}
-  const btn=$("saveFood");btn.disabled=true;btn.textContent="Сохраняю…";setTimeout(()=>{save();clearFoodForm();btn.disabled=false;btn.classList.add("is-success");btn.textContent="Сохранено ✓";showToast("Рацион сохранён ✓");setTimeout(()=>{btn.classList.remove("is-success");btn.textContent="Сохранить рацион"},800)},120);
+
+  const btn=$("saveFood");
+  if(btn.disabled)return;
+  btn.disabled=true;
+  btn.classList.add("is-pressed");
+  btn.textContent="Сохраняю…";
+
+  // Даём iPhone/PWA отрисовать состояние кнопки до тяжёлого localStorage.
+  requestAnimationFrame(()=>{
+    setTimeout(()=>{
+      let ok=false;
+      try{
+        ok=persist();
+        if(ok){
+          // Не перерисовываем всё приложение: это могло подвешивать форму при редактировании.
+          renderFood();
+          renderHome();
+          updateBackupStatus();
+          clearFoodForm();
+        }
+      }catch(e){
+        ok=false;
+        console.error(e);
+      }
+      btn.disabled=false;
+      btn.classList.remove("is-pressed");
+      if(ok){
+        btn.classList.add("is-success");
+        btn.textContent="Сохранено ✓";
+        showToast("Рацион сохранён ✓");
+      }else{
+        btn.textContent="Повторить сохранение";
+        showToast("Не удалось сохранить рацион");
+      }
+      setTimeout(()=>{
+        btn.classList.remove("is-success");
+        btn.textContent="Сохранить рацион";
+      },1100);
+    },30);
+  });
 }
 $("saveFood").onclick=saveFoodPlan;
 
