@@ -1790,14 +1790,29 @@ bindSave("saveParam","params",[],()=>({id:$("parId").value,dogId:activeDogId(),d
 bindSave("saveHealth","health",[],()=>{if(!$("healthName").value.trim()){alert("Укажи название");return null}return {id:$("healthId").value,dogId:activeDogId(),date:$("healthDate").value||today(),type:$("healthType").value,name:$("healthName").value,notes:$("healthNotes").value}},["healthId","healthName","healthNotes"]);
 let currentFoodType="Корм";
 function getFoodType(){return currentFoodType}
-function setFoodType(type){currentFoodType=type==="Натуралка"?"Натуралка":"Корм";
-$("foodViewClose").onclick=()=>{closeFoodViewer();document.body.style.overflow=""};
-$("foodViewCloseBottom").onclick=()=>{closeFoodViewer();document.body.style.overflow=""};
-$("foodViewOverlay").addEventListener("click",e=>{if(e.target.id==="foodViewOverlay"){closeFoodViewer();document.body.style.overflow=""}});
-$("foodViewEdit").onclick=()=>{const rec=dogRecords("food").find(x=>x.id===viewedFoodId);if(rec){closeFoodViewer();document.body.style.overflow="";edit("food",rec)}};
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("foodViewOverlay").hidden){closeFoodViewer();document.body.style.overflow=""}});
+function setFoodType(type){
+ currentFoodType=type==="Натуралка"?"Натуралка":"Корм";
+ document.querySelectorAll(".foodTypeBtn").forEach(b=>b.classList.toggle("active",b.dataset.foodType===currentFoodType));
+}
 
-document.querySelectorAll(".foodTypeBtn").forEach(b=>b.classList.toggle("active",b.dataset.foodType===currentFoodType))}
+function closeFoodViewer(){
+ const o=$("foodViewOverlay");
+ if(!o)return;
+ o.hidden=true;
+ document.body.style.overflow="";
+ document.documentElement.style.overflow="";
+}
+
+function bindFoodViewer(){
+ const closeTop=$("foodViewClose"), closeBottom=$("foodViewCloseBottom"), overlay=$("foodViewOverlay"), editBtn=$("foodViewEdit");
+ if(closeTop) closeTop.onclick=(e)=>{e.preventDefault();e.stopPropagation();closeFoodViewer()};
+ if(closeBottom) closeBottom.onclick=(e)=>{e.preventDefault();e.stopPropagation();closeFoodViewer()};
+ if(overlay) overlay.onclick=(e)=>{if(e.target===overlay)closeFoodViewer()};
+ if(editBtn) editBtn.onclick=(e)=>{e.preventDefault();e.stopPropagation();const rec=dogRecords("food").find(x=>x.id===viewedFoodId);if(rec){closeFoodViewer();edit("food",rec)}};
+}
+
+bindFoodViewer();
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&!$("foodViewOverlay")?.hidden)closeFoodViewer()});
 function formatNum(n){const v=Math.round((Number(n)||0)*100)/100;return String(v).replace(".",",")}
 function foodItemHtml(item={}){return `<div class="foodItemRow"><input data-food="name" placeholder="${currentFoodType==="Корм"?"Название корма":"Продукт / ингредиент"}" value="${esc(item.name||"")}"><input data-food="grams" type="number" min="0" step="1" inputmode="decimal" placeholder="г" value="${esc(item.grams??"")}"><input data-food="supplement" placeholder="Витамины, БАДы…" value="${esc(item.supplement||"")}"><button class="xbtn" type="button" aria-label="Удалить продукт">×</button></div>`}
 function feedingHtml(feed={},index){const items=Array.isArray(feed.items)&&feed.items.length?feed.items:[{}];return `<div class="feedingCard" data-feeding-index="${index}"><div class="feedingHead"><label><span class="feedingTitle">Кормление ${index+1}</span><input data-feed="time" type="time" value="${esc(feed.time||"")}"></label><span class="feedingTotal" data-feed-total>0 г</span></div><div class="foodTableHead"><span>Продукт</span><span>Граммы</span><span>Добавки</span><span></span></div><div data-food-items>${items.map(foodItemHtml).join("")}</div><button type="button" class="addFoodItem" data-add-food-item>＋ Добавить продукт</button></div>`}
