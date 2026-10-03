@@ -224,6 +224,39 @@ textarea{min-height:80px}
 .training-summary span{background:#F5FAFC;border-radius:11px;padding:8px 9px;font-size:12px;color:#58717A}
 @media(max-width:390px){.training-filter{grid-template-columns:1fr}.exercise-row{grid-template-columns:minmax(0,1.35fr) .7fr .82fr auto;gap:5px}.exercise-row .xbtn{width:34px}.training-actions .btn{padding:8px 9px}}
 
+
+/* v15 — progress */
+.progressPeriod{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.progressPeriod select{margin:0}
+.progressStats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
+.progressStat{background:#F4FBFD;border:1px solid #DDECF0;border-radius:16px;padding:12px}
+.progressStat span{display:block;font-size:12px;color:#6E8188}
+.progressStat b{display:block;font-size:25px;letter-spacing:-.5px;margin-top:3px;color:#102B35}
+.progressStat small{display:block;color:#829198;margin-top:2px}
+.progressBarList{display:flex;align-items:flex-end;gap:7px;height:145px;padding:10px 2px 0;overflow-x:auto}
+.progressBarCol{min-width:27px;height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px}
+.progressBarValue{font-size:10px;color:#58717A;min-height:13px}
+.progressBar{width:22px;min-height:3px;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#28A9E0,#79CDEB)}
+.progressBarLabel{font-size:9px;color:#829198;white-space:nowrap}
+.progressLegend{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px;font-size:12px;color:#62757D}
+.progressDot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#28A9E0;margin-right:5px}
+.progressTabs{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-bottom:10px}
+.progressTab{border:0;border-radius:12px;padding:10px;background:#EDF3F5;color:#51666E;font-weight:800}
+.progressTab.active{background:#E1F6FC;color:#087FAE}
+.progressList{display:flex;flex-direction:column;gap:8px}
+.progressItem{border:1px solid #E0EAED;border-radius:14px;padding:11px;background:#FAFCFD}
+.progressItemTop{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.progressItemName{font-weight:800}
+.progressItemCount{color:#087FAE;font-weight:800;font-size:13px}
+.progressItemMeta{font-size:12px;color:#7A8A90;margin-top:4px}
+.progressHistory{margin-top:12px;border-top:1px solid #E6EEF1;padding-top:12px}
+.progressHistoryRow{display:flex;gap:9px;padding:9px 0;border-top:1px solid #EDF1F2}
+.progressHistoryRow:first-child{border-top:0;padding-top:0}
+.progressHistoryIcon{width:32px;height:32px;border-radius:10px;background:#E8F8FD;display:grid;place-items:center;flex:none}
+.progressHistoryRow b{font-size:13px}
+.progressHistoryRow small{display:block;color:#7A8A90;margin-top:2px}
+@media(max-width:390px){.progressStats{grid-template-columns:1fr 1fr}.progressBarList{gap:5px}.progressBarCol{min-width:25px}}
+
 /* Bottom navigation */
 .nav{
   position:fixed;
@@ -811,6 +844,7 @@ h1,h2,h3,p,label,span,b{overflow-wrap:anywhere}
  <div class="quickTitle"><b>Быстрый доступ</b><span class="muted">Основное</span></div>
  <div class="quickGrid">
   <button class="quickCard" data-show="training"><span>📋</span><div><b>Тренировка</b><small>Записать занятие</small></div><i>›</i></button>
+  <button class="quickCard" data-show="progress"><span>📈</span><div><b>Прогресс</b><small>Динамика тренировок</small></div><i>›</i></button>
   <button class="quickCard" data-show="walk"><span>🐾</span><div><b>Прогулка</b><small>Добавить прогулку</small></div><i>›</i></button>
   <button class="quickCard" data-show="health"><span>🩺</span><div><b>Здоровье</b><small>Новая запись</small></div><i>›</i></button>
   <button class="quickCard" data-show="food"><span>🥩</span><div><b>Кормление</b><small>Рацион и добавки</small></div><i>›</i></button>
@@ -971,7 +1005,7 @@ h1,h2,h3,p,label,span,b{overflow-wrap:anywhere}
 <section id="training" class="screen">
 <h2>📋 Тренировки</h2>
 <div class="card">
-  <div class="sectionHead"><b id="trainingFormTitle">Новая тренировка</b><span class="pill">План + факт</span></div>
+  <div class="sectionHead"><b id="trainingFormTitle">Новая тренировка</b><div class="actions" style="margin:0"><button class="btn small alt" data-show="progress">📈 Прогресс</button><span class="pill">План + факт</span></div></div>
   <input type="hidden" id="trId">
   <div class="formgrid">
     <label>Дата<input id="trDate" type="date"></label>
@@ -1015,6 +1049,39 @@ h1,h2,h3,p,label,span,b{overflow-wrap:anywhere}
   <div id="trainingList"></div>
 </div>
 </section>
+<section id="progress" class="screen">
+<h2>📈 Прогресс</h2>
+<div class="progressPeriod">
+  <select id="progressPeriod"><option value="7">Последние 7 дней</option><option value="30" selected>Последние 30 дней</option><option value="all">Всё время</option></select>
+  <select id="progressType"><option value="all">Все тренировки</option><option value="completed">Только выполненные</option></select>
+</div>
+<div class="card">
+  <div class="progressStats">
+    <div class="progressStat"><span>Тренировок</span><b id="pTotal">0</b><small>за выбранный период</small></div>
+    <div class="progressStat"><span>Выполнено</span><b id="pCompleted">0</b><small id="pCompletedSub">—</small></div>
+    <div class="progressStat"><span>Пропущено</span><b id="pSkipped">0</b><small>за период</small></div>
+    <div class="progressStat"><span>Выполнение</span><b id="pRate">—</b><small>доля выполненных</small></div>
+  </div>
+</div>
+<div class="card">
+  <div class="sectionHead"><b>Динамика по дням</b><span class="muted" id="pChartCaption">—</span></div>
+  <div id="progressBars" class="progressBarList"></div>
+  <div class="progressLegend"><span><i class="progressDot"></i>Количество тренировок</span></div>
+</div>
+<div class="card">
+  <div class="progressTabs">
+    <button class="progressTab active" data-progress-tab="commands">🎯 Команды</button>
+    <button class="progressTab" data-progress-tab="physical">💪 Физика</button>
+  </div>
+  <div id="progressTopList" class="progressList"></div>
+  <div id="progressHistory" class="progressHistory" hidden></div>
+</div>
+<div class="card" id="progressScoreCard">
+  <div class="sectionHead"><b>Оценки</b><span class="pill" id="pScoreCount">0</span></div>
+  <div class="row"><span class="muted">Средняя оценка по сохранённым тренировкам</span><b id="pAvgScore">—</b></div>
+</div>
+</section>
+
 <section id="walk" class="screen">
 <h2>🐾 Прогулки</h2>
 <div class="card"><b>Добавить прогулку</b><input type="hidden" id="walkId">
@@ -1331,7 +1398,88 @@ function renderHome(){
  if(upcoming){const slot=upcoming.slot==="Другое"?(upcoming.slotCustom||"Другое"):(upcoming.slot||"Время не указано");box.innerHTML=`<span class="nextIcon">📋</span><div><span class="muted">${esc(upcoming.date)} · ${esc(slot)}</span><b>${esc(upcoming.name||"Тренировка")}</b></div>`}
  else{box.innerHTML=`<span class="nextIcon">📋</span><div><span class="muted">Ближайшая тренировка</span><b>Пока не запланирована</b></div>`}
 }
-function renderAll(){renderDogs();renderTraining();renderWalk();renderParams();renderHealth();renderFood();renderCycle();renderHome()}
+let progressTab="commands";
+let progressSelected="";
+function progressDays(){
+ const v=$("progressPeriod")?.value||"30";
+ if(v==="all")return null;
+ return Math.max(1,Number(v)||30);
+}
+function progressTrainings(){
+ const all=dogRecords("trainings");
+ const days=progressDays();
+ const cutoff=days?new Date(Date.now()-(days-1)*86400000):null;
+ const type=$("progressType")?.value||"all";
+ return all.filter(r=>{
+   if(type==="completed"&&(r.status||"Запланирована")!=="Выполнена")return false;
+   if(!cutoff)return true;
+   const d=new Date((r.date||"")+"T23:59:59");
+   return !isNaN(d)&&d>=cutoff;
+ }).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+}
+function progressItems(records,kind){
+ const map=new Map();
+ records.forEach(r=>(r[kind]||[]).forEach(x=>{
+   const name=String(x.name||"").trim();if(!name)return;
+   const cur=map.get(name)||{name,count:0,qty:0,units:new Set(),dates:[]};
+   cur.count++; if(Number.isFinite(Number(x.qty)))cur.qty+=Number(x.qty); if(x.unit)cur.units.add(x.unit); if(r.date)cur.dates.push(r.date); map.set(name,cur);
+ }));
+ return [...map.values()].sort((a,b)=>b.count-a.count||b.qty-a.qty||a.name.localeCompare(b.name));
+}
+function renderProgressBars(records){
+ const el=$("progressBars");
+ const days=progressDays();
+ const span=days||Math.max(1,Math.min(60,records.length?30:7));
+ const end=new Date();end.setHours(23,59,59,999);
+ const start=new Date(end);start.setDate(end.getDate()-span+1);
+ const buckets={};
+ for(let i=0;i<span;i++){const d=new Date(start);d.setDate(start.getDate()+i);const k=d.toISOString().slice(0,10);buckets[k]=0}
+ records.forEach(r=>{if(buckets[r.date]!=null)buckets[r.date]++});
+ const vals=Object.values(buckets),max=Math.max(1,...vals);
+ const step=span>14?Math.ceil(span/14):1;
+ const keys=Object.keys(buckets).filter((_,i)=>i%step===0||i===span-1);
+ el.innerHTML=keys.map(k=>{const v=buckets[k]||0;const h=Math.max(3,Math.round(v/max*105));const d=new Date(k+"T12:00:00");const lab=span<=7?d.toLocaleDateString("ru-RU",{weekday:"short"}).replace(".",""):d.toLocaleDateString("ru-RU",{day:"2-digit",month:"2-digit"});return `<div class="progressBarCol"><span class="progressBarValue">${v||""}</span><div class="progressBar" style="height:${h}px"></div><span class="progressBarLabel">${esc(lab)}</span></div>`}).join("");
+ $("pChartCaption").textContent=days?`${days} дней`:`за всё время`; 
+}
+function renderProgressTop(records){
+ const kind=progressTab==="commands"?"commands":"physical";
+ const list=progressItems(records,kind);const el=$("progressTopList");
+ if(!list.length){el.innerHTML=`<div class="empty">Пока нет записанных ${kind==="commands"?"команд":"физических упражнений"}.</div>`;$("progressHistory").hidden=true;return}
+ el.innerHTML=list.slice(0,8).map((x,i)=>`<button class="progressItem" type="button" data-progress-item="${esc(x.name)}"><div class="progressItemTop"><span class="progressItemName">${i+1}. ${esc(x.name)}</span><span class="progressItemCount">${x.count} ${x.count===1?"занятие":"занятий"}</span></div><div class="progressItemMeta">${x.qty?`Суммарно: ${esc(x.qty)}${x.units.size===1?" "+esc([...x.units][0]):""}`:""} · Нажми, чтобы открыть историю</div></button>`).join("");
+ renderProgressHistory(records,progressSelected);
+}
+function renderProgressHistory(records,name){
+ const box=$("progressHistory");
+ if(!name){box.hidden=true;box.innerHTML="";return}
+ const kind=progressTab==="commands"?"commands":"physical";
+ const rows=records.filter(r=>(r[kind]||[]).some(x=>String(x.name||"").trim()===name));
+ if(!rows.length){box.hidden=true;return}
+ box.hidden=false;
+ box.innerHTML=`<div class="sectionHead"><b>История: ${esc(name)}</b><button class="btn small alt" id="clearProgressSelection">Закрыть</button></div>`+rows.slice(0,20).map(r=>{const x=(r[kind]||[]).find(x=>String(x.name||"").trim()===name);const slot=r.slot==="Другое"?(r.slotCustom||"Другое"):(r.slot||"");return `<div class="progressHistoryRow"><span class="progressHistoryIcon">${kind==="commands"?"🎯":"💪"}</span><div><b>${esc(formatDateRu(r.date||""))} · ${esc(r.name||"Тренировка")}</b><small>${esc(slot)}${x?.qty?` · ${esc(x.qty)} ${esc(x.unit||"раз")}`:""}</small></div></div>`}).join("");
+ $("clearProgressSelection").onclick=()=>{progressSelected="";renderProgress()};
+}
+function renderProgress(){
+ const records=progressTrainings();
+ const allPeriod=progressTrainings();
+ const completed=allPeriod.filter(r=>(r.status||"Запланирована")==="Выполнена").length;
+ const skipped=allPeriod.filter(r=>(r.status||"Запланирована")==="Пропущена").length;
+ $("pTotal").textContent=records.length;
+ $("pCompleted").textContent=completed;
+ $("pSkipped").textContent=skipped;
+ $("pCompletedSub").textContent=records.length?`${Math.round(completed/records.length*100)}% от всех`:"—";
+ $("pRate").textContent=records.length?Math.round(completed/records.length*100)+"%":"—";
+ const scores=records.map(x=>Number(x.score)).filter(Number.isFinite);
+ $("pScoreCount").textContent=scores.length;
+ $("pAvgScore").textContent=scores.length?(scores.reduce((a,b)=>a+b,0)/scores.length).toFixed(1):"—";
+ renderProgressBars(records);renderProgressTop(records);
+}
+function initProgress(){
+ $("progressPeriod").addEventListener("change",()=>{progressSelected="";renderProgress()});
+ $("progressType").addEventListener("change",()=>{progressSelected="";renderProgress()});
+ document.querySelectorAll("[data-progress-tab]").forEach(b=>b.addEventListener("click",()=>{progressTab=b.dataset.progressTab;progressSelected="";document.querySelectorAll("[data-progress-tab]").forEach(x=>x.classList.toggle("active",x===b));renderProgress()}));
+ $("progressTopList").addEventListener("click",e=>{const b=e.target.closest("[data-progress-item]");if(!b)return;progressSelected=b.dataset.progressItem;renderProgressHistory(progressTrainings(),progressSelected)});
+}
+function renderAll(){renderDogs();renderTraining();renderWalk();renderParams();renderHealth();renderFood();renderCycle();renderHome();renderProgress()}
 function bindSave(btn,arr,fields,build,clearIds){
  $(btn).onclick=()=>{const obj=build();if(!obj)return;const i=obj.id?db[arr].findIndex(x=>x.id===obj.id):-1;if(i>=0)db[arr][i]=obj;else{obj.id=id();db[arr].push(obj)}save();clearIds.forEach(x=>{if($(x))$(x).value=""});};
 }
@@ -1467,6 +1615,7 @@ $("restoreBtn").onclick=()=>{
 };
 $("importFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);const data=x?.data||x;if(!data||!Array.isArray(data.dogs)||!Array.isArray(data.trainings))throw 0;makeBackup();db=Object.assign(blank(),data);if(!db.activeDogId)db.activeDogId=db.dogs[0]?.id||null;localStorage.setItem(KEY,JSON.stringify(db));renderAll();updateBackupStatus();alert("Данные импортированы")}catch(_){alert("Не удалось импортировать файл")}};r.readAsText(f)};
 $("resetBtn").onclick=()=>{if(confirm("Удалить ВСЕ данные? Перед удалением будет сохранена автокопия.")){makeBackup();db=blank();localStorage.setItem(KEY,JSON.stringify(db));renderAll();updateBackupStatus()}};
+initProgress();
 setDefaults();clearTrainingForm();clearDogForm();closeDogEditor();setProfileTab("main");renderAll();updateBackupStatus();
 })();
 </script>
