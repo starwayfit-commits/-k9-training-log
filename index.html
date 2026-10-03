@@ -1688,25 +1688,35 @@ $("saveTraining").onclick=()=>{
   else {obj.id=id();db.trainings.push(obj)}
 
   const ok=persist();
-  if(ok){
-    clearTrainingForm();
-    renderAll();
-    updateBackupStatus();
-    saveBtn.classList.remove("is-pressed");
-    saveBtn.classList.add("is-success");
+  if(!ok){
     saveBtn.disabled=false;
     saveBtn.dataset.saving="0";
+    saveBtn.classList.remove("is-pressed");
+    saveBtn.textContent="Сохранить тренировку";
+    return;
+  }
+
+  // После сохранения не перерисовываем весь интерфейс: это могло оставлять кнопку
+  // в состоянии «Сохраняю…» на iPhone/PWA. Обновляем только нужные блоки.
+  try{
+    clearTrainingForm();
+    renderTraining();
+    renderHome();
+    renderProgress();
+    updateBackupStatus();
+  }catch(err){
+    console.error("K9: ошибка обновления после сохранения тренировки",err);
+  }finally{
+    saveBtn.disabled=false;
+    saveBtn.dataset.saving="0";
+    saveBtn.classList.remove("is-pressed");
+    saveBtn.classList.add("is-success");
     saveBtn.textContent="Сохранено ✓";
     showToast("Тренировка сохранена ✓");
     setTimeout(()=>{
       saveBtn.classList.remove("is-success");
       saveBtn.textContent="Сохранить тренировку";
     },900);
-  }else{
-    saveBtn.disabled=false;
-    saveBtn.dataset.saving="0";
-    saveBtn.classList.remove("is-pressed");
-    saveBtn.textContent="Сохранить тренировку";
   }
 };
 bindSave("saveWalk","walks",[],()=>({id:$("walkId").value,dogId:activeDogId(),date:$("walkDate").value||today(),min:$("walkMin").value,notes:$("walkNotes").value}),["walkId","walkMin","walkNotes"]);
