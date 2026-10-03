@@ -256,6 +256,24 @@ textarea{min-height:80px}
 .progressHistoryRow b{font-size:13px}
 .progressHistoryRow small{display:block;color:#7A8A90;margin-top:2px}
 @media(max-width:390px){.progressStats{grid-template-columns:1fr 1fr}.progressBarList{gap:5px}.progressBarCol{min-width:25px}}
+/* v16 — reliable progress chart + completion rating */
+.progressBarList{height:155px;display:flex;align-items:stretch;gap:6px;padding:12px 2px 2px;overflow-x:auto;border-top:1px solid #EDF3F5}
+.progressBarCol{min-width:30px;height:100%;display:grid;grid-template-rows:18px 1fr 22px;align-items:end;justify-items:center;gap:3px}
+.progressBarTrack{width:22px;height:100%;display:flex;align-items:flex-end;justify-content:center}
+.progressBar{width:22px;min-height:4px;border-radius:8px 8px 4px 4px;background:linear-gradient(180deg,#28A9E0,#79CDEB)}
+.progressBarZero{opacity:.22}
+.progressBarLabel{font-size:9px;color:#829198;white-space:nowrap}
+.completeBtn{margin-top:9px}
+.ratingBox{background:#F4FBFD;border:1px solid #DDECF0;border-radius:16px;padding:13px;margin-top:10px}
+.ratingRow{display:grid;grid-template-columns:1fr 110px;gap:10px;align-items:center}
+.ratingRow select{margin:0}
+#completionModal{position:fixed;inset:0;background:rgba(16,43,53,.46);z-index:1000;display:flex;align-items:flex-end;justify-content:center;padding:14px}
+#completionModal[hidden]{display:none}
+.completionSheet{width:min(560px,100%);background:#fff;border-radius:24px;padding:18px;box-shadow:0 20px 60px rgba(0,0,0,.25)}
+.completionSheet h3{margin:0 0 5px}
+.completionSheet .muted{margin-bottom:12px}
+@media(max-width:390px){.ratingRow{grid-template-columns:1fr 96px}}
+
 
 /* Bottom navigation */
 .nav{
@@ -1082,6 +1100,19 @@ h1,h2,h3,p,label,span,b{overflow-wrap:anywhere}
 </div>
 </section>
 
+
+<div id="completionModal" hidden>
+  <div class="completionSheet">
+    <div class="sectionHead"><h3>✅ Завершить тренировку</h3><button class="btn small alt" id="closeCompletion">Закрыть</button></div>
+    <div class="muted" id="completionTrainingName"></div>
+    <div class="ratingBox">
+      <div class="ratingRow"><div><b>Оценка тренировки</b><small class="muted" style="display:block;margin-top:3px">Поставь после занятия, от 0 до 10</small></div><select id="completionScore"><option value="">Без оценки</option><option>0</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option><option>6</option><option>7</option><option>8</option><option>9</option><option>10</option></select></div>
+    </div>
+    <label style="margin-top:12px">Итоги занятия<textarea id="completionNotes" placeholder="Что получилось, что не получилось, что изменить в следующий раз..."></textarea></label>
+    <div class="actions"><button class="btn" id="confirmCompletion">Завершить тренировку</button><button class="btn alt" id="cancelCompletion">Отмена</button></div>
+  </div>
+</div>
+
 <section id="walk" class="screen">
 <h2>🐾 Прогулки</h2>
 <div class="card"><b>Добавить прогулку</b><input type="hidden" id="walkId">
@@ -1374,7 +1405,7 @@ function renderTraining(){
     const physical=(r.physical||[]).filter(x=>x.name).map(x=>`<div class="exercise-mini"><strong>${esc(x.name)}</strong> · ${esc(x.qty||1)} ${esc(x.unit||"раз")}</div>`).join("");
     const commands=(r.commands||[]).filter(x=>x.name).map(x=>`<div class="exercise-mini"><strong>${esc(x.name)}</strong> · ${esc(x.qty||1)} ${esc(x.unit||"раз")}</div>`).join("");
     const pCount=(r.physical||[]).filter(x=>x.name).length,cCount=(r.commands||[]).filter(x=>x.name).length;
-    return `<div class="item"><div class="row"><b>${esc(r.name||"Тренировка")}</b><span class="pill">${esc(status)}</span></div><div class="sessionMeta"><span>📅 ${esc(formatDateRu(r.date||""))}</span><span>🕐 ${esc(slot)}</span></div><div class="training-summary"><span>💪 ${pCount?esc(pCount)+" упр." : "Нет физики"}${pCount?" · "+esc(r.physicalRounds||1)+" круг.":""}</span><span>🎯 ${cCount?esc(cCount)+" команд" : "Нет команд"}${cCount?" · "+esc(r.commandRounds||1)+" круг.":""}</span></div>${physical?`<div class="sessionSection"><b>💪 Физическая нагрузка</b>${physical}</div>`:""}${commands?`<div class="sessionSection"><b>🎯 Команды</b>${commands}</div>`:""}${r.notes?`<div class="training-total"><b>Итоги:</b><br>${esc(r.notes)}</div>`:""}<div class="training-actions"><button class="btn small alt" onclick='window.k9edit("training",${JSON.stringify(r).replace(/</g,"\u003c")})'>Изменить</button><button class="btn small alt" onclick='window.k9copyTraining("${r.id}")'>Копировать</button><button class="btn small danger" onclick='window.k9del("training","${r.id}")'>Удалить</button></div></div>`;
+    return `<div class="item"><div class="row"><b>${esc(r.name||"Тренировка")}</b><span class="pill">${esc(status)}</span></div><div class="sessionMeta"><span>📅 ${esc(formatDateRu(r.date||""))}</span><span>🕐 ${esc(slot)}</span></div><div class="training-summary"><span>💪 ${pCount?esc(pCount)+" упр." : "Нет физики"}${pCount?" · "+esc(r.physicalRounds||1)+" круг.":""}</span><span>🎯 ${cCount?esc(cCount)+" команд" : "Нет команд"}${cCount?" · "+esc(r.commandRounds||1)+" круг.":""}</span></div>${physical?`<div class="sessionSection"><b>💪 Физическая нагрузка</b>${physical}</div>`:""}${commands?`<div class="sessionSection"><b>🎯 Команды</b>${commands}</div>`:""}${r.notes?`<div class="training-total"><b>Итоги:</b><br>${esc(r.notes)}</div>`:""}${status!=="Выполнена"&&status!=="Пропущена"?`<button class="btn completeBtn" onclick='window.k9completeTraining("${r.id}")'>✅ Завершить занятие</button>`:""}<div class="training-actions"><button class="btn small alt" onclick='window.k9edit("training",${JSON.stringify(r).replace(/</g,"\u003c")})'>Изменить</button><button class="btn small alt" onclick='window.k9copyTraining("${r.id}")'>Копировать</button><button class="btn small danger" onclick='window.k9del("training","${r.id}")'>Удалить</button></div></div>`;
   });
 }
 function renderWalk(){renderSimple("walkList",dogRecords("walks"),"","Пока нет прогулок","walk",r=>`<div class="item"><b>${esc(r.date)}</b> · ${esc(r.min||0)} мин${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("walk",r)}</div>`)}
@@ -1430,17 +1461,18 @@ function renderProgressBars(records){
  const el=$("progressBars");
  const days=progressDays();
  const span=days||Math.max(1,Math.min(60,records.length?30:7));
- const end=new Date();end.setHours(23,59,59,999);
- const start=new Date(end);start.setDate(end.getDate()-span+1);
+ const end=new Date(); end.setHours(12,0,0,0);
+ const startDate=new Date(end); startDate.setDate(end.getDate()-span+1);
  const buckets={};
- for(let i=0;i<span;i++){const d=new Date(start);d.setDate(start.getDate()+i);const k=d.toISOString().slice(0,10);buckets[k]=0}
- records.forEach(r=>{if(buckets[r.date]!=null)buckets[r.date]++});
+ for(let i=0;i<span;i++){const d=new Date(startDate);d.setDate(startDate.getDate()+i);const k=localDateKey(d);buckets[k]=0}
+ records.forEach(r=>{const k=String(r.date||"").slice(0,10);if(Object.prototype.hasOwnProperty.call(buckets,k))buckets[k]++});
  const vals=Object.values(buckets),max=Math.max(1,...vals);
  const step=span>14?Math.ceil(span/14):1;
  const keys=Object.keys(buckets).filter((_,i)=>i%step===0||i===span-1);
- el.innerHTML=keys.map(k=>{const v=buckets[k]||0;const h=Math.max(3,Math.round(v/max*105));const d=new Date(k+"T12:00:00");const lab=span<=7?d.toLocaleDateString("ru-RU",{weekday:"short"}).replace(".",""):d.toLocaleDateString("ru-RU",{day:"2-digit",month:"2-digit"});return `<div class="progressBarCol"><span class="progressBarValue">${v||""}</span><div class="progressBar" style="height:${h}px"></div><span class="progressBarLabel">${esc(lab)}</span></div>`}).join("");
- $("pChartCaption").textContent=days?`${days} дней`:`за всё время`; 
+ el.innerHTML=keys.map(k=>{const v=buckets[k]||0;const h=v?Math.max(8,Math.round(v/max*105)):4;const d=new Date(k+"T12:00:00");const lab=span<=7?d.toLocaleDateString("ru-RU",{weekday:"short"}).replace(".",""):d.toLocaleDateString("ru-RU",{day:"2-digit",month:"2-digit"});return `<div class="progressBarCol"><span class="progressBarValue">${v||""}</span><div class="progressBarTrack"><div class="progressBar ${v?"":"progressBarZero"}" style="height:${h}px"></div></div><span class="progressBarLabel">${esc(lab)}</span></div>`}).join("");
+ $("pChartCaption").textContent=days?`${days} дней`:`за всё время`;
 }
+
 function renderProgressTop(records){
  const kind=progressTab==="commands"?"commands":"physical";
  const list=progressItems(records,kind);const el=$("progressTopList");
@@ -1521,6 +1553,28 @@ $("saveDog").onclick=()=>{
  else{obj.id=id();db.dogs.push(obj)}
  db.activeDogId=obj.id;save();clearDogForm();closeDogEditor();show("dogs");setProfileTab("main");
 };
+let completionTrainingId="";
+window.k9completeTraining=function(trainingId){
+ const rec=db.trainings.find(x=>x.id===trainingId); if(!rec)return;
+ completionTrainingId=trainingId;
+ $("completionTrainingName").textContent=`${rec.name||"Тренировка"} · ${formatDateRu(rec.date||"")}`;
+ $("completionScore").value=Number.isFinite(Number(rec.score))?String(rec.score):"";
+ $("completionNotes").value=rec.notes||"";
+ $("completionModal").hidden=false;
+};
+function closeCompletionModal(){completionTrainingId="";$("completionModal").hidden=true;}
+$("closeCompletion").onclick=closeCompletionModal;
+$("cancelCompletion").onclick=closeCompletionModal;
+$("completionModal").addEventListener("click",e=>{if(e.target.id==="completionModal")closeCompletionModal()});
+$("confirmCompletion").onclick=()=>{
+ const rec=db.trainings.find(x=>x.id===completionTrainingId); if(!rec)return;
+ rec.status="Выполнена";
+ const score=$("completionScore").value;
+ if(score==="") delete rec.score; else rec.score=Number(score);
+ rec.notes=$("completionNotes").value.trim();
+ save(); closeCompletionModal(); renderAll(); show("training");
+};
+
 $("saveTraining").onclick=()=>{
   if(!$("trName").value.trim() && !document.querySelector('#physicalRows input[data-field="name"]') && !document.querySelector('#commandRows input[data-field="name"]')){alert("Добавь название или хотя бы одно упражнение");return}
   const obj={id:$("trId").value,dogId:activeDogId(),date:$("trDate").value||today(),slot:$("trSlot").value,slotCustom:$("trSlotCustom").value.trim(),name:$("trName").value.trim()||"Тренировка",status:$("trStatus").value||"Запланирована",physical:collectExercises("physicalRows"),physicalRounds:Math.max(1,Number($("physicalRounds").value)||1),commands:collectExercises("commandRows"),commandRounds:Math.max(1,Number($("commandRounds").value)||1),notes:$("trNotes").value};
@@ -1544,7 +1598,7 @@ $("addCommand").onclick=()=>addExercise("commandRows","command");
 window.k9copyTraining=function(trainingId){
  const rec=db.trainings.find(x=>x.id===trainingId); if(!rec)return;
  const copy=JSON.parse(JSON.stringify(rec));
- copy.id=""; copy.dogId=activeDogId(); copy.date=today(); copy.status="Запланирована"; copy.name=(rec.name||"Тренировка")+" — копия";
+ copy.id=""; copy.dogId=activeDogId(); copy.date=today(); copy.status="Запланирована"; delete copy.score; copy.name=(rec.name||"Тренировка")+" — копия";
  $("trId").value="";$("trDate").value=copy.date;$("trSlot").value=copy.slot||"Утро";$("trSlotCustom").value=copy.slotCustom||"";$("trName").value=copy.name;$("trStatus").value=copy.status;$("physicalRounds").value=copy.physicalRounds||1;$("commandRounds").value=copy.commandRounds||1;$("trNotes").value="";
  toggleCustomSlot();renderExerciseRows("physicalRows",copy.physical||[],"physical");renderExerciseRows("commandRows",copy.commands||[],"command");$("trainingFormTitle").textContent="Новая тренировка — копия";show("training");window.scrollTo(0,0);
 };
