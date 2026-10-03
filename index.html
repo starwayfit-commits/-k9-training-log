@@ -213,6 +213,16 @@ textarea{min-height:80px}
 .exercise-mini:first-child{border-top:0}
 .exercise-mini strong{font-weight:750}
 .training-total{background:#E8F8FD;border-radius:13px;padding:10px;margin-top:10px}
+.training-status{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0 2px}
+.training-status select{margin:0;max-width:210px}
+.training-history-head{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.training-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+.training-actions .btn{min-width:0}
+.training-filter{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.training-filter input,.training-filter select{margin-top:0}
+.training-summary{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:9px}
+.training-summary span{background:#F5FAFC;border-radius:11px;padding:8px 9px;font-size:12px;color:#58717A}
+@media(max-width:390px){.training-filter{grid-template-columns:1fr}.exercise-row{grid-template-columns:minmax(0,1.35fr) .7fr .82fr auto;gap:5px}.exercise-row .xbtn{width:34px}.training-actions .btn{padding:8px 9px}}
 
 /* Bottom navigation */
 .nav{
@@ -976,6 +986,9 @@ h1,h2,h3,p,label,span,b{overflow-wrap:anywhere}
   </div>
   <div id="slotCustom" class="slotCustom"><label>Свое название времени<input id="trSlotCustom" placeholder="Например: перед сном"></label></div>
   <label>Название тренировки<input id="trName" placeholder="Например: база + апорт"></label>
+  <div class="training-status">
+    <label style="margin:0;flex:1;min-width:180px">Статус<select id="trStatus"><option value="Запланирована">Запланирована</option><option value="Выполнена">Выполнена</option><option value="Пропущена">Пропущена</option></select></label>
+  </div>
 
   <div class="training-block">
     <div class="sectionHead"><h3>💪 Физическая нагрузка</h3><button class="btn small alt" id="addPhysical" type="button">＋ Добавить</button></div>
@@ -989,11 +1002,18 @@ h1,h2,h3,p,label,span,b{overflow-wrap:anywhere}
     <div class="rounds"><label>Круги<input id="commandRounds" type="number" min="1" step="1" value="1"></label><span class="roundBadge">круг(а)</span></div>
   </div>
 
-  <label>Заметки / итоги<textarea id="trNotes" placeholder="Что получилось, что изменить в следующий раз, состояние собаки..." ></textarea></label>
+  <label>Заметки / итоги<textarea id="trNotes" placeholder="Что получилось, что изменить в следующий раз, состояние собаки..."></textarea></label>
   <div class="actions"><button class="btn" id="saveTraining">Сохранить тренировку</button><button class="btn alt" id="clearTraining">Очистить</button></div>
 </div>
 
-<div class="card"><div class="row"><b>История тренировок</b><span class="muted" id="trCount"></span></div><div id="trainingList"></div></div>
+<div class="card">
+  <div class="training-history-head"><b>История тренировок</b><span class="muted" id="trCount"></span></div>
+  <div class="training-filter">
+    <input id="trSearch" placeholder="Поиск по названию или заметкам">
+    <select id="trFilter"><option value="all">Все статусы</option><option value="Запланирована">Запланированные</option><option value="Выполнена">Выполненные</option><option value="Пропущена">Пропущенные</option></select>
+  </div>
+  <div id="trainingList"></div>
+</div>
 </section>
 <section id="walk" class="screen">
 <h2>🐾 Прогулки</h2>
@@ -1086,7 +1106,7 @@ function migrateOld(x){
   base.cycles=Array.isArray(x.cycles)?x.cycles:[];
   base.trainings=(Array.isArray(x.trainings)?x.trainings:[]).map(r=>({
     id:r.id||id(),date:r.date||today(),slot:"Другое",slotCustom:"",name:r.name||"Тренировка",
-    physical:[],physicalRounds:1,commands:r.exercise?[{name:r.exercise,qty:r.reps||r.repeat||r.score||1,unit:"раз"}]:[],commandRounds:1,notes:r.notes||r.criteria||""
+    status:"Выполнена",physical:[],physicalRounds:1,commands:r.exercise?[{name:r.exercise,qty:r.reps||r.repeat||r.score||1,unit:"раз"}]:[],commandRounds:1,notes:r.notes||r.criteria||""
   }));
   return base;
 }
@@ -1159,7 +1179,7 @@ function edit(type,rec){
  $("dogTitle").textContent="Редактирование профиля";$("dogEditorPanel").hidden=false;
  show("dogs");setProfileTab("main");return}
  if(type==="training"){
-   $("trId").value=rec.id||"";$("trDate").value=rec.date||today();$("trSlot").value=rec.slot||"Утро";$("trSlotCustom").value=rec.slotCustom||"";$("trName").value=rec.name||"";$("physicalRounds").value=rec.physicalRounds||1;$("commandRounds").value=rec.commandRounds||1;$("trNotes").value=rec.notes||"";
+   $("trId").value=rec.id||"";$("trDate").value=rec.date||today();$("trSlot").value=rec.slot||"Утро";$("trSlotCustom").value=rec.slotCustom||"";$("trName").value=rec.name||"";$("trStatus").value=rec.status||"Запланирована";$("physicalRounds").value=rec.physicalRounds||1;$("commandRounds").value=rec.commandRounds||1;$("trNotes").value=rec.notes||"";
    toggleCustomSlot(); renderExerciseRows("physicalRows",rec.physical||[],"physical"); renderExerciseRows("commandRows",rec.commands||[],"command"); $("trainingFormTitle").textContent="Редактировать тренировку"; show("training"); return;
  }
  if(type==="walk"){$("walkId").value=rec.id;$('walkDate').value=rec.date||today();$('walkMin').value=rec.min||"";$('walkNotes').value=rec.notes||"";show("walk")}
@@ -1272,13 +1292,22 @@ function renderSimple(id,arr,key,empty,type,fn){
  el.innerHTML=arr.slice().reverse().map(fn).join("");
 }
 function renderTraining(){
- const rows=dogRecords("trainings");
- $("trCount").textContent=rows.length+" записей";
- renderSimple("trainingList",rows,"","Пока нет тренировок","training",r=>{
+ const all=dogRecords("trainings");
+ const q=( $("trSearch")?.value || "" ).trim().toLowerCase();
+ const filter=$("trFilter")?.value||"all";
+ const rows=all.filter(r=>{
+   const status=r.status||"Запланирована";
+   const hay=[r.name,r.notes,r.slot,r.slotCustom,status,...(r.physical||[]).flatMap(x=>[x.name,x.qty,x.unit]),...(r.commands||[]).flatMap(x=>[x.name,x.qty,x.unit])].join(" ").toLowerCase();
+   return (filter==="all"||status===filter) && (!q||hay.includes(q));
+ }).sort((a,b)=>String(b.date).localeCompare(String(a.date)));
+ $("trCount").textContent=`${rows.length} из ${all.length}`;
+ renderSimple("trainingList",rows,"",all.length?"По этому фильтру ничего не найдено":"Пока нет тренировок","training",r=>{
     const slot=r.slot==="Другое"?(r.slotCustom||"Другое"):(r.slot||"Время не указано");
+    const status=r.status||"Запланирована";
     const physical=(r.physical||[]).filter(x=>x.name).map(x=>`<div class="exercise-mini"><strong>${esc(x.name)}</strong> · ${esc(x.qty||1)} ${esc(x.unit||"раз")}</div>`).join("");
     const commands=(r.commands||[]).filter(x=>x.name).map(x=>`<div class="exercise-mini"><strong>${esc(x.name)}</strong> · ${esc(x.qty||1)} ${esc(x.unit||"раз")}</div>`).join("");
-    return `<div class="item"><div class="row"><b>${esc(r.name||"Тренировка")}</b><span class="pill">${esc(r.date||"")}</span></div><div class="sessionMeta"><span>🕐 ${esc(slot)}</span>${physical?`<span>💪 ${esc(r.physicalRounds||1)} круг.</span>`:""}${commands?`<span>🎯 ${esc(r.commandRounds||1)} круг.</span>`:""}</div>${physical?`<div class="sessionSection"><b>💪 Физическая нагрузка</b>${physical}</div>`:""}${commands?`<div class="sessionSection"><b>🎯 Команды</b>${commands}</div>`:""}${r.notes?`<div class="training-total"><b>Итоги:</b><br>${esc(r.notes)}</div>`:""}${cardActions("training",r)}</div>`;
+    const pCount=(r.physical||[]).filter(x=>x.name).length,cCount=(r.commands||[]).filter(x=>x.name).length;
+    return `<div class="item"><div class="row"><b>${esc(r.name||"Тренировка")}</b><span class="pill">${esc(status)}</span></div><div class="sessionMeta"><span>📅 ${esc(formatDateRu(r.date||""))}</span><span>🕐 ${esc(slot)}</span></div><div class="training-summary"><span>💪 ${pCount?esc(pCount)+" упр." : "Нет физики"}${pCount?" · "+esc(r.physicalRounds||1)+" круг.":""}</span><span>🎯 ${cCount?esc(cCount)+" команд" : "Нет команд"}${cCount?" · "+esc(r.commandRounds||1)+" круг.":""}</span></div>${physical?`<div class="sessionSection"><b>💪 Физическая нагрузка</b>${physical}</div>`:""}${commands?`<div class="sessionSection"><b>🎯 Команды</b>${commands}</div>`:""}${r.notes?`<div class="training-total"><b>Итоги:</b><br>${esc(r.notes)}</div>`:""}<div class="training-actions"><button class="btn small alt" onclick='window.k9edit("training",${JSON.stringify(r).replace(/</g,"\u003c")})'>Изменить</button><button class="btn small alt" onclick='window.k9copyTraining("${r.id}")'>Копировать</button><button class="btn small danger" onclick='window.k9del("training","${r.id}")'>Удалить</button></div></div>`;
   });
 }
 function renderWalk(){renderSimple("walkList",dogRecords("walks"),"","Пока нет прогулок","walk",r=>`<div class="item"><b>${esc(r.date)}</b> · ${esc(r.min||0)} мин${r.notes?`<p class="muted">${esc(r.notes)}</p>`:""}${cardActions("walk",r)}</div>`)}
@@ -1346,7 +1375,7 @@ $("saveDog").onclick=()=>{
 };
 $("saveTraining").onclick=()=>{
   if(!$("trName").value.trim() && !document.querySelector('#physicalRows input[data-field="name"]') && !document.querySelector('#commandRows input[data-field="name"]')){alert("Добавь название или хотя бы одно упражнение");return}
-  const obj={id:$("trId").value,dogId:activeDogId(),date:$("trDate").value||today(),slot:$("trSlot").value,slotCustom:$("trSlotCustom").value.trim(),name:$("trName").value.trim()||"Тренировка",physical:collectExercises("physicalRows"),physicalRounds:Math.max(1,Number($("physicalRounds").value)||1),commands:collectExercises("commandRows"),commandRounds:Math.max(1,Number($("commandRounds").value)||1),notes:$("trNotes").value};
+  const obj={id:$("trId").value,dogId:activeDogId(),date:$("trDate").value||today(),slot:$("trSlot").value,slotCustom:$("trSlotCustom").value.trim(),name:$("trName").value.trim()||"Тренировка",status:$("trStatus").value||"Запланирована",physical:collectExercises("physicalRows"),physicalRounds:Math.max(1,Number($("physicalRounds").value)||1),commands:collectExercises("commandRows"),commandRounds:Math.max(1,Number($("commandRounds").value)||1),notes:$("trNotes").value};
   const i=obj.id?db.trainings.findIndex(x=>x.id===obj.id):-1;if(i>=0)db.trainings[i]=obj;else{obj.id=id();db.trainings.push(obj)};save();clearTrainingForm();
 };
 bindSave("saveWalk","walks",[],()=>({id:$("walkId").value,dogId:activeDogId(),date:$("walkDate").value||today(),min:$("walkMin").value,notes:$("walkNotes").value}),["walkId","walkMin","walkNotes"]);
@@ -1364,7 +1393,16 @@ function collectExercises(id){return [...$(id).querySelectorAll(".exercise-row")
 $("addPhysical").onclick=()=>addExercise("physicalRows","physical");
 $("addCommand").onclick=()=>addExercise("commandRows","command");
 ["physicalRows","commandRows"].forEach(id=>$(id).addEventListener("click",e=>{if(e.target.classList.contains("xbtn")){const rows=$(id).querySelectorAll(".exercise-row");if(rows.length>1)e.target.closest(".exercise-row").remove()}}));
-function clearTrainingForm(){["trId","trName","trSlotCustom","trNotes"].forEach(x=>$(x).value="");$("trDate").value=today();$("trSlot").value="Утро";$("physicalRounds").value=1;$("commandRounds").value=1;$("trainingFormTitle").textContent="Новая тренировка";toggleCustomSlot();renderExerciseRows("physicalRows",[],"physical");renderExerciseRows("commandRows",[],"command")}
+window.k9copyTraining=function(trainingId){
+ const rec=db.trainings.find(x=>x.id===trainingId); if(!rec)return;
+ const copy=JSON.parse(JSON.stringify(rec));
+ copy.id=""; copy.dogId=activeDogId(); copy.date=today(); copy.status="Запланирована"; copy.name=(rec.name||"Тренировка")+" — копия";
+ $("trId").value="";$("trDate").value=copy.date;$("trSlot").value=copy.slot||"Утро";$("trSlotCustom").value=copy.slotCustom||"";$("trName").value=copy.name;$("trStatus").value=copy.status;$("physicalRounds").value=copy.physicalRounds||1;$("commandRounds").value=copy.commandRounds||1;$("trNotes").value="";
+ toggleCustomSlot();renderExerciseRows("physicalRows",copy.physical||[],"physical");renderExerciseRows("commandRows",copy.commands||[],"command");$("trainingFormTitle").textContent="Новая тренировка — копия";show("training");window.scrollTo(0,0);
+};
+$("trSearch").addEventListener("input",renderTraining);
+$("trFilter").addEventListener("change",renderTraining);
+function clearTrainingForm(){["trId","trName","trSlotCustom","trNotes"].forEach(x=>$(x).value="");$("trDate").value=today();$("trSlot").value="Утро";$("trStatus").value="Запланирована";$("physicalRounds").value=1;$("commandRounds").value=1;$("trainingFormTitle").textContent="Новая тренировка";toggleCustomSlot();renderExerciseRows("physicalRows",[],"physical");renderExerciseRows("commandRows",[],"command")}
 function setDefaults(){["trDate","walkDate","parDate","healthDate","foodDate","cycleStart"].forEach(x=>{if($(x))$(x).value=today()})}
 function setDocPreview(imgId,fallbackId,data){const im=$(imgId),fb=$(fallbackId);if(data){im.src=data;im.hidden=false;fb.style.display="none"}else{im.hidden=true;fb.style.display="block"}}
 function clearDogForm(){
