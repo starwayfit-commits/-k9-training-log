@@ -131,6 +131,16 @@ h3{letter-spacing:-.2px}
   cursor:pointer;
 }
 .btn:active{transform:translateY(1px)}
+/* v18 — живой отклик кнопок на iPhone */
+.btn{transition:transform .09s ease,filter .09s ease,box-shadow .12s ease,opacity .12s ease}
+.btn.is-pressed{transform:translateY(2px) scale(.985);filter:brightness(.92);box-shadow:0 1px 4px rgba(16,43,53,.16)!important}
+.btn.is-success{background:linear-gradient(180deg,#42D46B,#27B956)!important;color:#fff!important;box-shadow:0 4px 12px rgba(52,199,89,.22)!important}
+.btn:disabled{opacity:.68;cursor:default}
+.exercise-row.added-row{animation:rowAdded .38s ease}
+@keyframes rowAdded{0%{background:#DDF7FF;transform:translateY(-3px)}100%{background:transparent;transform:none}}
+.k9-toast{position:fixed;left:50%;bottom:calc(82px + env(safe-area-inset-bottom));transform:translate(-50%,12px);z-index:2000;background:#102B35;color:#fff;padding:11px 15px;border-radius:999px;font-weight:800;font-size:13px;box-shadow:0 8px 24px rgba(16,43,53,.22);opacity:0;pointer-events:none;transition:opacity .18s ease,transform .18s ease;white-space:nowrap;max-width:calc(100vw - 32px);overflow:hidden;text-overflow:ellipsis}
+.k9-toast.show{opacity:1;transform:translate(-50%,0)}
+
 .btn.alt{background:#EDF3F5;color:#29414A;box-shadow:none}
 .btn.danger{background:#FFE5E5;color:#A63A3A;box-shadow:none}
 .btn.small{padding:8px 10px;font-size:12px}
@@ -226,6 +236,7 @@ textarea{min-height:80px}
 
 
 /* v15 — progress */
+/* v18 — button feedback and completion UX */
 .progressPeriod{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
 .progressPeriod select{margin:0}
 .progressStats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}
@@ -837,6 +848,7 @@ h1,h2,h3,p,label,span,b{overflow-wrap:anywhere}
 </head>
 <body>
 <div class="app">
+<div id="k9Toast" class="k9-toast" aria-live="polite"></div>
 <header class="top"><h1>🐾 K9 Training Log</h1><p>Тренировки · здоровье · кормление · цикл · прогулки</p></header>
 <main>
 <section id="home" class="screen active">
@@ -1192,7 +1204,6 @@ const OLD_KEY="k9_training_log_v6";
 const OLD_KEY2="k9_training_log_v5";
 const BACKUP_KEY="k9_training_log_autobackup_v7";
 const today=()=>new Date().toISOString().slice(0,10);
-const localDateKey=(d)=>{const x=new Date(d);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`};
 const blank=()=>({activeDogId:null,dogs:[],trainings:[],walks:[],params:[],health:[],food:[],cycles:[]});
 function migrateOld(x){
   const base=blank();
@@ -1567,19 +1578,29 @@ function closeCompletionModal(){completionTrainingId="";$("completionModal").hid
 $("closeCompletion").onclick=closeCompletionModal;
 $("cancelCompletion").onclick=closeCompletionModal;
 $("completionModal").addEventListener("click",e=>{if(e.target.id==="completionModal")closeCompletionModal()});
-$("confirmCompletion").onclick=()=>{
+$("confirmCompletion").onclick=function(){
  const rec=db.trainings.find(x=>x.id===completionTrainingId); if(!rec)return;
+ const btn=this;
  rec.status="Выполнена";
  const score=$("completionScore").value;
  if(score==="") delete rec.score; else rec.score=Number(score);
  rec.notes=$("completionNotes").value.trim();
- save(); closeCompletionModal(); renderAll(); show("training");
+ btn.disabled=true;btn.classList.add("is-pressed");btn.textContent="Сохраняю…";
+ setTimeout(()=>{
+   save();
+   closeCompletionModal();
+   renderAll();
+   show("training");
+   btn.disabled=false;btn.classList.remove("is-pressed");btn.textContent="Сохранено ✓";
+   showToast("Тренировка завершена и сохранена ✓");
+   setTimeout(()=>{btn.textContent="Завершить тренировку";},800);
+ },120);
 };
 
 $("saveTraining").onclick=()=>{
   if(!$("trName").value.trim() && !document.querySelector('#physicalRows input[data-field="name"]') && !document.querySelector('#commandRows input[data-field="name"]')){alert("Добавь название или хотя бы одно упражнение");return}
   const obj={id:$("trId").value,dogId:activeDogId(),date:$("trDate").value||today(),slot:$("trSlot").value,slotCustom:$("trSlotCustom").value.trim(),name:$("trName").value.trim()||"Тренировка",status:$("trStatus").value||"Запланирована",physical:collectExercises("physicalRows"),physicalRounds:Math.max(1,Number($("physicalRounds").value)||1),commands:collectExercises("commandRows"),commandRounds:Math.max(1,Number($("commandRounds").value)||1),notes:$("trNotes").value};
-  const i=obj.id?db.trainings.findIndex(x=>x.id===obj.id):-1;if(i>=0)db.trainings[i]=obj;else{obj.id=id();db.trainings.push(obj)};save();clearTrainingForm();
+  const i=obj.id?db.trainings.findIndex(x=>x.id===obj.id):-1;if(i>=0)db.trainings[i]=obj;else{obj.id=id();db.trainings.push(obj)};const saveBtn=$("saveTraining");saveBtn.disabled=true;saveBtn.textContent="Сохраняю…";setTimeout(()=>{save();clearTrainingForm();saveBtn.disabled=false;saveBtn.classList.add("is-success");saveBtn.textContent="Сохранено ✓";showToast("Тренировка сохранена ✓");setTimeout(()=>{saveBtn.classList.remove("is-success");saveBtn.textContent="Сохранить тренировку"},800)},120);
 };
 bindSave("saveWalk","walks",[],()=>({id:$("walkId").value,dogId:activeDogId(),date:$("walkDate").value||today(),min:$("walkMin").value,notes:$("walkNotes").value}),["walkId","walkMin","walkNotes"]);
 bindSave("saveParam","params",[],()=>({id:$("parId").value,dogId:activeDogId(),date:$("parDate").value||today(),weight:$("parWeight").value,height:$("parHeight").value,chest:$("parChest").value,neck:$("parNeck").value,back:$("parBack").value,gear:$("parGear").value}),["parId","parWeight","parHeight","parChest","parNeck","parBack","parGear"]);
@@ -1591,10 +1612,12 @@ function toggleCustomSlot(){const isCustom=$("trSlot").value==="Другое";$(
 $("trSlot").addEventListener("change",toggleCustomSlot);
 function rowHtml(item={},type){const unitOpts=["раз","мин","сек","м","мл","кг"];return `<div class="exercise-row"><label>Название<input data-field="name" value="${esc(item.name||"")}" placeholder="${type==="physical"?"Например: бег за мячом":"Например: сидеть"}"></label><label>Кол-во<input data-field="qty" type="number" min="0" step="0.1" value="${esc(item.qty??"")}" placeholder="5"></label><label>Ед.<select data-field="unit">${unitOpts.map(u=>`<option ${u===(item.unit||"раз")?"selected":""}>${u}</option>`).join("")}</select></label><button class="xbtn" type="button" aria-label="Удалить">×</button></div>`}
 function renderExerciseRows(id,items,type){const el=$(id);el.innerHTML="";(items&&items.length?items:[{}]).forEach(item=>el.insertAdjacentHTML("beforeend",rowHtml(item,type)))}
-function addExercise(id,type){$(id).insertAdjacentHTML("beforeend",rowHtml({},type))}
+function showToast(msg){const t=$("k9Toast");if(!t)return;clearTimeout(window.__k9ToastTimer);t.textContent=msg;t.classList.add("show");window.__k9ToastTimer=setTimeout(()=>t.classList.remove("show"),1400)}
+function flashButton(btn,text="✓ Добавлено",ms=700){if(!btn)return;const original=btn.dataset.originalText||btn.textContent;btn.dataset.originalText=original;btn.classList.add("is-success");btn.textContent=text;setTimeout(()=>{btn.classList.remove("is-success");btn.textContent=original;},ms)}
+function addExercise(id,type,button){$(id).insertAdjacentHTML("beforeend",rowHtml({},type));const row=$(id).lastElementChild;if(row){row.classList.add("added-row");const input=row.querySelector('[data-field="name"]');if(input){input.focus();input.scrollIntoView({behavior:"smooth",block:"nearest"})}}flashButton(button,"✓ Добавлено",650)}
 function collectExercises(id){return [...$(id).querySelectorAll(".exercise-row")].map(r=>({name:r.querySelector('[data-field="name"]').value.trim(),qty:r.querySelector('[data-field="qty"]').value,unit:r.querySelector('[data-field="unit"]').value})).filter(x=>x.name)}
-$("addPhysical").onclick=()=>addExercise("physicalRows","physical");
-$("addCommand").onclick=()=>addExercise("commandRows","command");
+$("addPhysical").onclick=function(){addExercise("physicalRows","physical",this)};
+$("addCommand").onclick=function(){addExercise("commandRows","command",this)};
 ["physicalRows","commandRows"].forEach(id=>$(id).addEventListener("click",e=>{if(e.target.classList.contains("xbtn")){const rows=$(id).querySelectorAll(".exercise-row");if(rows.length>1)e.target.closest(".exercise-row").remove()}}));
 window.k9copyTraining=function(trainingId){
  const rec=db.trainings.find(x=>x.id===trainingId); if(!rec)return;
@@ -1648,7 +1671,7 @@ $("clearFood").onclick=()=>{["foodId","foodName","foodAmount","foodNotes"].forEa
 $("clearCycle").onclick=()=>{["cycleId","cycleEnd","cycleNotes"].forEach(x=>$(x).value="")};
 
 function downloadBackup(){
-  const payload={version:13,savedAt:new Date().toISOString(),data:db};
+  const payload={version:18,savedAt:new Date().toISOString(),data:db};
   const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
   const a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download="k9-training-log-backup-"+today()+".json";a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);
 }
@@ -1670,6 +1693,10 @@ $("restoreBtn").onclick=()=>{
 };
 $("importFile").onchange=e=>{const f=e.target.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);const data=x?.data||x;if(!data||!Array.isArray(data.dogs)||!Array.isArray(data.trainings))throw 0;makeBackup();db=Object.assign(blank(),data);if(!db.activeDogId)db.activeDogId=db.dogs[0]?.id||null;localStorage.setItem(KEY,JSON.stringify(db));renderAll();updateBackupStatus();alert("Данные импортированы")}catch(_){alert("Не удалось импортировать файл")}};r.readAsText(f)};
 $("resetBtn").onclick=()=>{if(confirm("Удалить ВСЕ данные? Перед удалением будет сохранена автокопия.")){makeBackup();db=blank();localStorage.setItem(KEY,JSON.stringify(db));renderAll();updateBackupStatus()}};
+document.addEventListener("pointerdown",e=>{const b=e.target.closest("button.btn");if(b&&!b.disabled)b.classList.add("is-pressed")});
+document.addEventListener("pointerup",e=>{const b=e.target.closest("button.btn");if(b&&!b.disabled)b.classList.remove("is-pressed")});
+document.addEventListener("pointercancel",e=>{const b=e.target.closest("button.btn");if(b)b.classList.remove("is-pressed")});
+document.addEventListener("pointerleave",e=>{const b=e.target.closest("button.btn");if(b)b.classList.remove("is-pressed")});
 initProgress();
 setDefaults();clearTrainingForm();clearDogForm();closeDogEditor();setProfileTab("main");renderAll();updateBackupStatus();
 })();
