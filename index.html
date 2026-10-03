@@ -1192,6 +1192,7 @@ const OLD_KEY="k9_training_log_v6";
 const OLD_KEY2="k9_training_log_v5";
 const BACKUP_KEY="k9_training_log_autobackup_v7";
 const today=()=>new Date().toISOString().slice(0,10);
+const localDateKey=(d)=>{const x=new Date(d);return `${x.getFullYear()}-${String(x.getMonth()+1).padStart(2,"0")}-${String(x.getDate()).padStart(2,"0")}`};
 const blank=()=>({activeDogId:null,dogs:[],trainings:[],walks:[],params:[],health:[],food:[],cycles:[]});
 function migrateOld(x){
   const base=blank();
